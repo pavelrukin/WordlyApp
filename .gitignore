@@ -1,0 +1,41 @@
+# Built artifacts
+build/
+*.apk
+*.aar
+*.jks
+*.keystore
+*.bundle
+
+# Gradle files
+.gradle/
+local.properties
+
+# IDE files (IntelliJ / Android Studio)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Kotlin
+.kotlin/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Captures
+captures/
+
+# External native build files
+.externalNativeBuild/
+.cxx/
+
+# Hilt/KAPT/KSP generated files
+.hilt/
+
+# Agent specific
+/.agent/
+/.artifacts/
