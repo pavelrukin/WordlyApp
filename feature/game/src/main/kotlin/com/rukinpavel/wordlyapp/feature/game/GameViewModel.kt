@@ -276,13 +276,21 @@ class GameViewModel @Inject constructor(
             else -> GameStatus.PLAYING
         }
 
+        val newHints = currentState.revealedHints.toMutableMap()
+        for (i in result.indices) {
+            if (result[i] == LetterState.CORRECT) {
+                newHints[i] = guess[i]
+            }
+        }
+
         _uiState.update {
             it.copy(
                 board = newBoard,
                 currentRow = currentState.currentRow + 1,
                 currentGuess = "",
                 gameStatus = newStatus,
-                keyboardLetterStates = newKeyboardStates
+                keyboardLetterStates = newKeyboardStates,
+                revealedHints = newHints
             )
         }
 
