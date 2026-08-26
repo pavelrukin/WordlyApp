@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rukinpavel.wordlyapp.core.model.LetterState
@@ -84,9 +85,10 @@ fun GameContent(
                     actions = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = uiState.hintCount.toString(),
+                                text = if (uiState.isPremium) "∞" else uiState.hintCount.toString(),
                                 color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                fontSize = if (uiState.isPremium) 20.sp else 16.sp
                             )
                             IconButton(onClick = { onEvent(GameUiEvent.OnHintClick) }) {
                                 Icon(

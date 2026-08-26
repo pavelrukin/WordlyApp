@@ -24,7 +24,8 @@ data class GameUiState(
     val vibrationEnabled: Boolean = true,
     val revealedHints: Map<Int, Char> = emptyMap(),
     val hintCount: Int = 5,
-    val showAdDialog: Boolean = false
+    val showAdDialog: Boolean = false,
+    val isPremium: Boolean = false
 )
 
 sealed interface GameUiEvent {

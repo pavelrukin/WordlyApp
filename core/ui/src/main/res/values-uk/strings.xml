@@ -12,16 +12,16 @@
     <string name="cd_selected">Обрано</string>
     <string name="cd_delete">Видалити</string>
 
-    <string name="failed_load_word">Не вдалося завантажити слово</string>
+    <string name="failed_load_word">Не удалось загрузить слово</string>
     <string name="out_of_hints">Закинчилися підказки</string>
-    <string name="watch_ad_description">Подивитися коротке відео, щоб отримати 3 підказки?</string>
+    <string name="watch_ad_description">Подивитися коротке відео, чтобы получить 3 подсказки?</string>
     <string name="watch_video">Дивитися відео</string>
     <string name="you_won">Ви перемогли!</string>
     <string name="game_over">Гра закінчена</string>
     <string name="word_was">Загадане слово: %s</string>
     <string name="better_luck">Наступного разу пощастить більше!</string>
     <string name="hint_message">Підказка: у слові є літера \'%s\'</string>
-    <string name="all_hints_revealed">Всі літери розкриті!</string>
+    <string name="all_hints_revealed">Всі літеры розкриті!</string>
     <string name="extra_hints_awarded">Ви отримали 3 додаткові підказки!</string>
     <string name="not_enough_letters">Недостатньо літер</string>
     <string name="not_in_word_list">Немає у списку слів</string>
@@ -31,7 +31,7 @@
     <string name="tutorial_typing_title">Введення слова...</string>
     <string name="tutorial_checking_title">Перевірка результату...</string>
     <string name="tutorial_correct_title">🟩 Правильне місце</string>
-    <string name="tutorial_wrong_pos_title">🟨 Неправильне місце</string>
+    <string name="tutorial_wrong_pos_title">🟨 Неправильное место</string>
     <string name="tutorial_not_in_word_title">⬛ Немає в слові</string>
     <string name="tutorial_hint_title">💡 Потрібна допомога?</string>
     <string name="tutorial_completed_title">Все готово!</string>
@@ -55,4 +55,8 @@
     <string name="lang_ru">Русский</string>
     <string name="lang_uk">Українська</string>
     <string name="tutorial_demo_word">СЛОВА</string>
+    <string name="premium">Преміум</string>
+    <string name="premium_description">Місячна передплата: відключення рекламы та нескінченні підказки</string>
+    <string name="subscribe">Підписатися</string>
+    <string name="active">Активна</string>
 </resources>

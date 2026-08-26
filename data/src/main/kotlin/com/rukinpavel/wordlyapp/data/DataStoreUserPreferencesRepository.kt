@@ -29,6 +29,7 @@ class DataStoreUserPreferencesRepository @Inject constructor(
         val VIBRATION_ENABLED = booleanPreferencesKey("vibration_enabled")
         val TUTORIAL_COMPLETED = booleanPreferencesKey("tutorial_completed")
         val HINT_COUNT = intPreferencesKey("hint_count")
+        val IS_PREMIUM = booleanPreferencesKey("is_premium")
     }
 
     override val language: Flow<Language?> = context.dataStore.data
@@ -52,6 +53,11 @@ class DataStoreUserPreferencesRepository @Inject constructor(
             preferences[PreferencesKeys.HINT_COUNT] ?: 5
         }
 
+    override val isPremium: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[PreferencesKeys.IS_PREMIUM] ?: false
+        }
+
     override suspend fun updateLanguage(language: Language) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.LANGUAGE] = language.code
@@ -73,6 +79,12 @@ class DataStoreUserPreferencesRepository @Inject constructor(
     override suspend fun updateHintCount(count: Int) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.HINT_COUNT] = count
+        }
+    }
+
+    override suspend fun updatePremiumStatus(isPremium: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.IS_PREMIUM] = isPremium
         }
     }
 }

@@ -123,6 +123,13 @@ fun SettingsContent(
 
             HorizontalDivider()
 
+            PremiumSection(
+                isPremium = uiState.isPremium,
+                onPurchaseClick = { onEvent(SettingsUiEvent.OnPurchasePremiumClick) }
+            )
+
+            HorizontalDivider()
+
             Button(
                 onClick = { onEvent(SettingsUiEvent.OnRepeatTutorialClick) },
                 modifier = Modifier
@@ -135,6 +142,55 @@ fun SettingsContent(
                 )
             ) {
                 Text(stringResource(CoreUiR.string.repeat_tutorial), fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+}
+
+@Composable
+fun PremiumSection(
+    isPremium: Boolean,
+    onPurchaseClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(CoreUiR.string.premium),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = stringResource(CoreUiR.string.premium_description),
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        
+        if (isPremium) {
+            Badge(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Text(
+                    text = stringResource(CoreUiR.string.active).uppercase(),
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    style = MaterialTheme.typography.labelSmall
+                )
+            }
+        } else {
+            Button(
+                onClick = onPurchaseClick,
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(stringResource(CoreUiR.string.subscribe))
             }
         }
     }

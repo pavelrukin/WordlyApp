@@ -8,6 +8,7 @@ import com.rukinpavel.wordlyapp.domain.CheckGuessUseCase
 import com.rukinpavel.wordlyapp.domain.GetHintCountUseCase
 import com.rukinpavel.wordlyapp.domain.GetLanguageUseCase
 import com.rukinpavel.wordlyapp.domain.GetVibrationEnabledUseCase
+import com.rukinpavel.wordlyapp.domain.IsPremiumUseCase
 import com.rukinpavel.wordlyapp.domain.UpdateHintCountUseCase
 import com.rukinpavel.wordlyapp.domain.ValidateWordUseCase
 import com.rukinpavel.wordlyapp.domain.WordRepository
@@ -26,7 +27,8 @@ class GameViewModel @Inject constructor(
     private val getLanguageUseCase: GetLanguageUseCase,
     private val getVibrationEnabledUseCase: GetVibrationEnabledUseCase,
     private val getHintCountUseCase: GetHintCountUseCase,
-    private val updateHintCountUseCase: UpdateHintCountUseCase
+    private val updateHintCountUseCase: UpdateHintCountUseCase,
+    private val isPremiumUseCase: IsPremiumUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(GameUiState())
@@ -52,6 +54,10 @@ class GameViewModel @Inject constructor(
 
         getHintCountUseCase().onEach { count ->
             _uiState.update { it.copy(hintCount = count) }
+        }.launchIn(viewModelScope)
+
+        isPremiumUseCase().onEach { isPremium ->
+            _uiState.update { it.copy(isPremium = isPremium) }
         }.launchIn(viewModelScope)
     }
 
@@ -99,7 +105,7 @@ class GameViewModel @Inject constructor(
         val currentState = _uiState.value
         if (currentState.gameStatus != GameStatus.PLAYING) return
 
-        if (currentState.hintCount <= 0) {
+        if (!currentState.isPremium && currentState.hintCount <= 0) {
             _uiState.update { it.copy(showAdDialog = true) }
             return
         }
@@ -118,8 +124,10 @@ class GameViewModel @Inject constructor(
             val newKeyboardStates = currentState.keyboardLetterStates.toMutableMap()
             newKeyboardStates[hintChar] = LetterState.CORRECT
             
-            viewModelScope.launch {
-                updateHintCountUseCase(currentState.hintCount - 1)
+            if (!currentState.isPremium) {
+                viewModelScope.launch {
+                    updateHintCountUseCase(currentState.hintCount - 1)
+                }
             }
 
             _uiState.update { 
@@ -158,7 +166,8 @@ class GameViewModel @Inject constructor(
             GameUiState(
                 language = it.language,
                 vibrationEnabled = it.vibrationEnabled,
-                hintCount = it.hintCount
+                hintCount = it.hintCount,
+                isPremium = it.isPremium
             )
         }
         loadNewWord()

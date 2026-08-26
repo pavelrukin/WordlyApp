@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rukinpavel.wordlyapp.domain.GetLanguageUseCase
 import com.rukinpavel.wordlyapp.domain.GetVibrationEnabledUseCase
+import com.rukinpavel.wordlyapp.domain.IsPremiumUseCase
 import com.rukinpavel.wordlyapp.domain.UpdateLanguageUseCase
+import com.rukinpavel.wordlyapp.domain.UpdatePremiumStatusUseCase
 import com.rukinpavel.wordlyapp.domain.UpdateTutorialStatusUseCase
 import com.rukinpavel.wordlyapp.domain.UpdateVibrationEnabledUseCase
 import com.rukinpavel.wordlyapp.core.model.Language
@@ -19,7 +21,9 @@ class SettingsViewModel @Inject constructor(
     private val updateLanguageUseCase: UpdateLanguageUseCase,
     private val getVibrationEnabledUseCase: GetVibrationEnabledUseCase,
     private val updateVibrationEnabledUseCase: UpdateVibrationEnabledUseCase,
-    private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase
+    private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase,
+    private val isPremiumUseCase: IsPremiumUseCase,
+    private val updatePremiumStatusUseCase: UpdatePremiumStatusUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -36,6 +40,10 @@ class SettingsViewModel @Inject constructor(
 
         getVibrationEnabledUseCase().onEach { enabled ->
             _uiState.update { it.copy(vibrationEnabled = enabled) }
+        }.launchIn(viewModelScope)
+
+        isPremiumUseCase().onEach { isPremium ->
+            _uiState.update { it.copy(isPremium = isPremium) }
         }.launchIn(viewModelScope)
     }
 
@@ -55,6 +63,12 @@ class SettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     updateTutorialStatusUseCase(false)
                     _sideEffect.emit(SettingsSideEffect.NavigateToOnboarding)
+                }
+            }
+            SettingsUiEvent.OnPurchasePremiumClick -> {
+                viewModelScope.launch {
+                    // Simulate purchase flow
+                    updatePremiumStatusUseCase(true)
                 }
             }
         }

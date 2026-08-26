@@ -4,11 +4,13 @@ import com.rukinpavel.wordlyapp.core.model.Language
 
 data class SettingsUiState(
     val language: Language? = null,
-    val vibrationEnabled: Boolean = true
+    val vibrationEnabled: Boolean = true,
+    val isPremium: Boolean = false
 )
 
 sealed interface SettingsUiEvent {
     data class OnLanguageChange(val language: Language) : SettingsUiEvent
     data class OnVibrationChange(val enabled: Boolean) : SettingsUiEvent
     object OnRepeatTutorialClick : SettingsUiEvent
+    object OnPurchasePremiumClick : SettingsUiEvent
 }
