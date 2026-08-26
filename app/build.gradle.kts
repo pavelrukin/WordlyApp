@@ -38,14 +38,17 @@ android {
 
 dependencies {
     implementation(project(":feature:game"))
+    implementation(project(":feature:settings"))
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:model"))
+    implementation(project(":core:navigation"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.androidx.appcompat)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.adaptive)
@@ -60,6 +63,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.kotlinx.coroutines.android)

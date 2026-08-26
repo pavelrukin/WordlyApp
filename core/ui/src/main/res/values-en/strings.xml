@@ -1,0 +1,58 @@
+<resources>
+    <string name="back">Back</string>
+    <string name="settings">Settings</string>
+    <string name="language_dictionary">Language &amp; Dictionary</string>
+    <string name="vibration">Vibration</string>
+    <string name="vibration_description">Haptic feedback on key press</string>
+    <string name="repeat_tutorial">Repeat Tutorial</string>
+    <string name="got_it">Got it!</string>
+    <string name="play_again">Play Again</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="cd_selected">Selected</string>
+    <string name="cd_delete">Delete</string>
+
+    <string name="failed_load_word">Failed to load word</string>
+    <string name="out_of_hints">Out of Hints</string>
+    <string name="watch_ad_description">Watch a short video to get 3 more hints?</string>
+    <string name="watch_video">Watch Video</string>
+    <string name="you_won">You Won!</string>
+    <string name="game_over">Game Over</string>
+    <string name="word_was">The word was: %s</string>
+    <string name="better_luck">Better luck next time!</string>
+    <string name="hint_message">Hint: The word contains \'%s\'</string>
+    <string name="all_hints_revealed">All positions revealed!</string>
+    <string name="extra_hints_awarded">You got 3 extra hints!</string>
+    <string name="not_enough_letters">Not enough letters</string>
+    <string name="not_in_word_list">Not in word list</string>
+
+    <string name="tutorial_title">How to Play</string>
+    <string name="tutorial_intro_title">Welcome to Wordly!</string>
+    <string name="tutorial_typing_title">Typing a word...</string>
+    <string name="tutorial_checking_title">Checking result...</string>
+    <string name="tutorial_correct_title">🟩 Correct Position</string>
+    <string name="tutorial_wrong_pos_title">🟨 Wrong Position</string>
+    <string name="tutorial_not_in_word_title">⬛ Not In Word</string>
+    <string name="tutorial_hint_title">💡 Need a hint?</string>
+    <string name="tutorial_completed_title">You\'re all set!</string>
+
+    <string name="tutorial_intro_desc">Guess the word in 6 attempts. Each word must be a valid 5-letter word.</string>
+    <string name="tutorial_typing_desc">After each guess, the color of the tiles will change to show how close your guess was to the word.</string>
+    <string name="tutorial_checking_desc">Wait for the feedback!</string>
+    <string name="tutorial_correct_desc">The letter \'%s\' is in the word and in the correct spot.</string>
+    <string name="tutorial_wrong_pos_desc">The letter \'%s\' is in the word but in the wrong spot.</string>
+    <string name="tutorial_not_in_word_desc">The letter \'%s\' is not in the word in any spot.</string>
+    <string name="tutorial_hint_desc">Tap the lightbulb icon to reveal one letter of the secret word.</string>
+    <string name="tutorial_completed_desc">Now you know the rules. Have fun and try to win!</string>
+
+    <string name="start_tutorial">Start Tutorial</string>
+    <string name="check_word">Check Word</string>
+    <string name="next">Next</string>
+    <string name="skip_animation">Skip</string>
+    <string name="enter">ENTER</string>
+
+    <string name="lang_en">English</string>
+    <string name="lang_ru">Russian</string>
+    <string name="lang_uk">Ukrainian</string>
+    <string name="tutorial_demo_word">WORDS</string>
+</resources>

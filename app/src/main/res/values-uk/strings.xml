@@ -1,0 +1,50 @@
+<resources>
+    <string name="back">Назад</string>
+    <string name="settings">Налаштування</string>
+    <string name="language_dictionary">Мова та словник</string>
+    <string name="vibration">Вібрація</string>
+    <string name="vibration_description">Тактильний відгук при натисканні клавіш</string>
+    <string name="repeat_tutorial">Повторити навчання</string>
+    <string name="got_it">Зрозуміло!</string>
+    <string name="play_again">Грати знову</string>
+    <string name="retry">Повторити</string>
+    <string name="cancel">Скасувати</string>
+
+    <string name="failed_load_word">Не вдалося завантажити слово</string>
+    <string name="out_of_hints">Закінчилися підказки</string>
+    <string name="watch_ad_description">Подивитися коротке відео, щоб отримати 3 підказки?</string>
+    <string name="watch_video">Дивитися відео</string>
+    <string name="you_won">Ви перемогли!</string>
+    <string name="game_over">Гра закінчена</string>
+    <string name="word_was">Загадане слово: %s</string>
+    <string name="better_luck">Наступного разу пощастить більше!</string>
+    <string name="hint_message">Підказка: у слові є літера \'%s\'</string>
+    <string name="all_hints_revealed">Всі літери розкриті!</string>
+    <string name="extra_hints_awarded">Ви отримали 3 додаткові підказки!</string>
+    <string name="not_enough_letters">Недостатньо літер</string>
+    <string name="not_in_word_list">Немає у списку слів</string>
+
+    <string name="tutorial_title">Як грати</string>
+    <string name="tutorial_intro_title">Ласкаво просимо до Wordly!</string>
+    <string name="tutorial_typing_title">Введення слова...</string>
+    <string name="tutorial_checking_title">Перевірка результату...</string>
+    <string name="tutorial_correct_title">🟩 Правильне місце</string>
+    <string name="tutorial_wrong_pos_title">🟨 Неправильне місце</string>
+    <string name="tutorial_not_in_word_title">⬛ Немає в слові</string>
+    <string name="tutorial_hint_title">💡 Потрібна допомога?</string>
+    <string name="tutorial_completed_title">Все готово!</string>
+
+    <string name="tutorial_intro_desc">Відгадайте слово за 6 спроб. Кожне слово має складатися з 5 літер.</string>
+    <string name="tutorial_typing_desc">Після кожної спроби колір плиток зміниться, показуючи, наскільки ви були близькі до цілі.</string>
+    <string name="tutorial_checking_desc">Дочекайтеся результату!</string>
+    <string name="tutorial_correct_desc">Літера \'%s\' є у слові та стоїть на правильному місці.</string>
+    <string name="tutorial_wrong_pos_desc">Літера \'%s\' є у слові, але стоїть в іншому місці.</string>
+    <string name="tutorial_not_in_word_desc">Літери \'%s\' немає у загаданому слові.</string>
+    <string name="tutorial_hint_desc">Натисніть на іконку лампочки, щоб відкрити одну літеру в слові.</string>
+    <string name="tutorial_completed_desc">Тепер ви знаєте правила. Успіхів та приємної гри!</string>
+
+    <string name="start_tutorial">Почати навчання</string>
+    <string name="check_word">Перевірити слово</string>
+    <string name="next">Далі</string>
+    <string name="skip_animation">Пропустити</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="petal_pink">#FCE4EC</color>
+    <color name="blossom_purple">#BA68C8</color>
+    <color name="leaf_green">#C8E6C9</color>
+    <color name="center_yellow">#FFEB3B</color>
+    <color name="white">#FFFFFF</color>
+</resources>

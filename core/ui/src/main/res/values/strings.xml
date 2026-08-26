@@ -1,0 +1,59 @@
+<resources>
+    <string name="back">Назад</string>
+    <string name="settings">Настройки</string>
+    <string name="language_dictionary">Язык и словарь</string>
+    <string name="vibration">Вибрация</string>
+    <string name="vibration_description">Тактильный отклик при нажатии клавиш</string>
+    <string name="repeat_tutorial">Повторить обучение</string>
+    <string name="got_it">Понятно!</string>
+    <string name="play_again">Играть снова</string>
+    <string name="retry">Повторить</string>
+    <string name="cancel">Отмена</string>
+    <string name="cd_selected">Выбрано</string>
+    <string name="cd_delete">Удалить</string>
+
+    <string name="failed_load_word">Не удалось загрузить слово</string>
+    <string name="out_of_hints">Закончились подсказки</string>
+    <string name="watch_ad_description">Посмотрите короткое видео, чтобы получить 3 подсказки?</string>
+    <string name="watch_video">Смотреть видео</string>
+    <string name="you_won">Вы победили!</string>
+    <string name="game_over">Игра окончена</string>
+    <string name="word_was">Загаданное слово: %s</string>
+    <string name="better_luck">В следующий раз повезет больше!</string>
+    <string name="hint_message">Подсказка: в слове есть буква \'%s\'</string>
+    <string name="all_hints_revealed">Все буквы раскрыты!</string>
+    <string name="extra_hints_awarded">Вы получили 3 дополнительные подсказки!</string>
+    <string name="not_enough_letters">Недостаточно букв</string>
+    <string name="not_in_word_list">Нет в списке слов</string>
+
+    <string name="tutorial_title">Как играть</string>
+    <string name="tutorial_intro_title">Добро пожаловать в Wordly!</string>
+    <string name="tutorial_typing_title">Ввод слова...</string>
+    <string name="tutorial_checking_title">Проверка результата...</string>
+    <string name="tutorial_correct_title">🟩 Правильное место</string>
+    <string name="tutorial_wrong_pos_title">🟨 Неверное место</string>
+    <string name="tutorial_not_in_word_title">⬛ Нет в слове</string>
+    <string name="tutorial_hint_title">💡 Нужна помощь?</string>
+    <string name="tutorial_completed_title">Всё готово!</string>
+
+    <string name="tutorial_intro_desc">Угадайте слово за 6 попыток. Каждое слово должно состоять из 5 букв.</string>
+    <string name="tutorial_typing_desc">После каждой попытки цвет плиток изменится, показывая, насколько вы были близки к цели.</string>
+    <string name="tutorial_checking_desc">Дождитесь результата!</string>
+    <string name="tutorial_correct_desc">Буква \'%s\' есть в слове и стоит на правильном месте.</string>
+    <string name="tutorial_wrong_pos_desc">Буква \'%s\' есть в слове, но стоит в другом месте.</string>
+    <string name="tutorial_not_in_word_desc">Буквы \'%s\' нет в загаданном слове.</string>
+    <string name="tutorial_hint_desc">Нажмите на иконку лампочки, чтобы открыть одну букву в слове.</string>
+    <string name="tutorial_completed_desc">Теперь вы знаете правила. Удачи и приятной игры!</string>
+
+    <string name="start_tutorial">Начать обучение</string>
+    <string name="check_word">Проверить слово</string>
+    <string name="next">Далее</string>
+    <string name="skip_animation">Пропустить</string>
+    <string name="enter">ВВОД</string>
+
+    <string name="lang_en">English</string>
+    <string name="lang_ru">Русский</string>
+    <string name="lang_uk">Українська</string>
+    <string name="wordly_title">🌸 WORDLY</string>
+    <string name="tutorial_demo_word">СЛОВА</string>
+</resources>

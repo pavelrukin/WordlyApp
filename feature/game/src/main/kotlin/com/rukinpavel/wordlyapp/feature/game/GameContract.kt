@@ -1,5 +1,6 @@
 package com.rukinpavel.wordlyapp.feature.game
 
+import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.core.model.LetterState
 
 data class BoardLetter(
@@ -18,7 +19,12 @@ data class GameUiState(
     val gameStatus: GameStatus = GameStatus.PLAYING,
     val keyboardLetterStates: Map<Char, LetterState> = emptyMap(),
     val isLoading: Boolean = true,
-    val targetWord: String = ""
+    val targetWord: String = "",
+    val language: Language = Language.EN,
+    val vibrationEnabled: Boolean = true,
+    val revealedHints: Map<Int, Char> = emptyMap(),
+    val hintCount: Int = 5,
+    val showAdDialog: Boolean = false
 )
 
 sealed interface GameUiEvent {
@@ -26,9 +32,12 @@ sealed interface GameUiEvent {
     object OnDeleteClick : GameUiEvent
     object OnEnterClick : GameUiEvent
     object OnPlayAgainClick : GameUiEvent
+    object OnHintClick : GameUiEvent
+    object OnWatchAdClick : GameUiEvent
+    object OnDismissAdDialog : GameUiEvent
 }
 
 sealed interface GameSideEffect {
-    data class ShowError(val message: String) : GameSideEffect
+    data class ShowError(val messageRes: Int, val args: List<Any> = emptyList()) : GameSideEffect
     object GameFinished : GameSideEffect
 }

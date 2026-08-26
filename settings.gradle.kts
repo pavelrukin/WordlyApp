@@ -25,7 +25,9 @@ dependencyResolutionManagement {
 rootProject.name = "WordlyApp"
 include(":app")
 include(":core:ui")
+include(":core:navigation")
 include(":core:model")
 include(":domain")
 include(":data")
 include(":feature:game")
+include(":feature:settings")
