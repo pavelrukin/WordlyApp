@@ -1,28 +1,45 @@
 package com.rukinpavel.wordlyapp.feature.settings
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.*
+import androidx.compose.material3.Badge
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rukinpavel.wordlyapp.core.model.Language
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
+import com.rukinpavel.wordlyapp.core.ui.localizedString
 import kotlinx.coroutines.flow.collectLatest
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun SettingsScreen(
@@ -57,10 +74,10 @@ fun SettingsContent(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(stringResource(CoreUiR.string.settings), fontWeight = FontWeight.Bold) },
+                title = { Text(localizedString(CoreUiR.string.settings), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(CoreUiR.string.back))
+                        Icon(Icons.Default.ArrowBack, contentDescription = localizedString(CoreUiR.string.back))
                     }
                 }
             )
@@ -73,7 +90,7 @@ fun SettingsContent(
                 .padding(16.dp)
         ) {
             Text(
-                text = stringResource(CoreUiR.string.language_dictionary),
+                text = localizedString(CoreUiR.string.language_dictionary),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -105,12 +122,12 @@ fun SettingsContent(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = stringResource(CoreUiR.string.vibration),
+                        text = localizedString(CoreUiR.string.vibration),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        text = stringResource(CoreUiR.string.vibration_description),
+                        text = localizedString(CoreUiR.string.vibration_description),
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -141,7 +158,7 @@ fun SettingsContent(
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             ) {
-                Text(stringResource(CoreUiR.string.repeat_tutorial), fontWeight = FontWeight.Bold)
+                Text(localizedString(CoreUiR.string.repeat_tutorial), fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -161,13 +178,13 @@ fun PremiumSection(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = stringResource(CoreUiR.string.premium),
+                text = localizedString(CoreUiR.string.premium),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = stringResource(CoreUiR.string.premium_description),
+                text = localizedString(CoreUiR.string.premium_description),
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -180,7 +197,7 @@ fun PremiumSection(
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text(
-                    text = stringResource(CoreUiR.string.active).uppercase(),
+                    text = localizedString(CoreUiR.string.active).uppercase(),
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                     style = MaterialTheme.typography.labelSmall
                 )
@@ -190,7 +207,7 @@ fun PremiumSection(
                 onClick = onPurchaseClick,
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text(stringResource(CoreUiR.string.subscribe))
+                Text(localizedString(CoreUiR.string.subscribe))
             }
         }
     }
@@ -203,9 +220,9 @@ fun LanguageItem(
     onClick: () -> Unit
 ) {
     val displayName = when (language) {
-        Language.EN -> stringResource(CoreUiR.string.lang_en)
-        Language.RU -> stringResource(CoreUiR.string.lang_ru)
-        Language.UK -> stringResource(CoreUiR.string.lang_uk)
+        Language.EN -> localizedString(CoreUiR.string.lang_en)
+        Language.RU -> localizedString(CoreUiR.string.lang_ru)
+        Language.UK -> localizedString(CoreUiR.string.lang_uk)
     }
 
     Surface(
@@ -232,7 +249,7 @@ fun LanguageItem(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = stringResource(CoreUiR.string.cd_selected),
+                    contentDescription = localizedString(CoreUiR.string.cd_selected),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }

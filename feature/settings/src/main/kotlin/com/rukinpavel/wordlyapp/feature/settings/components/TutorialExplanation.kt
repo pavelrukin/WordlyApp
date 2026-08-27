@@ -1,18 +1,29 @@
 package com.rukinpavel.wordlyapp.feature.settings.components
 
-import androidx.compose.animation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
+import com.rukinpavel.wordlyapp.core.ui.localizedString
 import com.rukinpavel.wordlyapp.feature.settings.TutorialStep
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun TutorialExplanation(
@@ -49,18 +60,18 @@ fun TutorialExplanation(
                 }
 
                 val description = when (targetStep) {
-                    TutorialStep.Introduction -> stringResource(CoreUiR.string.tutorial_intro_desc)
-                    TutorialStep.Typing -> stringResource(CoreUiR.string.tutorial_typing_desc)
-                    TutorialStep.Checking -> stringResource(CoreUiR.string.tutorial_checking_desc)
-                    TutorialStep.ExplainingCorrect -> stringResource(CoreUiR.string.tutorial_correct_desc, word[0])
-                    TutorialStep.ExplainingWrongPosition -> stringResource(CoreUiR.string.tutorial_wrong_pos_desc, word[2])
-                    TutorialStep.ExplainingNotInWord -> stringResource(CoreUiR.string.tutorial_not_in_word_desc, word[3])
-                    TutorialStep.ExplainingHint -> stringResource(CoreUiR.string.tutorial_hint_desc)
-                    TutorialStep.Completed -> stringResource(CoreUiR.string.tutorial_completed_desc)
+                    TutorialStep.Introduction -> localizedString(CoreUiR.string.tutorial_intro_desc)
+                    TutorialStep.Typing -> localizedString(CoreUiR.string.tutorial_typing_desc)
+                    TutorialStep.Checking -> localizedString(CoreUiR.string.tutorial_checking_desc)
+                    TutorialStep.ExplainingCorrect -> localizedString(CoreUiR.string.tutorial_correct_desc, word[0])
+                    TutorialStep.ExplainingWrongPosition -> localizedString(CoreUiR.string.tutorial_wrong_pos_desc, word[2])
+                    TutorialStep.ExplainingNotInWord -> localizedString(CoreUiR.string.tutorial_not_in_word_desc, word[3])
+                    TutorialStep.ExplainingHint -> localizedString(CoreUiR.string.tutorial_hint_desc)
+                    TutorialStep.Completed -> localizedString(CoreUiR.string.tutorial_completed_desc)
                 }
 
                 Text(
-                    text = stringResource(titleRes),
+                    text = localizedString(titleRes),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,

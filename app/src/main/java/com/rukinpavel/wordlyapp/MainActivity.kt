@@ -12,11 +12,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.entryProvider
@@ -29,18 +26,18 @@ import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.rukinpavel.wordlyapp.core.navigation.GameRoute
 import com.rukinpavel.wordlyapp.core.navigation.OnboardingRoute
 import com.rukinpavel.wordlyapp.core.navigation.SettingsRoute
+import com.rukinpavel.wordlyapp.core.ui.LocalAppLocale
+import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
 import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
+import com.rukinpavel.wordlyapp.core.ui.getAppLocale
+import com.rukinpavel.wordlyapp.core.ui.localizedContext
 import com.rukinpavel.wordlyapp.feature.game.GameScreen
 import com.rukinpavel.wordlyapp.feature.settings.OnboardingScreen
 import com.rukinpavel.wordlyapp.feature.settings.SettingsScreen
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var languageManager: LanguageManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +49,15 @@ class MainActivity : AppCompatActivity() {
             val viewModel: AppViewModel = hiltViewModel()
             val isTutorialCompleted by viewModel.isTutorialCompleted.collectAsStateWithLifecycle()
             val language by viewModel.language.collectAsStateWithLifecycle()
+
+            val locale = remember(language) {
+                getAppLocale(language)
+            }
+
+            val context = LocalContext.current
+            val localizedContext = remember(context, locale) {
+                context.localizedContext(locale)
+            }
 
             val dispatcherOwner = rememberNavigationEventDispatcherOwner(parent = null)
             val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
@@ -87,11 +93,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            LaunchedEffect(language) {
-                languageManager.applyLanguage(language)
-            }
-
-            CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides dispatcherOwner) {
+            CompositionLocalProvider(
+                LocalNavigationEventDispatcherOwner provides dispatcherOwner,
+                LocalAppLocale provides locale,
+                LocalLocalizedContext provides localizedContext
+            ) {
                 WordlyTheme {
                     val backStack = rememberNavBackStack(GameRoute)
 

@@ -1,17 +1,40 @@
 package com.rukinpavel.wordlyapp.feature.game
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,11 +45,13 @@ import com.rukinpavel.wordlyapp.core.model.LetterState
 import com.rukinpavel.wordlyapp.core.ui.FloralBackground
 import com.rukinpavel.wordlyapp.core.ui.Keyboard
 import com.rukinpavel.wordlyapp.core.ui.LetterTile
+import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
 import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
+import com.rukinpavel.wordlyapp.core.ui.localizedString
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun GameScreen(
@@ -34,14 +59,12 @@ fun GameScreen(
     viewModel: GameViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = androidx.compose.ui.platform.LocalContext.current
     
     GameContent(
         uiState = uiState,
         sideEffect = viewModel.sideEffect,
         onEvent = viewModel::onEvent,
-        onSettingsClick = onSettingsClick,
-        getString = { resId, args -> context.getString(resId, *args.toTypedArray()) }
+        onSettingsClick = onSettingsClick
     )
 }
 
@@ -51,16 +74,21 @@ fun GameContent(
     uiState: GameUiState,
     sideEffect: SharedFlow<GameSideEffect>,
     onEvent: (GameUiEvent) -> Unit,
-    onSettingsClick: () -> Unit,
-    getString: (Int, List<Any>) -> String
+    onSettingsClick: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
+    val localizedContext = LocalLocalizedContext.current
 
     LaunchedEffect(Unit) {
         sideEffect.collectLatest { effect ->
             when (effect) {
                 is GameSideEffect.ShowError -> {
-                    snackbarHostState.showSnackbar(getString(effect.messageRes, effect.args))
+                    val message = if (effect.args.isEmpty()) {
+                        localizedContext.getString(effect.messageRes)
+                    } else {
+                        localizedContext.getString(effect.messageRes, *effect.args.toTypedArray())
+                    }
+                    snackbarHostState.showSnackbar(message)
                 }
                 GameSideEffect.GameFinished -> {
                     // Logic for game finished
@@ -77,7 +105,7 @@ fun GameContent(
                 CenterAlignedTopAppBar(
                     title = {
                         Text(
-                            stringResource(CoreUiR.string.wordly_title),
+                            localizedString(CoreUiR.string.wordly_title),
                             style = MaterialTheme.typography.headlineLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -93,7 +121,7 @@ fun GameContent(
                             IconButton(onClick = { onEvent(GameUiEvent.OnHintClick) }) {
                                 Icon(
                                     imageVector = Icons.Default.Lightbulb,
-                                    contentDescription = stringResource(CoreUiR.string.tutorial_hint_title),
+                                    contentDescription = localizedString(CoreUiR.string.tutorial_hint_title),
                                     tint = MaterialTheme.colorScheme.primary
                                 )
                             }
@@ -101,7 +129,7 @@ fun GameContent(
                         IconButton(onClick = onSettingsClick) {
                             Icon(
                                 imageVector = Icons.Default.Settings,
-                                contentDescription = stringResource(CoreUiR.string.settings),
+                                contentDescription = localizedString(CoreUiR.string.settings),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -161,12 +189,12 @@ fun GameContent(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(stringResource(CoreUiR.string.failed_load_word))
+                        Text(localizedString(CoreUiR.string.failed_load_word))
                         Button(
                             onClick = { onEvent(GameUiEvent.OnPlayAgainClick) },
                             shape = RoundedCornerShape(28.dp)
                         ) {
-                            Text(stringResource(CoreUiR.string.retry))
+                            Text(localizedString(CoreUiR.string.retry))
                         }
                     }
                 }
@@ -175,19 +203,19 @@ fun GameContent(
                     AlertDialog(
                         onDismissRequest = { onEvent(GameUiEvent.OnDismissAdDialog) },
                         shape = RoundedCornerShape(28.dp),
-                        title = { Text(stringResource(CoreUiR.string.out_of_hints)) },
-                        text = { Text(stringResource(CoreUiR.string.watch_ad_description)) },
+                        title = { Text(localizedString(CoreUiR.string.out_of_hints)) },
+                        text = { Text(localizedString(CoreUiR.string.watch_ad_description)) },
                         confirmButton = {
                             Button(
                                 onClick = { onEvent(GameUiEvent.OnWatchAdClick) },
                                 shape = RoundedCornerShape(28.dp)
                             ) {
-                                Text(stringResource(CoreUiR.string.watch_video))
+                                Text(localizedString(CoreUiR.string.watch_video))
                             }
                         },
                         dismissButton = {
                             TextButton(onClick = { onEvent(GameUiEvent.OnDismissAdDialog) }) {
-                                Text(stringResource(CoreUiR.string.cancel))
+                                Text(localizedString(CoreUiR.string.cancel))
                             }
                         }
                     )
@@ -199,14 +227,14 @@ fun GameContent(
                         shape = RoundedCornerShape(28.dp),
                         title = {
                             Text(
-                                text = if (uiState.gameStatus == GameStatus.WON) stringResource(CoreUiR.string.you_won) else stringResource(CoreUiR.string.game_over)
+                                text = if (uiState.gameStatus == GameStatus.WON) localizedString(CoreUiR.string.you_won) else localizedString(CoreUiR.string.game_over)
                             )
                         },
                         text = {
                             Column {
-                                Text(stringResource(CoreUiR.string.word_was, uiState.targetWord))
+                                Text(localizedString(CoreUiR.string.word_was, uiState.targetWord))
                                 if (uiState.gameStatus == GameStatus.LOST) {
-                                    Text(stringResource(CoreUiR.string.better_luck))
+                                    Text(localizedString(CoreUiR.string.better_luck))
                                 }
                             }
                         },
@@ -215,7 +243,7 @@ fun GameContent(
                                 onClick = { onEvent(GameUiEvent.OnPlayAgainClick) },
                                 shape = RoundedCornerShape(28.dp)
                             ) {
-                                Text(stringResource(CoreUiR.string.play_again))
+                                Text(localizedString(CoreUiR.string.play_again))
                             }
                         }
                     )
@@ -279,8 +307,7 @@ fun GameScreenPreview() {
             ),
             sideEffect = MutableSharedFlow(),
             onEvent = {},
-            onSettingsClick = {},
-            getString = { _, _ -> "" }
+            onSettingsClick = {}
         )
     }
 }

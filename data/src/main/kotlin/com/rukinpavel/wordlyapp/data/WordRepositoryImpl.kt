@@ -1,7 +1,7 @@
 package com.rukinpavel.wordlyapp.data
 
 import com.rukinpavel.wordlyapp.core.model.Language
-import com.rukinpavel.wordlyapp.domain.WordRepository
+import com.rukinpavel.wordlyapp.domain.repository.WordRepository
 import javax.inject.Inject
 import kotlin.random.Random
 

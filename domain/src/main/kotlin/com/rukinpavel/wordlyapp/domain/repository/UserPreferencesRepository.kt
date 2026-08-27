@@ -1,4 +1,4 @@
-package com.rukinpavel.wordlyapp.domain
+package com.rukinpavel.wordlyapp.domain.repository
 
 import com.rukinpavel.wordlyapp.core.model.Language
 import kotlinx.coroutines.flow.Flow

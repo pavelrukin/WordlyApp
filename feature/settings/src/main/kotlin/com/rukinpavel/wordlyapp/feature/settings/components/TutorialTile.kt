@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rukinpavel.wordlyapp.core.model.LetterState
 import com.rukinpavel.wordlyapp.core.ui.WordleDarkGray
+import com.rukinpavel.wordlyapp.core.ui.WordleGray
 import com.rukinpavel.wordlyapp.core.ui.WordleGreen
 import com.rukinpavel.wordlyapp.core.ui.WordleYellow
-import com.rukinpavel.wordlyapp.core.ui.WordleGray
 
 @Composable
 fun TutorialTile(

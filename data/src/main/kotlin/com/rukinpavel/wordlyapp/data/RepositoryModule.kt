@@ -1,7 +1,7 @@
 package com.rukinpavel.wordlyapp.data
 
-import com.rukinpavel.wordlyapp.domain.UserPreferencesRepository
-import com.rukinpavel.wordlyapp.domain.WordRepository
+import com.rukinpavel.wordlyapp.domain.repository.UserPreferencesRepository
+import com.rukinpavel.wordlyapp.domain.repository.WordRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

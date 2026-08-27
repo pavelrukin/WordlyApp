@@ -1,25 +1,34 @@
 package com.rukinpavel.wordlyapp.feature.settings
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.rukinpavel.wordlyapp.core.model.LetterState
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
+import com.rukinpavel.wordlyapp.core.ui.localizedString
 import com.rukinpavel.wordlyapp.feature.settings.components.TutorialBoard
 import com.rukinpavel.wordlyapp.feature.settings.components.TutorialExplanation
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun OnboardingScreen(
@@ -27,7 +36,7 @@ fun OnboardingScreen(
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val tutorialWord = stringResource(CoreUiR.string.tutorial_demo_word)
+    val tutorialWord = localizedString(CoreUiR.string.tutorial_demo_word)
 
     LaunchedEffect(tutorialWord) {
         viewModel.onEvent(OnboardingEvent.UpdateTutorialWord(tutorialWord))
@@ -61,7 +70,7 @@ fun OnboardingContent(
             Spacer(modifier = Modifier.height(32.dp))
             
             Text(
-                text = stringResource(CoreUiR.string.tutorial_title),
+                text = localizedString(CoreUiR.string.tutorial_title),
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -100,7 +109,7 @@ fun OnboardingContent(
                             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                     ) {
-                        Text(stringResource(CoreUiR.string.play_again), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        Text(localizedString(CoreUiR.string.play_again), fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }
 
                     Button(
@@ -113,7 +122,7 @@ fun OnboardingContent(
                             .height(56.dp),
                         shape = RoundedCornerShape(28.dp)
                     ) {
-                        Text(stringResource(CoreUiR.string.got_it), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        Text(localizedString(CoreUiR.string.got_it), fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }
                 } else {
                     Button(
@@ -125,9 +134,9 @@ fun OnboardingContent(
                         shape = RoundedCornerShape(28.dp)
                     ) {
                         val buttonText = when (uiState.currentStep) {
-                            TutorialStep.Introduction -> stringResource(CoreUiR.string.start_tutorial)
-                            TutorialStep.Typing -> stringResource(CoreUiR.string.check_word)
-                            else -> stringResource(CoreUiR.string.next)
+                            TutorialStep.Introduction -> localizedString(CoreUiR.string.start_tutorial)
+                            TutorialStep.Typing -> localizedString(CoreUiR.string.check_word)
+                            else -> localizedString(CoreUiR.string.next)
                         }
                         Text(buttonText, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }

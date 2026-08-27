@@ -2,16 +2,24 @@ package com.rukinpavel.wordlyapp.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rukinpavel.wordlyapp.domain.GetLanguageUseCase
-import com.rukinpavel.wordlyapp.domain.GetVibrationEnabledUseCase
-import com.rukinpavel.wordlyapp.domain.IsPremiumUseCase
-import com.rukinpavel.wordlyapp.domain.UpdateLanguageUseCase
-import com.rukinpavel.wordlyapp.domain.UpdatePremiumStatusUseCase
-import com.rukinpavel.wordlyapp.domain.UpdateTutorialStatusUseCase
-import com.rukinpavel.wordlyapp.domain.UpdateVibrationEnabledUseCase
 import com.rukinpavel.wordlyapp.core.model.Language
+import com.rukinpavel.wordlyapp.domain.usecase.GetLanguageUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.GetVibrationEnabledUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.IsPremiumUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.UpdateLanguageUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.UpdatePremiumStatusUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.UpdateTutorialStatusUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.UpdateVibrationEnabledUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

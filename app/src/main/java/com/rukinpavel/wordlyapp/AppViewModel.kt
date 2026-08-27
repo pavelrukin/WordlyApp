@@ -2,17 +2,16 @@ package com.rukinpavel.wordlyapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rukinpavel.wordlyapp.domain.IsTutorialCompletedUseCase
-import com.rukinpavel.wordlyapp.domain.UpdateTutorialStatusUseCase
+import com.rukinpavel.wordlyapp.core.model.Language
+import com.rukinpavel.wordlyapp.domain.usecase.GetLanguageUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.IsTutorialCompletedUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.UpdateTutorialStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-import com.rukinpavel.wordlyapp.core.model.Language
-import com.rukinpavel.wordlyapp.domain.GetLanguageUseCase
 
 @HiltViewModel
 class AppViewModel @Inject constructor(

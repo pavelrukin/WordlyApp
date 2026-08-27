@@ -4,20 +4,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.core.model.LetterState
-import com.rukinpavel.wordlyapp.domain.CheckGuessUseCase
-import com.rukinpavel.wordlyapp.domain.GetHintCountUseCase
-import com.rukinpavel.wordlyapp.domain.GetLanguageUseCase
-import com.rukinpavel.wordlyapp.domain.GetVibrationEnabledUseCase
-import com.rukinpavel.wordlyapp.domain.IsPremiumUseCase
-import com.rukinpavel.wordlyapp.domain.UpdateHintCountUseCase
-import com.rukinpavel.wordlyapp.domain.ValidateWordUseCase
-import com.rukinpavel.wordlyapp.domain.WordRepository
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
+import com.rukinpavel.wordlyapp.domain.repository.WordRepository
+import com.rukinpavel.wordlyapp.domain.usecase.CheckGuessUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.GetHintCountUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.GetLanguageUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.GetVibrationEnabledUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.IsPremiumUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.UpdateHintCountUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.ValidateWordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @HiltViewModel
 class GameViewModel @Inject constructor(

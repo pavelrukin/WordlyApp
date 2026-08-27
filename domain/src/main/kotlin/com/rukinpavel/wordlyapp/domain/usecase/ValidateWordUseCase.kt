@@ -1,4 +1,4 @@
-package com.rukinpavel.wordlyapp.domain
+package com.rukinpavel.wordlyapp.domain.usecase
 
 import javax.inject.Inject
 
