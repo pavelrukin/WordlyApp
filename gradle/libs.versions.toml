@@ -28,6 +28,9 @@ kotlinxCoroutinesCore = "1.10.2"
 datastore = "1.1.1"
 appcompat = "1.7.0"
 billing = "7.1.1"
+mockk = "1.14.11"
+turbine = "1.2.1"
+robolectric = "4.16.1"
 
 [libraries]
 billing-ktx = { group = "com.android.billingclient", name = "billing-ktx", version.ref = "billing" }
@@ -67,6 +70,10 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
