@@ -5,15 +5,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.SentimentDissatisfied
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -36,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +51,8 @@ import com.rukinpavel.wordlyapp.core.ui.FloralBackground
 import com.rukinpavel.wordlyapp.core.ui.Keyboard
 import com.rukinpavel.wordlyapp.core.ui.LetterTile
 import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
+import com.rukinpavel.wordlyapp.core.ui.WordlyDialog
+import com.rukinpavel.wordlyapp.core.ui.WordlyDialogButton
 import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
 import com.rukinpavel.wordlyapp.core.ui.localizedString
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -120,7 +127,7 @@ fun GameContent(
                             )
                             IconButton(onClick = { onEvent(GameUiEvent.OnHintClick) }) {
                                 Icon(
-                                    imageVector = Icons.Default.Lightbulb,
+                                    imageVector = androidx.compose.material.icons.Icons.Default.Lightbulb,
                                     contentDescription = localizedString(CoreUiR.string.tutorial_hint_title),
                                     tint = MaterialTheme.colorScheme.primary
                                 )
@@ -128,7 +135,7 @@ fun GameContent(
                         }
                         IconButton(onClick = onSettingsClick) {
                             Icon(
-                                imageVector = Icons.Default.Settings,
+                                imageVector = androidx.compose.material.icons.Icons.Default.Settings,
                                 contentDescription = localizedString(CoreUiR.string.settings),
                                 tint = MaterialTheme.colorScheme.primary
                             )
@@ -200,51 +207,64 @@ fun GameContent(
                 }
 
                 if (uiState.showAdDialog) {
-                    AlertDialog(
+                    WordlyDialog(
                         onDismissRequest = { onEvent(GameUiEvent.OnDismissAdDialog) },
-                        shape = RoundedCornerShape(28.dp),
-                        title = { Text(localizedString(CoreUiR.string.out_of_hints)) },
-                        text = { Text(localizedString(CoreUiR.string.watch_ad_description)) },
+                        title = localizedString(CoreUiR.string.out_of_hints),
+                        icon = androidx.compose.material.icons.Icons.Default.Info,
+                        text = {
+                            Text(
+                                text = localizedString(CoreUiR.string.watch_ad_description),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        },
                         confirmButton = {
-                            Button(
+                            WordlyDialogButton(
                                 onClick = { onEvent(GameUiEvent.OnWatchAdClick) },
-                                shape = RoundedCornerShape(28.dp)
-                            ) {
-                                Text(localizedString(CoreUiR.string.watch_video))
-                            }
+                                text = localizedString(CoreUiR.string.watch_video)
+                            )
                         },
                         dismissButton = {
-                            TextButton(onClick = { onEvent(GameUiEvent.OnDismissAdDialog) }) {
-                                Text(localizedString(CoreUiR.string.cancel))
-                            }
+                            WordlyDialogButton(
+                                onClick = { onEvent(GameUiEvent.OnDismissAdDialog) },
+                                text = localizedString(CoreUiR.string.cancel),
+                                isPrimary = false
+                            )
                         }
                     )
                 }
 
                 if (uiState.gameStatus != GameStatus.PLAYING) {
-                    AlertDialog(
+                    val isWon = uiState.gameStatus == GameStatus.WON
+                    WordlyDialog(
                         onDismissRequest = { },
-                        shape = RoundedCornerShape(28.dp),
-                        title = {
-                            Text(
-                                text = if (uiState.gameStatus == GameStatus.WON) localizedString(CoreUiR.string.you_won) else localizedString(CoreUiR.string.game_over)
-                            )
-                        },
+                        title = if (isWon) localizedString(CoreUiR.string.you_won) else localizedString(CoreUiR.string.game_over),
+                        icon = if (isWon) androidx.compose.material.icons.Icons.Default.AutoAwesome else androidx.compose.material.icons.Icons.Default.SentimentDissatisfied,
                         text = {
-                            Column {
-                                Text(localizedString(CoreUiR.string.word_was, uiState.targetWord))
-                                if (uiState.gameStatus == GameStatus.LOST) {
-                                    Text(localizedString(CoreUiR.string.better_luck))
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = localizedString(CoreUiR.string.word_was, uiState.targetWord),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                if (!isWon) {
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = localizedString(CoreUiR.string.better_luck),
+                                        textAlign = TextAlign.Center
+                                    )
                                 }
                             }
                         },
                         confirmButton = {
-                            Button(
+                            WordlyDialogButton(
                                 onClick = { onEvent(GameUiEvent.OnPlayAgainClick) },
-                                shape = RoundedCornerShape(28.dp)
-                            ) {
-                                Text(localizedString(CoreUiR.string.play_again))
-                            }
+                                text = localizedString(CoreUiR.string.play_again)
+                            )
                         }
                     )
                 }

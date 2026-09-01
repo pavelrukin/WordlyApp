@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Backspace
+import androidx.compose.material.icons.automirrored.filled.Backspace
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,18 +48,20 @@ fun Keyboard(
     modifier: Modifier = Modifier
 ) {
     val haptic = LocalHapticFeedback.current
-    
+
     val rows = when (language) {
         Language.EN -> listOf(
             "QWERTYUIOP".toList(),
             "ASDFGHJKL".toList(),
             "ZXCVBNM".toList()
         )
+
         Language.RU -> listOf(
             "ЙЦУКЕНГШЩЗХЪ".toList(),
             "ФЫВАПРОЛДЖЭ".toList(),
             "ЯЧСМИТЬБЮ".toList()
         )
+
         Language.UK -> listOf(
             "ЙЦУКЕНГШЩЗХЇ".toList(),
             "ФІВАПРОЛДЖЄҐ".toList(),
@@ -71,12 +73,12 @@ fun Keyboard(
         if (vibrationEnabled) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         onKeyClick(it)
     }
-    
+
     val handleDeleteClick: () -> Unit = {
         if (vibrationEnabled) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         onDeleteClick()
     }
-    
+
     val handleEnterClick: () -> Unit = {
         if (vibrationEnabled) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         onEnterClick()
@@ -114,7 +116,13 @@ fun Keyboard(
 
                 if (rowIndex == rows.lastIndex) {
                     KeyItem(
-                        icon = { Icon(Icons.Default.Backspace, contentDescription = localizedString(CoreUiR.string.cd_delete)) },
+                        icon = {
+                            Icon(
+                                Icons.AutoMirrored.Filled.Backspace,
+                                contentDescription = localizedString(CoreUiR.string.cd_delete),
+                                tint = Color.Black
+                            )
+                        },
                         onClick = handleDeleteClick,
                         modifier = Modifier.weight(1.5f)
                     )
@@ -134,7 +142,7 @@ fun KeyItem(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    
+
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.9f else 1f,
         animationSpec = spring(dampingRatio = 0.5f, stiffness = 500f),

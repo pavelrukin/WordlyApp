@@ -1,9 +1,11 @@
 package com.rukinpavel.wordlyapp.feature.settings
 
+import com.rukinpavel.wordlyapp.feature.settings.BuildConfig
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -161,6 +163,17 @@ fun SettingsContent(
             ) {
                 Text(localizedString(CoreUiR.string.repeat_tutorial), fontWeight = FontWeight.Bold)
             }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Text(
+                text = "Version ${BuildConfig.APP_VERSION}",
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(vertical = 16.dp),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+            )
         }
     }
 }
