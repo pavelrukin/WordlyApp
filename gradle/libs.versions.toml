@@ -1,7 +1,7 @@
 [versions]
 # App version
-appVersionCode = "1"
-appVersionName = "1.0.0"
+appVersionCode = "2"
+appVersionName = "1.0.1"
 
 # SDK Versions
 minSdk = "24"
@@ -10,7 +10,7 @@ compileSdk = "37"
 javaVersion = "11"
 
 # Build tools
-androidGradlePlugin = "9.3.2"
+androidGradlePlugin = "9.4.0"
 kotlin = "2.4.10"
 ksp = "2.3.11"
 
