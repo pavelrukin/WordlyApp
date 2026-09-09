@@ -38,10 +38,10 @@ fun FloralBackground(
         initialValue = if (darkTheme) BgGradientStartDark else BgGradientStart,
         targetValue = if (darkTheme) BgGradientMidDark else BgGradientMid,
         animationSpec =
-            infiniteRepeatable(
-                animation = tween(18000, easing = LinearEasing),
-                repeatMode = RepeatMode.Reverse,
-            ),
+        infiniteRepeatable(
+            animation = tween(18000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse,
+        ),
         label = "ColorStart",
     )
 
@@ -49,10 +49,10 @@ fun FloralBackground(
         initialValue = if (darkTheme) BgGradientMidDark else BgGradientMid,
         targetValue = if (darkTheme) BgGradientEndDark else BgGradientEnd,
         animationSpec =
-            infiniteRepeatable(
-                animation = tween(18000, easing = LinearEasing),
-                repeatMode = RepeatMode.Reverse,
-            ),
+        infiniteRepeatable(
+            animation = tween(18000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse,
+        ),
         label = "ColorMid",
     )
 
@@ -60,10 +60,10 @@ fun FloralBackground(
         initialValue = if (darkTheme) BgGradientEndDark else BgGradientEnd,
         targetValue = if (darkTheme) BgGradientStartDark else BgGradientStart,
         animationSpec =
-            infiniteRepeatable(
-                animation = tween(18000, easing = LinearEasing),
-                repeatMode = RepeatMode.Reverse,
-            ),
+        infiniteRepeatable(
+            animation = tween(18000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse,
+        ),
         label = "ColorEnd",
     )
 
@@ -71,10 +71,10 @@ fun FloralBackground(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec =
-            infiniteRepeatable(
-                animation = tween(60000, easing = LinearEasing),
-                repeatMode = RepeatMode.Restart,
-            ),
+        infiniteRepeatable(
+            animation = tween(60000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart,
+        ),
         label = "FlowerRotation",
     )
 
@@ -82,10 +82,10 @@ fun FloralBackground(
         initialValue = 0f,
         targetValue = 2f * Math.PI.toFloat(),
         animationSpec =
-            infiniteRepeatable(
-                animation = tween(10000, easing = LinearEasing),
-                repeatMode = RepeatMode.Restart,
-            ),
+        infiniteRepeatable(
+            animation = tween(10000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart,
+        ),
         label = "FlowerSway",
     )
 
@@ -99,11 +99,11 @@ fun FloralBackground(
                     sizePercent = random.nextFloat() * 0.15f + 0.1f,
                     rotationSpeed = (random.nextFloat() - 0.5f) * 2f,
                     color =
-                        when (random.nextInt(3)) {
-                            0 -> PetalPink.copy(alpha = 0.3f)
-                            1 -> LilacSoft.copy(alpha = 0.3f)
-                            else -> SkyPeach.copy(alpha = 0.3f)
-                        },
+                    when (random.nextInt(3)) {
+                        0 -> PetalPink.copy(alpha = 0.3f)
+                        1 -> LilacSoft.copy(alpha = 0.3f)
+                        else -> SkyPeach.copy(alpha = 0.3f)
+                    },
                 )
             }
         }
@@ -112,11 +112,11 @@ fun FloralBackground(
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawRect(
                 brush =
-                    Brush.linearGradient(
-                        colors = listOf(colorStart, colorMid, colorEnd),
-                        start = Offset(0f, 0f),
-                        end = Offset(size.width, size.height),
-                    ),
+                Brush.linearGradient(
+                    colors = listOf(colorStart, colorMid, colorEnd),
+                    start = Offset(0f, 0f),
+                    end = Offset(size.width, size.height),
+                ),
             )
 
             flowers.forEach { flower ->

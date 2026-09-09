@@ -38,9 +38,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rukinpavel.wordlyapp.core.model.Language
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.core.ui.localizedString
 import kotlinx.coroutines.flow.collectLatest
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun SettingsScreen(
@@ -89,10 +89,10 @@ fun SettingsContent(
     ) { padding ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .padding(16.dp),
+            Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
         ) {
             Text(
                 text = localizedString(CoreUiR.string.language_dictionary),
@@ -103,9 +103,9 @@ fun SettingsContent(
 
             LazyColumn(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 24.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(Language.entries) { language ->
@@ -121,9 +121,9 @@ fun SettingsContent(
 
             Row(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -157,15 +157,15 @@ fun SettingsContent(
             Button(
                 onClick = { onEvent(SettingsUiEvent.OnRepeatTutorialClick) },
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    ),
+                ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                ),
             ) {
                 Text(localizedString(CoreUiR.string.repeat_tutorial), fontWeight = FontWeight.Bold)
             }
@@ -175,9 +175,9 @@ fun SettingsContent(
             Text(
                 text = "Version ${BuildConfig.APP_VERSION}",
                 modifier =
-                    Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(vertical = 16.dp),
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(vertical = 16.dp),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
             )
@@ -192,9 +192,9 @@ fun PremiumSection(
 ) {
     Row(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -250,23 +250,23 @@ fun LanguageItem(
 
     Surface(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .clickable { onClick() },
+        Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = MaterialTheme.shapes.medium,
         color =
-            if (isSelected) {
-                MaterialTheme.colorScheme.primaryContainer
-            } else {
-                MaterialTheme.colorScheme.surfaceVariant
-            },
+        if (isSelected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        },
         tonalElevation = if (isSelected) 4.dp else 0.dp,
     ) {
         Row(
             modifier =
-                Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -275,11 +275,11 @@ fun LanguageItem(
                 fontSize = 16.sp,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                 color =
-                    if (isSelected) {
-                        MaterialTheme.colorScheme.onPrimaryContainer
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
+                if (isSelected) {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
             )
             if (isSelected) {
                 Icon(

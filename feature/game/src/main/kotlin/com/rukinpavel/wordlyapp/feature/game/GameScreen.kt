@@ -50,6 +50,7 @@ import com.rukinpavel.wordlyapp.core.ui.FloralBackground
 import com.rukinpavel.wordlyapp.core.ui.Keyboard
 import com.rukinpavel.wordlyapp.core.ui.LetterTile
 import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.core.ui.WordlyDialog
 import com.rukinpavel.wordlyapp.core.ui.WordlyDialogButton
 import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
@@ -57,7 +58,6 @@ import com.rukinpavel.wordlyapp.core.ui.localizedString
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun GameScreen(
@@ -143,35 +143,35 @@ fun GameContent(
                         }
                     },
                     colors =
-                        TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent,
-                            scrolledContainerColor = Color.Unspecified,
-                            navigationIconContentColor = Color.Unspecified,
-                            titleContentColor = Color.Unspecified,
-                            actionIconContentColor = Color.Unspecified,
-                        ),
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.Unspecified,
+                        navigationIconContentColor = Color.Unspecified,
+                        titleContentColor = Color.Unspecified,
+                        actionIconContentColor = Color.Unspecified,
+                    ),
                 )
             },
         ) { padding ->
             Box(
                 modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(padding),
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding),
             ) {
                 Column(
                     modifier =
-                        Modifier
-                            .fillMaxSize(),
+                    Modifier
+                        .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Box(
                         modifier =
-                            Modifier
-                                .weight(1f)
-                                .fillMaxWidth()
-                                .padding(horizontal = 32.dp),
+                        Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(horizontal = 32.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         WordGrid(board = uiState.board)
@@ -248,17 +248,17 @@ fun GameContent(
                     WordlyDialog(
                         onDismissRequest = { },
                         title =
-                            if (isWon) {
-                                localizedString(CoreUiR.string.you_won)
-                            } else {
-                                localizedString(CoreUiR.string.game_over)
-                            },
+                        if (isWon) {
+                            localizedString(CoreUiR.string.you_won)
+                        } else {
+                            localizedString(CoreUiR.string.game_over)
+                        },
                         icon =
-                            if (isWon) {
-                                Icons.Default.AutoAwesome
-                            } else {
-                                Icons.Default.SentimentDissatisfied
-                            },
+                        if (isWon) {
+                            Icons.Default.AutoAwesome
+                        } else {
+                            Icons.Default.SentimentDissatisfied
+                        },
                         text = {
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -324,29 +324,29 @@ fun GameScreenPreview() {
     WordlyTheme {
         GameContent(
             uiState =
-                GameUiState(
-                    board =
-                        List(6) { rowIndex ->
-                            if (rowIndex == 0) {
-                                listOf(
-                                    BoardLetter('W', LetterState.CORRECT),
-                                    BoardLetter('O', LetterState.CORRECT),
-                                    BoardLetter('R', LetterState.WRONG_POSITION),
-                                    BoardLetter('D', LetterState.NOT_IN_WORD),
-                                    BoardLetter('S', LetterState.INITIAL),
-                                )
-                            } else {
-                                List(5) { BoardLetter() }
-                            }
-                        },
-                    keyboardLetterStates =
-                        mapOf(
-                            'W' to LetterState.CORRECT,
-                            'O' to LetterState.CORRECT,
-                            'R' to LetterState.WRONG_POSITION,
-                            'D' to LetterState.NOT_IN_WORD,
-                        ),
+            GameUiState(
+                board =
+                List(6) { rowIndex ->
+                    if (rowIndex == 0) {
+                        listOf(
+                            BoardLetter('W', LetterState.CORRECT),
+                            BoardLetter('O', LetterState.CORRECT),
+                            BoardLetter('R', LetterState.WRONG_POSITION),
+                            BoardLetter('D', LetterState.NOT_IN_WORD),
+                            BoardLetter('S', LetterState.INITIAL),
+                        )
+                    } else {
+                        List(5) { BoardLetter() }
+                    }
+                },
+                keyboardLetterStates =
+                mapOf(
+                    'W' to LetterState.CORRECT,
+                    'O' to LetterState.CORRECT,
+                    'R' to LetterState.WRONG_POSITION,
+                    'D' to LetterState.NOT_IN_WORD,
                 ),
+            ),
             sideEffect = MutableSharedFlow(),
             onEvent = {},
             onSettingsClick = {},

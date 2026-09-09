@@ -49,9 +49,9 @@ fun WordlyDialog(
     ) {
         Surface(
             modifier =
-                modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+            modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             shape = RoundedCornerShape(32.dp),
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 8.dp,
@@ -60,26 +60,26 @@ fun WordlyDialog(
                 // Background gradient highlight at the top
                 Box(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(80.dp)
-                            .background(
-                                brush =
-                                    Brush.verticalGradient(
-                                        colors =
-                                            listOf(
-                                                MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-                                                Color.Transparent,
-                                            ),
-                                    ),
+                    Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        .background(
+                            brush =
+                            Brush.verticalGradient(
+                                colors =
+                                listOf(
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                                    Color.Transparent,
+                                ),
                             ),
+                        ),
                 )
 
                 Column(
                     modifier =
-                        Modifier
-                            .padding(24.dp)
-                            .fillMaxWidth(),
+                    Modifier
+                        .padding(24.dp)
+                        .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     if (icon != null) {
@@ -151,10 +151,10 @@ fun WordlyDialogButton(
             modifier = modifier.fillMaxWidth(),
             shape = RoundedCornerShape(20.dp),
             colors =
-                ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+            ),
         ) {
             Text(
                 text = text,

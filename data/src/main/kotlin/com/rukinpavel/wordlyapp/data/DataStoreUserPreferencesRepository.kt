@@ -11,10 +11,10 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.domain.repository.UserPreferencesRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 

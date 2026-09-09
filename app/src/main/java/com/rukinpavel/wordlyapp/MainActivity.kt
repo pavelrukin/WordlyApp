@@ -114,27 +114,27 @@ class MainActivity : AppCompatActivity() {
                         backStack = backStack,
                         onBack = { backStack.removeLastOrNull() },
                         entryProvider =
-                            entryProvider {
-                                entry<GameRoute> {
-                                    GameScreen(
-                                        onSettingsClick = { backStack.add(SettingsRoute) },
-                                    )
-                                }
-                                entry<SettingsRoute> {
-                                    SettingsScreen(
-                                        onBackClick = { backStack.removeLastOrNull() },
-                                        onNavigateToOnboarding = { backStack.add(OnboardingRoute) },
-                                    )
-                                }
-                                entry<OnboardingRoute> {
-                                    OnboardingScreen(
-                                        onComplete = {
-                                            viewModel.completeTutorial()
-                                            backStack.remove(OnboardingRoute)
-                                        },
-                                    )
-                                }
-                            },
+                        entryProvider {
+                            entry<GameRoute> {
+                                GameScreen(
+                                    onSettingsClick = { backStack.add(SettingsRoute) },
+                                )
+                            }
+                            entry<SettingsRoute> {
+                                SettingsScreen(
+                                    onBackClick = { backStack.removeLastOrNull() },
+                                    onNavigateToOnboarding = { backStack.add(OnboardingRoute) },
+                                )
+                            }
+                            entry<OnboardingRoute> {
+                                OnboardingScreen(
+                                    onComplete = {
+                                        viewModel.completeTutorial()
+                                        backStack.remove(OnboardingRoute)
+                                    },
+                                )
+                            }
+                        },
                     )
                 }
             }

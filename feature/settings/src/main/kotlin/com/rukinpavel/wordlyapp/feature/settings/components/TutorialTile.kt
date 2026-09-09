@@ -74,25 +74,25 @@ fun TutorialTile(
 
     Surface(
         modifier =
-            modifier
-                .aspectRatio(1f)
-                .padding(2.dp)
-                .graphicsLayer {
-                    rotationX = rotation
-                    // Fix mirroring effect when rotated 180 deg
-                    cameraDistance = 12f * density
-                }
-                .border(2.dp, borderColor, shape),
+        modifier
+            .aspectRatio(1f)
+            .padding(2.dp)
+            .graphicsLayer {
+                rotationX = rotation
+                // Fix mirroring effect when rotated 180 deg
+                cameraDistance = 12f * density
+            }
+            .border(2.dp, borderColor, shape),
         shape = shape,
         color = backgroundColor,
     ) {
         Box(
             modifier =
-                Modifier
-                    .graphicsLayer {
-                        // Reverse the content rotation if the tile is flipped
-                        rotationX = if (rotation > 90f) 180f else 0f
-                    },
+            Modifier
+                .graphicsLayer {
+                    // Reverse the content rotation if the tile is flipped
+                    rotationX = if (rotation > 90f) 180f else 0f
+                },
             contentAlignment = Alignment.Center,
         ) {
             Text(

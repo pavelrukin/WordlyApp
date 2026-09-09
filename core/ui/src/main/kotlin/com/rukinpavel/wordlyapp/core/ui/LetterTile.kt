@@ -63,12 +63,12 @@ fun LetterTile(
     Surface(
         color = backgroundColor,
         modifier =
-            modifier
-                .aspectRatio(1f)
-                .padding(2.dp)
-                .scale(if (char != ' ' && state == LetterState.INITIAL) scale else 1f)
-                .shadow(if (isFilled) 2.dp else 0.dp, shape)
-                .border(2.dp, borderColor, shape),
+        modifier
+            .aspectRatio(1f)
+            .padding(2.dp)
+            .scale(if (char != ' ' && state == LetterState.INITIAL) scale else 1f)
+            .shadow(if (isFilled) 2.dp else 0.dp, shape)
+            .border(2.dp, borderColor, shape),
         shape = shape,
     ) {
         Box(contentAlignment = Alignment.Center) {

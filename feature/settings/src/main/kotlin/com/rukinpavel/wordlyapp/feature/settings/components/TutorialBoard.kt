@@ -25,14 +25,14 @@ fun TutorialBoard(
     AnimatedVisibility(
         visible = true,
         enter =
-            fadeIn() +
-                scaleIn(initialScale = 0.8f, animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
+        fadeIn() +
+            scaleIn(initialScale = 0.8f, animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
     ) {
         Row(
             modifier =
-                modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             for (i in 0 until 5) {

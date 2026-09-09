@@ -21,9 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.core.ui.localizedString
 import com.rukinpavel.wordlyapp.feature.settings.TutorialStep
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun TutorialExplanation(
@@ -33,9 +33,9 @@ fun TutorialExplanation(
 ) {
     Box(
         modifier =
-            modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+        modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {
         AnimatedContent(

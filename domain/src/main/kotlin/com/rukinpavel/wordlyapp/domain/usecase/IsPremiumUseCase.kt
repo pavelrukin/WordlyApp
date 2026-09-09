@@ -1,8 +1,8 @@
 package com.rukinpavel.wordlyapp.domain.usecase
 
 import com.rukinpavel.wordlyapp.domain.repository.UserPreferencesRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class IsPremiumUseCase
 @Inject

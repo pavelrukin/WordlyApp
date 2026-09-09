@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.core.ui.localizedString
 import com.rukinpavel.wordlyapp.feature.settings.components.TutorialBoard
 import com.rukinpavel.wordlyapp.feature.settings.components.TutorialExplanation
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun OnboardingScreen(
@@ -61,10 +61,10 @@ fun OnboardingContent(
     ) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
-                    .verticalScroll(rememberScrollState()),
+            Modifier
+                .fillMaxSize()
+                .padding(24.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
@@ -102,15 +102,15 @@ fun OnboardingContent(
                     Button(
                         onClick = { onEvent(OnboardingEvent.PlayAgain) },
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
+                        Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
                         shape = RoundedCornerShape(28.dp),
                         colors =
-                            ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            ),
+                        ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        ),
                     ) {
                         Text(localizedString(CoreUiR.string.play_again), fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }
@@ -121,9 +121,9 @@ fun OnboardingContent(
                             onComplete()
                         },
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
+                        Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
                         shape = RoundedCornerShape(28.dp),
                     ) {
                         Text(localizedString(CoreUiR.string.got_it), fontSize = 18.sp, fontWeight = FontWeight.Bold)
@@ -133,9 +133,9 @@ fun OnboardingContent(
                         onClick = { onEvent(OnboardingEvent.NextStep) },
                         enabled = uiState.canNavigateNext,
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
+                        Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
                         shape = RoundedCornerShape(28.dp),
                     ) {
                         val buttonText =

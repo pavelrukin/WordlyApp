@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.core.model.LetterState
+import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.domain.repository.WordRepository
 import com.rukinpavel.wordlyapp.domain.usecase.CheckGuessUseCase
 import com.rukinpavel.wordlyapp.domain.usecase.GetHintCountUseCase
@@ -13,6 +14,7 @@ import com.rukinpavel.wordlyapp.domain.usecase.IsPremiumUseCase
 import com.rukinpavel.wordlyapp.domain.usecase.UpdateHintCountUseCase
 import com.rukinpavel.wordlyapp.domain.usecase.ValidateWordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +26,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @HiltViewModel
 class GameViewModel

@@ -90,9 +90,9 @@ fun Keyboard(
 
     Column(
         modifier =
-            modifier
-                .fillMaxWidth()
-                .padding(8.dp),
+        modifier
+            .fillMaxWidth()
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -173,17 +173,17 @@ fun KeyItem(
 
     Surface(
         modifier =
-            modifier
-                .height(56.dp)
-                .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                }
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null, // Disable default ripple to emphasize custom animation
-                    onClick = onClick,
-                ),
+        modifier
+            .height(56.dp)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null, // Disable default ripple to emphasize custom animation
+                onClick = onClick,
+            ),
         shape = shape,
         color = backgroundColor,
         tonalElevation = 2.dp,
@@ -213,11 +213,11 @@ fun KeyboardPreview() {
         Keyboard(
             language = Language.EN,
             letterStates =
-                mapOf(
-                    'Q' to LetterState.CORRECT,
-                    'W' to LetterState.WRONG_POSITION,
-                    'E' to LetterState.NOT_IN_WORD,
-                ),
+            mapOf(
+                'Q' to LetterState.CORRECT,
+                'W' to LetterState.WRONG_POSITION,
+                'E' to LetterState.NOT_IN_WORD,
+            ),
             onKeyClick = {},
             onDeleteClick = {},
             onEnterClick = {},
