@@ -31,70 +31,75 @@ fun TutorialTile(
     letter: Char?,
     state: LetterState,
     isRevealed: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val rotation by animateFloatAsState(
         targetValue = if (isRevealed) 180f else 0f,
         animationSpec = tween(durationMillis = 500),
-        label = "TileFlipAnimation"
+        label = "TileFlipAnimation",
     )
 
-    val targetBackgroundColor = if (rotation > 90f) {
-        when (state) {
-            LetterState.INITIAL -> Color.Transparent
-            LetterState.CORRECT -> WordleGreen
-            LetterState.WRONG_POSITION -> WordleYellow
-            LetterState.NOT_IN_WORD -> WordleDarkGray
+    val targetBackgroundColor =
+        if (rotation > 90f) {
+            when (state) {
+                LetterState.INITIAL -> Color.Transparent
+                LetterState.CORRECT -> WordleGreen
+                LetterState.WRONG_POSITION -> WordleYellow
+                LetterState.NOT_IN_WORD -> WordleDarkGray
+            }
+        } else {
+            Color.Transparent
         }
-    } else {
-        Color.Transparent
-    }
 
     val backgroundColor by animateColorAsState(
         targetValue = targetBackgroundColor,
-        label = "TileColorAnimation"
+        label = "TileColorAnimation",
     )
 
-    val borderColor = if (rotation > 90f) {
-        backgroundColor
-    } else {
-        if (letter != null && letter != ' ') WordleGray else WordleDarkGray
-    }
+    val borderColor =
+        if (rotation > 90f) {
+            backgroundColor
+        } else {
+            if (letter != null && letter != ' ') WordleGray else WordleDarkGray
+        }
 
-    val textColor = if (rotation > 90f) {
-        if (state == LetterState.INITIAL) MaterialTheme.colorScheme.onBackground else Color.White
-    } else {
-        MaterialTheme.colorScheme.onBackground
-    }
+    val textColor =
+        if (rotation > 90f) {
+            if (state == LetterState.INITIAL) MaterialTheme.colorScheme.onBackground else Color.White
+        } else {
+            MaterialTheme.colorScheme.onBackground
+        }
 
     val shape = RoundedCornerShape(8.dp)
 
     Surface(
-        modifier = modifier
-            .aspectRatio(1f)
-            .padding(2.dp)
-            .graphicsLayer {
-                rotationX = rotation
-                // Fix mirroring effect when rotated 180 deg
-                cameraDistance = 12f * density
-            }
-            .border(2.dp, borderColor, shape),
+        modifier =
+            modifier
+                .aspectRatio(1f)
+                .padding(2.dp)
+                .graphicsLayer {
+                    rotationX = rotation
+                    // Fix mirroring effect when rotated 180 deg
+                    cameraDistance = 12f * density
+                }
+                .border(2.dp, borderColor, shape),
         shape = shape,
-        color = backgroundColor
+        color = backgroundColor,
     ) {
         Box(
-            modifier = Modifier
-                .graphicsLayer {
-                    // Reverse the content rotation if the tile is flipped
-                    rotationX = if (rotation > 90f) 180f else 0f
-                },
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .graphicsLayer {
+                        // Reverse the content rotation if the tile is flipped
+                        rotationX = if (rotation > 90f) 180f else 0f
+                    },
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = letter?.toString()?.uppercase() ?: "",
                 color = textColor,
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         }
     }

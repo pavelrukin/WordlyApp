@@ -10,7 +10,7 @@ enum class TutorialStep {
     ExplainingWrongPosition,
     ExplainingNotInWord,
     ExplainingHint,
-    Completed
+    Completed,
 }
 
 data class OnboardingUiState(
@@ -21,18 +21,24 @@ data class OnboardingUiState(
     val isAnimationFinished: Boolean = false,
     val canNavigateNext: Boolean = true,
     val tutorialWord: String = "WORDS",
-    val tutorialStates: List<LetterState> = listOf(
-        LetterState.CORRECT,
-        LetterState.CORRECT,
-        LetterState.WRONG_POSITION,
-        LetterState.NOT_IN_WORD,
-        LetterState.NOT_IN_WORD
-    )
+    val tutorialStates: List<LetterState> =
+        listOf(
+            LetterState.CORRECT,
+            LetterState.CORRECT,
+            LetterState.WRONG_POSITION,
+            LetterState.NOT_IN_WORD,
+            LetterState.NOT_IN_WORD,
+        ),
 )
 
 sealed interface OnboardingEvent {
-    data class UpdateTutorialWord(val word: String) : OnboardingEvent
+    data class UpdateTutorialWord(
+        val word: String,
+    ) : OnboardingEvent
+
     object NextStep : OnboardingEvent
+
     object PlayAgain : OnboardingEvent
+
     object CompleteOnboarding : OnboardingEvent
 }

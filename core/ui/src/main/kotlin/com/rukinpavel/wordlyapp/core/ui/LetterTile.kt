@@ -28,30 +28,33 @@ import com.rukinpavel.wordlyapp.core.model.LetterState
 fun LetterTile(
     char: Char,
     state: LetterState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val backgroundColor = when (state) {
-        LetterState.INITIAL -> Color.Transparent
-        LetterState.CORRECT -> WordleGreen
-        LetterState.WRONG_POSITION -> WordleYellow
-        LetterState.NOT_IN_WORD -> WordleDarkGray
-    }
+    val backgroundColor =
+        when (state) {
+            LetterState.INITIAL -> Color.Transparent
+            LetterState.CORRECT -> WordleGreen
+            LetterState.WRONG_POSITION -> WordleYellow
+            LetterState.NOT_IN_WORD -> WordleDarkGray
+        }
 
-    val borderColor = when (state) {
-        LetterState.INITIAL -> if (char == ' ') WordleDarkGray else WordleGray
-        else -> backgroundColor
-    }
+    val borderColor =
+        when (state) {
+            LetterState.INITIAL -> if (char == ' ') WordleDarkGray else WordleGray
+            else -> backgroundColor
+        }
 
-    val textColor = when (state) {
-        LetterState.INITIAL -> MaterialTheme.colorScheme.onBackground
-        LetterState.CORRECT, LetterState.WRONG_POSITION -> Color.White
-        LetterState.NOT_IN_WORD -> Color.White
-    }
+    val textColor =
+        when (state) {
+            LetterState.INITIAL -> MaterialTheme.colorScheme.onBackground
+            LetterState.CORRECT, LetterState.WRONG_POSITION -> Color.White
+            LetterState.NOT_IN_WORD -> Color.White
+        }
 
     val scale by animateFloatAsState(
         targetValue = if (char != ' ' && state == LetterState.INITIAL) 1.1f else 1f,
         animationSpec = spring(dampingRatio = 0.5f, stiffness = 300f),
-        label = "PopAnimation"
+        label = "PopAnimation",
     )
 
     val shape = RoundedCornerShape(12.dp)
@@ -59,20 +62,21 @@ fun LetterTile(
 
     Surface(
         color = backgroundColor,
-        modifier = modifier
-            .aspectRatio(1f)
-            .padding(2.dp)
-            .scale(if (char != ' ' && state == LetterState.INITIAL) scale else 1f)
-            .shadow(if (isFilled) 2.dp else 0.dp, shape)
-            .border(2.dp, borderColor, shape),
-        shape = shape
+        modifier =
+            modifier
+                .aspectRatio(1f)
+                .padding(2.dp)
+                .scale(if (char != ' ' && state == LetterState.INITIAL) scale else 1f)
+                .shadow(if (isFilled) 2.dp else 0.dp, shape)
+                .border(2.dp, borderColor, shape),
+        shape = shape,
     ) {
         Box(contentAlignment = Alignment.Center) {
             Text(
                 text = char.toString().uppercase(),
                 color = textColor,
                 fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         }
     }

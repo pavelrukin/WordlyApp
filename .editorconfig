@@ -1,0 +1,66 @@
+root = true
+
+# ============================================================
+# General
+# ============================================================
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+
+# ============================================================
+# Kotlin
+# ============================================================
+
+[*.{kt,kts}]
+indent_style = space
+indent_size = 4
+
+# Line length
+max_line_length = 120
+
+# Trailing commas
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+
+ktlint_function_naming_ignore_when_annotated_with = Composable
+# ============================================================
+# Gradle Kotlin DSL
+# ============================================================
+
+[*.gradle.kts]
+indent_style = space
+indent_size = 4
+max_line_length = 120
+
+
+# ============================================================
+# XML
+# ============================================================
+
+[*.xml]
+indent_style = space
+indent_size = 4
+max_line_length = 120
+
+
+# ============================================================
+# JSON / YAML
+# ============================================================
+
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+
+# ============================================================
+# Markdown
+# ============================================================
+
+[*.md]
+trim_trailing_whitespace = false

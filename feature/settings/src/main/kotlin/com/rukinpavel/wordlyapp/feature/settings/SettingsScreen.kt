@@ -46,7 +46,7 @@ import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 fun SettingsScreen(
     onBackClick: () -> Unit,
     onNavigateToOnboarding: () -> Unit,
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -61,7 +61,7 @@ fun SettingsScreen(
     SettingsContent(
         uiState = uiState,
         onEvent = viewModel::onEvent,
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
     )
 }
 
@@ -70,7 +70,7 @@ fun SettingsScreen(
 fun SettingsContent(
     uiState: SettingsUiState,
     onEvent: (SettingsUiEvent) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -78,36 +78,41 @@ fun SettingsContent(
                 title = { Text(localizedString(CoreUiR.string.settings), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = localizedString(CoreUiR.string.back))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = localizedString(CoreUiR.string.back),
+                        )
                     }
-                }
+                },
             )
-        }
+        },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(16.dp),
         ) {
             Text(
                 text = localizedString(CoreUiR.string.language_dictionary),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
             )
 
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(Language.entries) { language ->
                     LanguageItem(
                         language = language,
                         isSelected = language == uiState.language,
-                        onClick = { onEvent(SettingsUiEvent.OnLanguageChange(language)) }
+                        onClick = { onEvent(SettingsUiEvent.OnLanguageChange(language)) },
                     )
                 }
             }
@@ -115,27 +120,28 @@ fun SettingsContent(
             HorizontalDivider()
 
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = localizedString(CoreUiR.string.vibration),
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
                     )
                     Text(
                         text = localizedString(CoreUiR.string.vibration_description),
                         fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
                 Switch(
                     checked = uiState.vibrationEnabled,
-                    onCheckedChange = { onEvent(SettingsUiEvent.OnVibrationChange(it)) }
+                    onCheckedChange = { onEvent(SettingsUiEvent.OnVibrationChange(it)) },
                 )
             }
 
@@ -143,21 +149,23 @@ fun SettingsContent(
 
             PremiumSection(
                 isPremium = uiState.isPremium,
-                onPurchaseClick = { onEvent(SettingsUiEvent.OnPurchasePremiumClick) }
+                onPurchaseClick = { onEvent(SettingsUiEvent.OnPurchasePremiumClick) },
             )
 
             HorizontalDivider()
 
             Button(
                 onClick = { onEvent(SettingsUiEvent.OnRepeatTutorialClick) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                )
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    ),
             ) {
                 Text(localizedString(CoreUiR.string.repeat_tutorial), fontWeight = FontWeight.Bold)
             }
@@ -166,11 +174,12 @@ fun SettingsContent(
 
             Text(
                 text = "Version ${BuildConfig.APP_VERSION}",
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 16.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(vertical = 16.dp),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
             )
         }
     }
@@ -179,45 +188,46 @@ fun SettingsContent(
 @Composable
 fun PremiumSection(
     isPremium: Boolean,
-    onPurchaseClick: () -> Unit
+    onPurchaseClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = localizedString(CoreUiR.string.premium),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
             Text(
                 text = localizedString(CoreUiR.string.premium_description),
                 fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
-        
+
         if (isPremium) {
             Badge(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = 8.dp),
             ) {
                 Text(
                     text = localizedString(CoreUiR.string.active).uppercase(),
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.labelSmall,
                 )
             }
         } else {
             Button(
                 onClick = onPurchaseClick,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
             ) {
                 Text(localizedString(CoreUiR.string.subscribe))
             }
@@ -229,40 +239,53 @@ fun PremiumSection(
 fun LanguageItem(
     language: Language,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
-    val displayName = when (language) {
-        Language.EN -> localizedString(CoreUiR.string.lang_en)
-        Language.RU -> localizedString(CoreUiR.string.lang_ru)
-        Language.UK -> localizedString(CoreUiR.string.lang_uk)
-    }
+    val displayName =
+        when (language) {
+            Language.EN -> localizedString(CoreUiR.string.lang_en)
+            Language.RU -> localizedString(CoreUiR.string.lang_ru)
+            Language.UK -> localizedString(CoreUiR.string.lang_uk)
+        }
 
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable { onClick() },
         shape = MaterialTheme.shapes.medium,
-        color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-        tonalElevation = if (isSelected) 4.dp else 0.dp
+        color =
+            if (isSelected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            },
+        tonalElevation = if (isSelected) 4.dp else 0.dp,
     ) {
         Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 text = displayName,
                 fontSize = 16.sp,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                color =
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
             )
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = localizedString(CoreUiR.string.cd_selected),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }

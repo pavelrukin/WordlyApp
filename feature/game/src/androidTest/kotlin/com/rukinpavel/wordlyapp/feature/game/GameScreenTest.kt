@@ -12,27 +12,27 @@ import org.junit.Rule
 import org.junit.Test
 
 class GameScreenTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
     fun gameScreen_displaysKeyboardKeys() {
-        val uiState = GameUiState(
-            isLoading = false,
-            language = Language.EN,
-            targetWord = "APPLE"
-        )
-        
+        val uiState =
+            GameUiState(
+                isLoading = false,
+                language = Language.EN,
+                targetWord = "APPLE",
+            )
+
         composeTestRule.setContent {
             CompositionLocalProvider(
-                LocalLocalizedContext provides LocalContext.current
+                LocalLocalizedContext provides LocalContext.current,
             ) {
                 GameContent(
                     uiState = uiState,
                     sideEffect = MutableSharedFlow(),
                     onEvent = {},
-                    onSettingsClick = {}
+                    onSettingsClick = {},
                 )
             }
         }

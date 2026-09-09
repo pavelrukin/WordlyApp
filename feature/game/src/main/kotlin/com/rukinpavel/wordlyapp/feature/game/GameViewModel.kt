@@ -28,7 +28,9 @@ import javax.inject.Inject
 import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @HiltViewModel
-class GameViewModel @Inject constructor(
+class GameViewModel
+@Inject
+constructor(
     private val checkGuessUseCase: CheckGuessUseCase,
     private val validateWordUseCase: ValidateWordUseCase,
     private val wordRepository: WordRepository,
@@ -36,9 +38,8 @@ class GameViewModel @Inject constructor(
     private val getVibrationEnabledUseCase: GetVibrationEnabledUseCase,
     private val getHintCountUseCase: GetHintCountUseCase,
     private val updateHintCountUseCase: UpdateHintCountUseCase,
-    private val isPremiumUseCase: IsPremiumUseCase
+    private val isPremiumUseCase: IsPremiumUseCase,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
@@ -48,25 +49,29 @@ class GameViewModel @Inject constructor(
     private var targetWord: String = ""
 
     init {
-        getLanguageUseCase().onEach { language ->
-            val resolvedLanguage = language ?: Language.getSystemLanguage()
-            if (_uiState.value.language != resolvedLanguage || targetWord.isEmpty()) {
-                _uiState.update { it.copy(language = resolvedLanguage) }
-                resetGame()
-            }
-        }.launchIn(viewModelScope)
+        getLanguageUseCase()
+            .onEach { language ->
+                val resolvedLanguage = language ?: Language.getSystemLanguage()
+                if (_uiState.value.language != resolvedLanguage || targetWord.isEmpty()) {
+                    _uiState.update { it.copy(language = resolvedLanguage) }
+                    resetGame()
+                }
+            }.launchIn(viewModelScope)
 
-        getVibrationEnabledUseCase().onEach { enabled ->
-            _uiState.update { it.copy(vibrationEnabled = enabled) }
-        }.launchIn(viewModelScope)
+        getVibrationEnabledUseCase()
+            .onEach { enabled ->
+                _uiState.update { it.copy(vibrationEnabled = enabled) }
+            }.launchIn(viewModelScope)
 
-        getHintCountUseCase().onEach { count ->
-            _uiState.update { it.copy(hintCount = count) }
-        }.launchIn(viewModelScope)
+        getHintCountUseCase()
+            .onEach { count ->
+                _uiState.update { it.copy(hintCount = count) }
+            }.launchIn(viewModelScope)
 
-        isPremiumUseCase().onEach { isPremium ->
-            _uiState.update { it.copy(isPremium = isPremium) }
-        }.launchIn(viewModelScope)
+        isPremiumUseCase()
+            .onEach { isPremium ->
+                _uiState.update { it.copy(isPremium = isPremium) }
+            }.launchIn(viewModelScope)
     }
 
     private fun loadNewWord() {
@@ -92,16 +97,19 @@ class GameViewModel @Inject constructor(
                     handleKeyClick(event.char)
                 }
             }
+
             GameUiEvent.OnDeleteClick -> {
                 if (_uiState.value.gameStatus == GameStatus.PLAYING) {
                     handleDeleteClick()
                 }
             }
+
             GameUiEvent.OnEnterClick -> {
                 if (_uiState.value.gameStatus == GameStatus.PLAYING) {
                     handleEnterClick()
                 }
             }
+
             GameUiEvent.OnPlayAgainClick -> resetGame()
             GameUiEvent.OnHintClick -> handleHintClick()
             GameUiEvent.OnWatchAdClick -> watchAd()
@@ -118,37 +126,38 @@ class GameViewModel @Inject constructor(
             return
         }
 
-        val unknownIndices = (0 until 5).filter { i ->
-            !currentState.revealedHints.containsKey(i)
-        }
+        val unknownIndices =
+            (0 until 5).filter { i ->
+                !currentState.revealedHints.containsKey(i)
+            }
 
         if (unknownIndices.isNotEmpty()) {
             val hintIdx = unknownIndices.random()
             val hintChar = targetWord[hintIdx]
-            
+
             val newHints = currentState.revealedHints.toMutableMap()
             newHints[hintIdx] = hintChar
-            
+
             val newKeyboardStates = currentState.keyboardLetterStates.toMutableMap()
             newKeyboardStates[hintChar] = LetterState.CORRECT
-            
+
             if (!currentState.isPremium) {
                 viewModelScope.launch {
                     updateHintCountUseCase(currentState.hintCount - 1)
                 }
             }
 
-            _uiState.update { 
+            _uiState.update {
                 it.copy(
-                    revealedHints = newHints, 
-                    keyboardLetterStates = newKeyboardStates
-                ) 
+                    revealedHints = newHints,
+                    keyboardLetterStates = newKeyboardStates,
+                )
             }
-            
+
             viewModelScope.launch {
                 _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.hint_message, listOf(hintChar)))
             }
-            
+
             updateBoardWithCurrentGuess(currentState.currentGuess)
         } else {
             viewModelScope.launch {
@@ -170,12 +179,12 @@ class GameViewModel @Inject constructor(
     }
 
     private fun resetGame() {
-        _uiState.update { 
+        _uiState.update {
             GameUiState(
                 language = it.language,
                 vibrationEnabled = it.vibrationEnabled,
                 hintCount = it.hintCount,
-                isPremium = it.isPremium
+                isPremium = it.isPremium,
             )
         }
         loadNewWord()
@@ -201,23 +210,24 @@ class GameViewModel @Inject constructor(
     private fun updateBoardWithCurrentGuess(typedLetters: String) {
         val currentState = _uiState.value
         val hints = currentState.revealedHints
-        
-        val newBoard = currentState.board.mapIndexed { rowIndex, row ->
-            if (rowIndex == currentState.currentRow) {
-                var typedIdx = 0
-                List(5) { colIndex ->
-                    if (hints.containsKey(colIndex)) {
-                        BoardLetter(hints[colIndex]!!, LetterState.CORRECT)
-                    } else if (typedIdx < typedLetters.length) {
-                        BoardLetter(typedLetters[typedIdx++], LetterState.INITIAL)
-                    } else {
-                        BoardLetter()
+
+        val newBoard =
+            currentState.board.mapIndexed { rowIndex, row ->
+                if (rowIndex == currentState.currentRow) {
+                    var typedIdx = 0
+                    List(5) { colIndex ->
+                        if (hints.containsKey(colIndex)) {
+                            BoardLetter(hints[colIndex]!!, LetterState.CORRECT)
+                        } else if (typedIdx < typedLetters.length) {
+                            BoardLetter(typedLetters[typedIdx++], LetterState.INITIAL)
+                        } else {
+                            BoardLetter()
+                        }
                     }
+                } else {
+                    row
                 }
-            } else {
-                row
             }
-        }
 
         _uiState.update { it.copy(board = newBoard, currentGuess = typedLetters) }
     }
@@ -226,7 +236,7 @@ class GameViewModel @Inject constructor(
         val currentState = _uiState.value
         val typed = currentState.currentGuess
         val hints = currentState.revealedHints
-        
+
         val fullGuessBuilder = StringBuilder()
         var typedIdx = 0
         for (i in 0 until 5) {
@@ -236,40 +246,41 @@ class GameViewModel @Inject constructor(
                 fullGuessBuilder.append(typed[typedIdx++])
             }
         }
-        
+
         val guess = fullGuessBuilder.toString()
 
-    if (guess.length < 5) {
-        viewModelScope.launch {
-            _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.not_enough_letters))
+        if (guess.length < 5) {
+            viewModelScope.launch {
+                _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.not_enough_letters))
+            }
+            return
         }
-        return
-    }
 
-    if (!validateWordUseCase(guess)) {
-        viewModelScope.launch {
-            _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.not_in_word_list))
+        if (!validateWordUseCase(guess)) {
+            viewModelScope.launch {
+                _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.not_in_word_list))
+            }
+            return
         }
-        return
-    }
 
         val result = checkGuessUseCase(targetWord, guess)
-        val newBoard = currentState.board.mapIndexed { rowIndex, row ->
-            if (rowIndex == currentState.currentRow) {
-                List(5) { colIndex ->
-                    BoardLetter(guess[colIndex], result[colIndex])
+        val newBoard =
+            currentState.board.mapIndexed { rowIndex, row ->
+                if (rowIndex == currentState.currentRow) {
+                    List(5) { colIndex ->
+                        BoardLetter(guess[colIndex], result[colIndex])
+                    }
+                } else {
+                    row
                 }
-            } else {
-                row
             }
-        }
 
         val newKeyboardStates = currentState.keyboardLetterStates.toMutableMap()
         for (i in 0 until 5) {
             val char = guess[i]
             val newState = result[i]
             val oldState = newKeyboardStates[char]
-            
+
             if (shouldUpdateKeyboardState(oldState, newState)) {
                 newKeyboardStates[char] = newState
             }
@@ -277,12 +288,13 @@ class GameViewModel @Inject constructor(
 
         val isWin = result.all { it == LetterState.CORRECT }
         val isLastAttempt = currentState.currentRow == 5
-        
-        val newStatus = when {
-            isWin -> GameStatus.WON
-            isLastAttempt -> GameStatus.LOST
-            else -> GameStatus.PLAYING
-        }
+
+        val newStatus =
+            when {
+                isWin -> GameStatus.WON
+                isLastAttempt -> GameStatus.LOST
+                else -> GameStatus.PLAYING
+            }
 
         val newHints = currentState.revealedHints.toMutableMap()
         for (i in result.indices) {
@@ -298,7 +310,7 @@ class GameViewModel @Inject constructor(
                 currentGuess = "",
                 gameStatus = newStatus,
                 keyboardLetterStates = newKeyboardStates,
-                revealedHints = newHints
+                revealedHints = newHints,
             )
         }
 
@@ -309,7 +321,10 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    private fun shouldUpdateKeyboardState(oldState: LetterState?, newState: LetterState): Boolean {
+    private fun shouldUpdateKeyboardState(
+        oldState: LetterState?,
+        newState: LetterState,
+    ): Boolean {
         if (oldState == null) return true
         if (oldState == LetterState.CORRECT) return false
         if (newState == LetterState.CORRECT) return true

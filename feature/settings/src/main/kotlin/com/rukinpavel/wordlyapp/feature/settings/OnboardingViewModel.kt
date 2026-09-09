@@ -14,10 +14,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OnboardingViewModel @Inject constructor(
-    private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase
+class OnboardingViewModel
+@Inject
+constructor(
+    private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(OnboardingUiState())
     val uiState: StateFlow<OnboardingUiState> = _uiState.asStateFlow()
 
@@ -31,6 +32,7 @@ class OnboardingViewModel @Inject constructor(
                     resetTutorial()
                 }
             }
+
             OnboardingEvent.NextStep -> handleNextStep()
             OnboardingEvent.PlayAgain -> resetTutorial()
             OnboardingEvent.CompleteOnboarding -> completeOnboarding()
@@ -55,52 +57,54 @@ class OnboardingViewModel @Inject constructor(
 
     private fun startTyping() {
         animationJob?.cancel()
-        _uiState.update { 
+        _uiState.update {
             it.copy(
                 currentStep = TutorialStep.Typing,
                 canNavigateNext = false,
-                isAnimationRunning = true
-            ) 
+                isAnimationRunning = true,
+            )
         }
-        
-        animationJob = viewModelScope.launch {
-            for (i in 1..5) {
-                delay(300)
-                _uiState.update { it.copy(visibleLetters = i) }
+
+        animationJob =
+            viewModelScope.launch {
+                for (i in 1..5) {
+                    delay(300)
+                    _uiState.update { it.copy(visibleLetters = i) }
+                }
+                delay(200)
+                _uiState.update {
+                    it.copy(
+                        canNavigateNext = true,
+                        isAnimationRunning = false,
+                    )
+                }
             }
-            delay(200)
-            _uiState.update { 
-                it.copy(
-                    canNavigateNext = true,
-                    isAnimationRunning = false
-                ) 
-            }
-        }
     }
 
     private fun startChecking() {
         animationJob?.cancel()
-        _uiState.update { 
+        _uiState.update {
             it.copy(
                 currentStep = TutorialStep.Checking,
                 canNavigateNext = false,
-                isAnimationRunning = true
-            ) 
+                isAnimationRunning = true,
+            )
         }
-        
-        animationJob = viewModelScope.launch {
-            for (i in 1..5) {
-                delay(400)
-                _uiState.update { it.copy(revealedTiles = i) }
+
+        animationJob =
+            viewModelScope.launch {
+                for (i in 1..5) {
+                    delay(400)
+                    _uiState.update { it.copy(revealedTiles = i) }
+                }
+                delay(200)
+                _uiState.update {
+                    it.copy(
+                        canNavigateNext = true,
+                        isAnimationRunning = false,
+                    )
+                }
             }
-            delay(200)
-            _uiState.update { 
-                it.copy(
-                    canNavigateNext = true,
-                    isAnimationRunning = false
-                ) 
-            }
-        }
     }
 
     private fun transitionTo(step: TutorialStep) {
@@ -108,12 +112,12 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private fun finishTutorial() {
-        _uiState.update { 
+        _uiState.update {
             it.copy(
                 currentStep = TutorialStep.Completed,
                 isAnimationFinished = true,
-                canNavigateNext = false
-            ) 
+                canNavigateNext = false,
+            )
         }
     }
 

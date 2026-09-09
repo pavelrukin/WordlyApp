@@ -33,7 +33,7 @@ import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 @Composable
 fun OnboardingScreen(
     onComplete: () -> Unit,
-    viewModel: OnboardingViewModel = hiltViewModel()
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val tutorialWord = localizedString(CoreUiR.string.tutorial_demo_word)
@@ -45,7 +45,7 @@ fun OnboardingScreen(
     OnboardingContent(
         uiState = uiState,
         onEvent = viewModel::onEvent,
-        onComplete = onComplete
+        onComplete = onComplete,
     )
 }
 
@@ -53,27 +53,28 @@ fun OnboardingScreen(
 fun OnboardingContent(
     uiState: OnboardingUiState,
     onEvent: (OnboardingEvent) -> Unit,
-    onComplete: () -> Unit
+    onComplete: () -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colorScheme.background,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp)
-                .verticalScroll(rememberScrollState()),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(24.dp)
+                    .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             Spacer(modifier = Modifier.height(32.dp))
-            
+
             Text(
                 text = localizedString(CoreUiR.string.tutorial_title),
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
 
             // Animated Board Section
@@ -82,32 +83,34 @@ fun OnboardingContent(
                 states = uiState.tutorialStates,
                 visibleLettersCount = uiState.visibleLetters,
                 revealedTilesCount = uiState.revealedTiles,
-                modifier = Modifier.height(80.dp)
+                modifier = Modifier.height(80.dp),
             )
 
             // Animated Explanation Section
             TutorialExplanation(
                 step = uiState.currentStep,
                 word = uiState.tutorialWord,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
 
             // Action Buttons
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 if (uiState.isAnimationFinished) {
                     Button(
                         onClick = { onEvent(OnboardingEvent.PlayAgain) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
                         shape = RoundedCornerShape(28.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            ),
                     ) {
                         Text(localizedString(CoreUiR.string.play_again), fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }
@@ -117,10 +120,11 @@ fun OnboardingContent(
                             onEvent(OnboardingEvent.CompleteOnboarding)
                             onComplete()
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
-                        shape = RoundedCornerShape(28.dp)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                        shape = RoundedCornerShape(28.dp),
                     ) {
                         Text(localizedString(CoreUiR.string.got_it), fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }
@@ -128,21 +132,23 @@ fun OnboardingContent(
                     Button(
                         onClick = { onEvent(OnboardingEvent.NextStep) },
                         enabled = uiState.canNavigateNext,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
-                        shape = RoundedCornerShape(28.dp)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                        shape = RoundedCornerShape(28.dp),
                     ) {
-                        val buttonText = when (uiState.currentStep) {
-                            TutorialStep.Introduction -> localizedString(CoreUiR.string.start_tutorial)
-                            TutorialStep.Typing -> localizedString(CoreUiR.string.check_word)
-                            else -> localizedString(CoreUiR.string.next)
-                        }
+                        val buttonText =
+                            when (uiState.currentStep) {
+                                TutorialStep.Introduction -> localizedString(CoreUiR.string.start_tutorial)
+                                TutorialStep.Typing -> localizedString(CoreUiR.string.check_word)
+                                else -> localizedString(CoreUiR.string.next)
+                            }
                         Text(buttonText, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
         }
     }

@@ -24,16 +24,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel
+@Inject
+constructor(
     private val getLanguageUseCase: GetLanguageUseCase,
     private val updateLanguageUseCase: UpdateLanguageUseCase,
     private val getVibrationEnabledUseCase: GetVibrationEnabledUseCase,
     private val updateVibrationEnabledUseCase: UpdateVibrationEnabledUseCase,
     private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase,
     private val isPremiumUseCase: IsPremiumUseCase,
-    private val updatePremiumStatusUseCase: UpdatePremiumStatusUseCase
+    private val updatePremiumStatusUseCase: UpdatePremiumStatusUseCase,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
@@ -41,18 +42,21 @@ class SettingsViewModel @Inject constructor(
     val sideEffect: SharedFlow<SettingsSideEffect> = _sideEffect.asSharedFlow()
 
     init {
-        getLanguageUseCase().onEach { language ->
-            val resolvedLanguage = language ?: Language.getSystemLanguage()
-            _uiState.update { it.copy(language = resolvedLanguage) }
-        }.launchIn(viewModelScope)
+        getLanguageUseCase()
+            .onEach { language ->
+                val resolvedLanguage = language ?: Language.getSystemLanguage()
+                _uiState.update { it.copy(language = resolvedLanguage) }
+            }.launchIn(viewModelScope)
 
-        getVibrationEnabledUseCase().onEach { enabled ->
-            _uiState.update { it.copy(vibrationEnabled = enabled) }
-        }.launchIn(viewModelScope)
+        getVibrationEnabledUseCase()
+            .onEach { enabled ->
+                _uiState.update { it.copy(vibrationEnabled = enabled) }
+            }.launchIn(viewModelScope)
 
-        isPremiumUseCase().onEach { isPremium ->
-            _uiState.update { it.copy(isPremium = isPremium) }
-        }.launchIn(viewModelScope)
+        isPremiumUseCase()
+            .onEach { isPremium ->
+                _uiState.update { it.copy(isPremium = isPremium) }
+            }.launchIn(viewModelScope)
     }
 
     fun onEvent(event: SettingsUiEvent) {
@@ -62,17 +66,20 @@ class SettingsViewModel @Inject constructor(
                     updateLanguageUseCase(event.language)
                 }
             }
+
             is SettingsUiEvent.OnVibrationChange -> {
                 viewModelScope.launch {
                     updateVibrationEnabledUseCase(event.enabled)
                 }
             }
+
             SettingsUiEvent.OnRepeatTutorialClick -> {
                 viewModelScope.launch {
                     updateTutorialStatusUseCase(false)
                     _sideEffect.emit(SettingsSideEffect.NavigateToOnboarding)
                 }
             }
+
             SettingsUiEvent.OnPurchasePremiumClick -> {
                 viewModelScope.launch {
                     // Simulate purchase flow

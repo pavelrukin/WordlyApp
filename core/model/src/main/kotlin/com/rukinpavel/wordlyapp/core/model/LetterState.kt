@@ -4,5 +4,5 @@ enum class LetterState {
     INITIAL,
     CORRECT,
     WRONG_POSITION,
-    NOT_IN_WORD
+    NOT_IN_WORD,
 }
