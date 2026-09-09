@@ -2,6 +2,7 @@ package com.rukinpavel.wordlyapp.feature.game
 
 import app.cash.turbine.test
 import com.rukinpavel.wordlyapp.core.model.Language
+import com.rukinpavel.wordlyapp.domain.repository.AdManager
 import com.rukinpavel.wordlyapp.domain.repository.WordRepository
 import com.rukinpavel.wordlyapp.domain.usecase.CheckGuessUseCase
 import com.rukinpavel.wordlyapp.domain.usecase.GetHintCountUseCase
@@ -35,6 +36,7 @@ class GameViewModelTest {
     private val getHintCountUseCase: GetHintCountUseCase = mockk()
     private val updateHintCountUseCase: UpdateHintCountUseCase = mockk()
     private val isPremiumUseCase: IsPremiumUseCase = mockk()
+    private val adManager: AdManager = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
@@ -67,6 +69,7 @@ class GameViewModelTest {
                     getHintCountUseCase,
                     updateHintCountUseCase,
                     isPremiumUseCase,
+                    adManager,
                 )
 
             viewModel.uiState.test {
