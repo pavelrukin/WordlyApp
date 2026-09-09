@@ -23,6 +23,7 @@ import androidx.navigationevent.NavigationEvent
 import androidx.navigationevent.NavigationEventInput
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
+import com.google.android.gms.ads.MobileAds
 import com.rukinpavel.wordlyapp.core.navigation.GameRoute
 import com.rukinpavel.wordlyapp.core.navigation.OnboardingRoute
 import com.rukinpavel.wordlyapp.core.navigation.SettingsRoute
@@ -40,6 +41,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MobileAds.initialize(this)
         enableEdgeToEdge()
 
         configureOrientation()

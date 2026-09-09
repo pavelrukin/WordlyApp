@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rukinpavel.wordlyapp.core.model.Language
+import com.rukinpavel.wordlyapp.core.model.SubscriptionOption
+import com.rukinpavel.wordlyapp.core.model.SubscriptionType
 import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.core.ui.localizedString
 import kotlinx.coroutines.flow.collectLatest
@@ -149,7 +151,8 @@ fun SettingsContent(
 
             PremiumSection(
                 isPremium = uiState.isPremium,
-                onPurchaseClick = { onEvent(SettingsUiEvent.OnPurchasePremiumClick) },
+                options = uiState.subscriptionOptions,
+                onPurchaseClick = { onEvent(SettingsUiEvent.OnPurchasePremiumClick(it)) },
             )
 
             HorizontalDivider()
@@ -188,48 +191,76 @@ fun SettingsContent(
 @Composable
 fun PremiumSection(
     isPremium: Boolean,
-    onPurchaseClick: () -> Unit,
+    options: List<SubscriptionOption>,
+    onPurchaseClick: (SubscriptionOption) -> Unit,
 ) {
-    Row(
+    Column(
         modifier =
         Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = localizedString(CoreUiR.string.premium),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
-            )
-            Text(
-                text = localizedString(CoreUiR.string.premium_description),
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-
-        if (isPremium) {
-            Badge(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.padding(start = 8.dp),
-            ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = localizedString(CoreUiR.string.active).uppercase(),
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.labelSmall,
+                    text = localizedString(CoreUiR.string.premium),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Text(
+                    text = localizedString(CoreUiR.string.premium_description),
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-        } else {
-            Button(
-                onClick = onPurchaseClick,
-                shape = RoundedCornerShape(12.dp),
+
+            if (isPremium) {
+                Badge(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.padding(start = 8.dp),
+                ) {
+                    Text(
+                        text = localizedString(CoreUiR.string.active).uppercase(),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                    )
+                }
+            }
+        }
+
+        if (!isPremium) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Text(localizedString(CoreUiR.string.subscribe))
+                options.forEach { option ->
+                    val typeText = when (option.type) {
+                        SubscriptionType.WEEKLY -> localizedString(CoreUiR.string.weekly_subscription)
+                        SubscriptionType.MONTHLY -> localizedString(CoreUiR.string.monthly_subscription)
+                        SubscriptionType.YEARLY -> localizedString(CoreUiR.string.yearly_subscription)
+                    }
+                    Button(
+                        onClick = { onPurchaseClick(option) },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp),
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(typeText)
+                            Text(option.price, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
             }
         }
     }

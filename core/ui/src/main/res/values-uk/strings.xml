@@ -26,6 +26,10 @@
     <string name="extra_hints_awarded">Ви отримали 3 додаткові підказки!</string>
     <string name="not_enough_letters">Недостатньо літер</string>
     <string name="not_in_word_list">Немає у списку слів</string>
+    <string name="ad_failed_to_load">Не вдалося завантажити рекламу</string>
+    <string name="weekly_subscription">Тижнева підписка</string>
+    <string name="monthly_subscription">Місячна підписка</string>
+    <string name="yearly_subscription">Річна підписка</string>
 
     <string name="tutorial_title">Як грати</string>
     <string name="tutorial_intro_title">Ласкаво просимо до Wordly!</string>

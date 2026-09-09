@@ -33,6 +33,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+
+            // Тестовые ID для отладки
+            resValue("string", "admob_app_id", "ca-app-pub-3940256099942544~3347511713")
+            resValue("string", "admob_rewarded_unit_id", "ca-app-pub-3940256099942544/5224354917")
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -40,6 +48,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+
+            // Реальные ID для релиза
+            resValue("string", "admob_app_id", "ca-app-pub-4006326941931456~5802616238")
+            resValue("string", "admob_rewarded_unit_id", "ca-app-pub-4006326941931456/1622225898")
         }
     }
     compileOptions {
@@ -49,6 +61,7 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+        resValues = true
     }
 }
 
@@ -82,6 +95,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
+    implementation(libs.play.services.ads)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.core)
