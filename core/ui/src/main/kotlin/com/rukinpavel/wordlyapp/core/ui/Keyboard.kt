@@ -45,29 +45,33 @@ fun Keyboard(
     onDeleteClick: () -> Unit,
     onEnterClick: () -> Unit,
     vibrationEnabled: Boolean = true,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val haptic = LocalHapticFeedback.current
 
-    val rows = when (language) {
-        Language.EN -> listOf(
-            "QWERTYUIOP".toList(),
-            "ASDFGHJKL".toList(),
-            "ZXCVBNM".toList()
-        )
+    val rows =
+        when (language) {
+            Language.EN ->
+                listOf(
+                    "QWERTYUIOP".toList(),
+                    "ASDFGHJKL".toList(),
+                    "ZXCVBNM".toList(),
+                )
 
-        Language.RU -> listOf(
-            "ЙЦУКЕНГШЩЗХЪ".toList(),
-            "ФЫВАПРОЛДЖЭ".toList(),
-            "ЯЧСМИТЬБЮ".toList()
-        )
+            Language.RU ->
+                listOf(
+                    "ЙЦУКЕНГШЩЗХЪ".toList(),
+                    "ФЫВАПРОЛДЖЭ".toList(),
+                    "ЯЧСМИТЬБЮ".toList(),
+                )
 
-        Language.UK -> listOf(
-            "ЙЦУКЕНГШЩЗХЇ".toList(),
-            "ФІВАПРОЛДЖЄҐ".toList(),
-            "ЯЧСМИТЬБЮ".toList()
-        )
-    }
+            Language.UK ->
+                listOf(
+                    "ЙЦУКЕНГШЩЗХЇ".toList(),
+                    "ФІВАПРОЛДЖЄҐ".toList(),
+                    "ЯЧСМИТЬБЮ".toList(),
+                )
+        }
 
     val handleKeyClick: (Char) -> Unit = {
         if (vibrationEnabled) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -85,22 +89,23 @@ fun Keyboard(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         rows.forEachIndexed { rowIndex, row ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally)
+                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
             ) {
                 if (rowIndex == rows.lastIndex) {
                     KeyItem(
                         text = localizedString(CoreUiR.string.enter),
                         onClick = handleEnterClick,
-                        modifier = Modifier.weight(1.5f)
+                        modifier = Modifier.weight(1.5f),
                     )
                 }
 
@@ -110,7 +115,7 @@ fun Keyboard(
                         text = char.toString(),
                         onClick = { handleKeyClick(char) },
                         state = state,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
                 }
 
@@ -120,11 +125,11 @@ fun Keyboard(
                             Icon(
                                 Icons.AutoMirrored.Filled.Backspace,
                                 contentDescription = localizedString(CoreUiR.string.cd_delete),
-                                tint = Color.Black
+                                tint = Color.Black,
                             )
                         },
                         onClick = handleDeleteClick,
-                        modifier = Modifier.weight(1.5f)
+                        modifier = Modifier.weight(1.5f),
                     )
                 }
             }
@@ -138,7 +143,7 @@ fun KeyItem(
     icon: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
     state: LetterState = LetterState.INITIAL,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -146,19 +151,20 @@ fun KeyItem(
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.9f else 1f,
         animationSpec = spring(dampingRatio = 0.5f, stiffness = 500f),
-        label = "KeyScaleAnimation"
+        label = "KeyScaleAnimation",
     )
 
-    val targetBackgroundColor = when (state) {
-        LetterState.INITIAL -> WordleLightGray
-        LetterState.CORRECT -> WordleGreen
-        LetterState.WRONG_POSITION -> WordleYellow
-        LetterState.NOT_IN_WORD -> WordleDarkGray
-    }
+    val targetBackgroundColor =
+        when (state) {
+            LetterState.INITIAL -> WordleLightGray
+            LetterState.CORRECT -> WordleGreen
+            LetterState.WRONG_POSITION -> WordleYellow
+            LetterState.NOT_IN_WORD -> WordleDarkGray
+        }
 
     val backgroundColor by animateColorAsState(
         targetValue = targetBackgroundColor,
-        label = "KeyBackgroundAnimation"
+        label = "KeyBackgroundAnimation",
     )
 
     val textColor = if (state == LetterState.INITIAL) Color.Black else Color.White
@@ -166,31 +172,32 @@ fun KeyItem(
     val shape = RoundedCornerShape(10.dp)
 
     Surface(
-        modifier = modifier
-            .height(56.dp)
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null, // Disable default ripple to emphasize custom animation
-                onClick = onClick
-            ),
+        modifier =
+            modifier
+                .height(56.dp)
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                }
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null, // Disable default ripple to emphasize custom animation
+                    onClick = onClick,
+                ),
         shape = shape,
         color = backgroundColor,
-        tonalElevation = 2.dp
+        tonalElevation = 2.dp,
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             if (text != null) {
                 Text(
                     text = text,
                     color = textColor,
                     fontSize = if (text.length > 1) 12.sp else 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             } else if (icon != null) {
                 icon()
@@ -205,15 +212,16 @@ fun KeyboardPreview() {
     WordlyTheme {
         Keyboard(
             language = Language.EN,
-            letterStates = mapOf(
-                'Q' to LetterState.CORRECT,
-                'W' to LetterState.WRONG_POSITION,
-                'E' to LetterState.NOT_IN_WORD
-            ),
+            letterStates =
+                mapOf(
+                    'Q' to LetterState.CORRECT,
+                    'W' to LetterState.WRONG_POSITION,
+                    'E' to LetterState.NOT_IN_WORD,
+                ),
             onKeyClick = {},
             onDeleteClick = {},
             onEnterClick = {},
-            vibrationEnabled = true
+            vibrationEnabled = true,
         )
     }
 }

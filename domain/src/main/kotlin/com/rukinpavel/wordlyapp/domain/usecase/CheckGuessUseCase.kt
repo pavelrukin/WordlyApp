@@ -4,11 +4,14 @@ import com.rukinpavel.wordlyapp.core.model.LetterState
 import javax.inject.Inject
 
 class CheckGuessUseCase @Inject constructor() {
-    operator fun invoke(targetWord: String, guessedWord: String): List<LetterState> {
+    operator fun invoke(
+        targetWord: String,
+        guessedWord: String,
+    ): List<LetterState> {
         val target = targetWord.uppercase()
         val guess = guessedWord.uppercase()
         val result = MutableList(target.length) { LetterState.NOT_IN_WORD }
-        
+
         val targetLetterCount = mutableMapOf<Char, Int>()
         for (char in target) {
             targetLetterCount[char] = targetLetterCount.getOrDefault(char, 0) + 1

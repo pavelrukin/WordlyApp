@@ -20,17 +20,20 @@ fun TutorialBoard(
     states: List<LetterState>,
     visibleLettersCount: Int,
     revealedTilesCount: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn() + scaleIn(initialScale = 0.8f, animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy))
+        enter =
+            fadeIn() +
+                scaleIn(initialScale = 0.8f, animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
     ) {
         Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             for (i in 0 until 5) {
                 val letter = if (i < visibleLettersCount) word[i] else null
@@ -41,7 +44,7 @@ fun TutorialBoard(
                     letter = letter,
                     state = state,
                     isRevealed = isRevealed,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
             }
         }

@@ -4,7 +4,13 @@ plugins {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.javaVersion.get().toInt()))
+        languageVersion.set(
+            JavaLanguageVersion.of(
+                libs.versions.javaVersion
+                    .get()
+                    .toInt(),
+            ),
+        )
     }
 }
 

@@ -12,16 +12,18 @@ import java.util.Locale
 /**
  * CompositionLocal for the current app locale.
  */
-val LocalAppLocale = staticCompositionLocalOf {
-    Locale.ENGLISH
-}
+val LocalAppLocale =
+    staticCompositionLocalOf {
+        Locale.ENGLISH
+    }
 
 /**
  * CompositionLocal for the localized context.
  */
-val LocalLocalizedContext = staticCompositionLocalOf<Context> {
-    error("Localized Context is not provided")
-}
+val LocalLocalizedContext =
+    staticCompositionLocalOf<Context> {
+        error("Localized Context is not provided")
+    }
 
 /**
  * Creates a localized context based on the provided locale.
@@ -35,8 +37,8 @@ fun Context.localizedContext(locale: Locale): Context {
 /**
  * Resolves the app locale based on the selected language or system default.
  */
-fun getAppLocale(language: Language?): Locale {
-    return if (language != null) {
+fun getAppLocale(language: Language?): Locale =
+    if (language != null) {
         Locale.forLanguageTag(language.code)
     } else {
         val systemLocale = Locale.getDefault()
@@ -46,22 +48,22 @@ fun getAppLocale(language: Language?): Locale {
             Locale.ENGLISH
         }
     }
-}
 
 /**
  * A localized version of stringResource that uses LocalLocalizedContext.
  */
 @Composable
 @ReadOnlyComposable
-fun localizedString(@StringRes id: Int): String {
-    return LocalLocalizedContext.current.getString(id)
-}
+fun localizedString(
+    @StringRes id: Int,
+): String = LocalLocalizedContext.current.getString(id)
 
 /**
  * A localized version of stringResource with arguments that uses LocalLocalizedContext.
  */
 @Composable
 @ReadOnlyComposable
-fun localizedString(@StringRes id: Int, vararg formatArgs: Any): String {
-    return LocalLocalizedContext.current.getString(id, *formatArgs)
-}
+fun localizedString(
+    @StringRes id: Int,
+    vararg formatArgs: Any,
+): String = LocalLocalizedContext.current.getString(id, *formatArgs)

@@ -38,7 +38,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -50,39 +49,43 @@ class MainActivity : AppCompatActivity() {
             val isTutorialCompleted by viewModel.isTutorialCompleted.collectAsStateWithLifecycle()
             val language by viewModel.language.collectAsStateWithLifecycle()
 
-            val locale = remember(language) {
-                getAppLocale(language)
-            }
+            val locale =
+                remember(language) {
+                    getAppLocale(language)
+                }
 
             val context = LocalContext.current
-            val localizedContext = remember(context, locale) {
-                context.localizedContext(locale)
-            }
+            val localizedContext =
+                remember(context, locale) {
+                    context.localizedContext(locale)
+                }
 
             val dispatcherOwner = rememberNavigationEventDispatcherOwner(parent = null)
             val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
             DisposableEffect(dispatcherOwner, onBackPressedDispatcher) {
-                val inputRef = object {
-                    lateinit var input: BridgingNavigationEventInput
-                }
-                val callback = object : OnBackPressedCallback(false) {
-                    override fun handleOnBackStarted(backEvent: BackEventCompat) {
-                        inputRef.input.backStarted(backEvent.toNavigationEvent())
+                val inputRef =
+                    object {
+                        lateinit var input: BridgingNavigationEventInput
                     }
+                val callback =
+                    object : OnBackPressedCallback(false) {
+                        override fun handleOnBackStarted(backEvent: BackEventCompat) {
+                            inputRef.input.backStarted(backEvent.toNavigationEvent())
+                        }
 
-                    override fun handleOnBackProgressed(backEvent: BackEventCompat) {
-                        inputRef.input.backProgressed(backEvent.toNavigationEvent())
-                    }
+                        override fun handleOnBackProgressed(backEvent: BackEventCompat) {
+                            inputRef.input.backProgressed(backEvent.toNavigationEvent())
+                        }
 
-                    override fun handleOnBackPressed() {
-                        inputRef.input.backCompleted()
-                    }
+                        override fun handleOnBackPressed() {
+                            inputRef.input.backCompleted()
+                        }
 
-                    override fun handleOnBackCancelled() {
-                        inputRef.input.backCancelled()
+                        override fun handleOnBackCancelled() {
+                            inputRef.input.backCancelled()
+                        }
                     }
-                }
 
                 inputRef.input = BridgingNavigationEventInput(callback)
                 dispatcherOwner.navigationEventDispatcher.addInput(inputRef.input)
@@ -96,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             CompositionLocalProvider(
                 LocalNavigationEventDispatcherOwner provides dispatcherOwner,
                 LocalAppLocale provides locale,
-                LocalLocalizedContext provides localizedContext
+                LocalLocalizedContext provides localizedContext,
             ) {
                 WordlyTheme {
                     val backStack = rememberNavBackStack(GameRoute)
@@ -110,53 +113,56 @@ class MainActivity : AppCompatActivity() {
                     NavDisplay(
                         backStack = backStack,
                         onBack = { backStack.removeLastOrNull() },
-                        entryProvider = entryProvider {
-                            entry<GameRoute> {
-                                GameScreen(
-                                    onSettingsClick = { backStack.add(SettingsRoute) }
-                                )
-                            }
-                            entry<SettingsRoute> {
-                                SettingsScreen(
-                                    onBackClick = { backStack.removeLastOrNull() },
-                                    onNavigateToOnboarding = { backStack.add(OnboardingRoute) }
-                                )
-                            }
-                            entry<OnboardingRoute> {
-                                OnboardingScreen(
-                                    onComplete = {
-                                        viewModel.completeTutorial()
-                                        backStack.remove(OnboardingRoute)
-                                    }
-                                )
-                            }
-                        }
+                        entryProvider =
+                            entryProvider {
+                                entry<GameRoute> {
+                                    GameScreen(
+                                        onSettingsClick = { backStack.add(SettingsRoute) },
+                                    )
+                                }
+                                entry<SettingsRoute> {
+                                    SettingsScreen(
+                                        onBackClick = { backStack.removeLastOrNull() },
+                                        onNavigateToOnboarding = { backStack.add(OnboardingRoute) },
+                                    )
+                                }
+                                entry<OnboardingRoute> {
+                                    OnboardingScreen(
+                                        onComplete = {
+                                            viewModel.completeTutorial()
+                                            backStack.remove(OnboardingRoute)
+                                        },
+                                    )
+                                }
+                            },
                     )
                 }
             }
         }
     }
 
-    private class BridgingNavigationEventInput(
-        private val callback: OnBackPressedCallback
-    ) : NavigationEventInput() {
+    private class BridgingNavigationEventInput(private val callback: OnBackPressedCallback) : NavigationEventInput() {
         override fun onHasEnabledHandlersChanged(hasEnabledHandlers: Boolean) {
             callback.isEnabled = hasEnabledHandlers
         }
 
         fun backStarted(event: NavigationEvent) = dispatchOnBackStarted(event)
+
         fun backProgressed(event: NavigationEvent) = dispatchOnBackProgressed(event)
+
         fun backCancelled() = dispatchOnBackCancelled()
+
         fun backCompleted() = dispatchOnBackCompleted()
     }
 
     private fun configureOrientation() {
         val isTablet = resources.configuration.smallestScreenWidthDp >= 600
 
-        requestedOrientation = if (isTablet) {
-            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
+        requestedOrientation =
+            if (isTablet) {
+                ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            } else {
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
     }
 }

@@ -16,14 +16,13 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 @Singleton
-class DataStoreUserPreferencesRepository @Inject constructor(
-    @ApplicationContext private val context: Context
-) : UserPreferencesRepository {
-
+class DataStoreUserPreferencesRepository
+@Inject
+constructor(@ApplicationContext private val context: Context) :
+    UserPreferencesRepository {
     private object PreferencesKeys {
         val LANGUAGE = stringPreferencesKey("language")
         val VIBRATION_ENABLED = booleanPreferencesKey("vibration_enabled")
@@ -32,31 +31,35 @@ class DataStoreUserPreferencesRepository @Inject constructor(
         val IS_PREMIUM = booleanPreferencesKey("is_premium")
     }
 
-    override val language: Flow<Language?> = context.dataStore.data
-        .map { preferences ->
-            preferences[PreferencesKeys.LANGUAGE]?.let { Language.fromCode(it) }
-        }
+    override val language: Flow<Language?> =
+        context.dataStore.data
+            .map { preferences ->
+                preferences[PreferencesKeys.LANGUAGE]?.let { Language.fromCode(it) }
+            }
 
+    override val vibrationEnabled: Flow<Boolean> =
+        context.dataStore.data
+            .map { preferences ->
+                preferences[PreferencesKeys.VIBRATION_ENABLED] ?: true
+            }
 
-    override val vibrationEnabled: Flow<Boolean> = context.dataStore.data
-        .map { preferences ->
-            preferences[PreferencesKeys.VIBRATION_ENABLED] ?: true
-        }
+    override val tutorialCompleted: Flow<Boolean> =
+        context.dataStore.data
+            .map { preferences ->
+                preferences[PreferencesKeys.TUTORIAL_COMPLETED] ?: false
+            }
 
-    override val tutorialCompleted: Flow<Boolean> = context.dataStore.data
-        .map { preferences ->
-            preferences[PreferencesKeys.TUTORIAL_COMPLETED] ?: false
-        }
+    override val hintCount: Flow<Int> =
+        context.dataStore.data
+            .map { preferences ->
+                preferences[PreferencesKeys.HINT_COUNT] ?: 5
+            }
 
-    override val hintCount: Flow<Int> = context.dataStore.data
-        .map { preferences ->
-            preferences[PreferencesKeys.HINT_COUNT] ?: 5
-        }
-
-    override val isPremium: Flow<Boolean> = context.dataStore.data
-        .map { preferences ->
-            preferences[PreferencesKeys.IS_PREMIUM] ?: false
-        }
+    override val isPremium: Flow<Boolean> =
+        context.dataStore.data
+            .map { preferences ->
+                preferences[PreferencesKeys.IS_PREMIUM] ?: false
+            }
 
     override suspend fun updateLanguage(language: Language) {
         context.dataStore.edit { preferences ->

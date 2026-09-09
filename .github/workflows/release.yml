@@ -26,6 +26,8 @@ jobs:
       - name: Run Lint & Tests
         run: ./gradlew lint test
 
+      - name: Run Ktlint
+        run: ./gradlew ktlintCheck
       # 2. Сборка Release Bundle (AAB)
       - name: Build Release Bundle
         run: ./gradlew bundleRelease

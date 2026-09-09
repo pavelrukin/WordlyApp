@@ -3,14 +3,23 @@ package com.rukinpavel.wordlyapp.feature.game
 import app.cash.turbine.test
 import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.domain.repository.WordRepository
-import com.rukinpavel.wordlyapp.domain.usecase.*
+import com.rukinpavel.wordlyapp.domain.usecase.CheckGuessUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.GetHintCountUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.GetLanguageUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.GetVibrationEnabledUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.IsPremiumUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.UpdateHintCountUseCase
+import com.rukinpavel.wordlyapp.domain.usecase.ValidateWordUseCase
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -18,7 +27,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GameViewModelTest {
-
     private val checkGuessUseCase: CheckGuessUseCase = mockk()
     private val validateWordUseCase: ValidateWordUseCase = mockk()
     private val wordRepository: WordRepository = mockk()
@@ -33,7 +41,7 @@ class GameViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        
+
         every { getLanguageUseCase() } returns flowOf(Language.EN)
         every { getVibrationEnabledUseCase() } returns flowOf(true)
         every { getHintCountUseCase() } returns flowOf(5)
@@ -47,30 +55,32 @@ class GameViewModelTest {
     }
 
     @Test
-    fun `initial state has correct defaults and loads word`() = runTest {
-        val viewModel = GameViewModel(
-            checkGuessUseCase,
-            validateWordUseCase,
-            wordRepository,
-            getLanguageUseCase,
-            getVibrationEnabledUseCase,
-            getHintCountUseCase,
-            updateHintCountUseCase,
-            isPremiumUseCase
-        )
+    fun `initial state has correct defaults and loads word`() =
+        runTest {
+            val viewModel =
+                GameViewModel(
+                    checkGuessUseCase,
+                    validateWordUseCase,
+                    wordRepository,
+                    getLanguageUseCase,
+                    getVibrationEnabledUseCase,
+                    getHintCountUseCase,
+                    updateHintCountUseCase,
+                    isPremiumUseCase,
+                )
 
-        viewModel.uiState.test {
-            // The first emission might be the initial state before init blocks finish some flows
-            // but since flows are flowOf, they emit immediately.
-            
-            // Advance until idle to let all init logic and loadNewWord complete
-            testDispatcher.scheduler.advanceUntilIdle()
-            
-            val state = expectMostRecentItem()
-            assertEquals(Language.EN, state.language)
-            assertEquals(5, state.hintCount)
-            assertEquals("APPLE", state.targetWord)
-            assertEquals(false, state.isLoading)
+            viewModel.uiState.test {
+                // The first emission might be the initial state before init blocks finish some flows
+                // but since flows are flowOf, they emit immediately.
+
+                // Advance until idle to let all init logic and loadNewWord complete
+                testDispatcher.scheduler.advanceUntilIdle()
+
+                val state = expectMostRecentItem()
+                assertEquals(Language.EN, state.language)
+                assertEquals(5, state.hintCount)
+                assertEquals("APPLE", state.targetWord)
+                assertEquals(false, state.isLoading)
+            }
         }
-    }
 }

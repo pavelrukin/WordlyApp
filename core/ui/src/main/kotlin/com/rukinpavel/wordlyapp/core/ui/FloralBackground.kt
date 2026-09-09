@@ -30,85 +30,93 @@ import kotlin.random.Random
 fun FloralBackground(
     modifier: Modifier = Modifier,
     darkTheme: Boolean = false,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "FloralBackgroundTransition")
 
     val colorStart by infiniteTransition.animateColor(
         initialValue = if (darkTheme) BgGradientStartDark else BgGradientStart,
         targetValue = if (darkTheme) BgGradientMidDark else BgGradientMid,
-        animationSpec = infiniteRepeatable(
-            animation = tween(18000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "ColorStart"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(18000, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
+        label = "ColorStart",
     )
 
     val colorMid by infiniteTransition.animateColor(
         initialValue = if (darkTheme) BgGradientMidDark else BgGradientMid,
         targetValue = if (darkTheme) BgGradientEndDark else BgGradientEnd,
-        animationSpec = infiniteRepeatable(
-            animation = tween(18000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "ColorMid"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(18000, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
+        label = "ColorMid",
     )
 
     val colorEnd by infiniteTransition.animateColor(
         initialValue = if (darkTheme) BgGradientEndDark else BgGradientEnd,
         targetValue = if (darkTheme) BgGradientStartDark else BgGradientStart,
-        animationSpec = infiniteRepeatable(
-            animation = tween(18000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "ColorEnd"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(18000, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
+        label = "ColorEnd",
     )
 
     val rotation by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(60000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "FlowerRotation"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(60000, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
+        label = "FlowerRotation",
     )
 
     val sway by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 2f * Math.PI.toFloat(),
-        animationSpec = infiniteRepeatable(
-            animation = tween(10000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "FlowerSway"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(10000, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
+        label = "FlowerSway",
     )
 
     val random = remember { Random(42) }
-    val flowers = remember {
-        List(random.nextInt(6, 11)) {
-            FlowerData(
-                xPercent = random.nextFloat(),
-                yPercent = random.nextFloat(),
-                sizePercent = random.nextFloat() * 0.15f + 0.1f,
-                rotationSpeed = (random.nextFloat() - 0.5f) * 2f,
-                color = when (random.nextInt(3)) {
-                    0 -> PetalPink.copy(alpha = 0.3f)
-                    1 -> LilacSoft.copy(alpha = 0.3f)
-                    else -> SkyPeach.copy(alpha = 0.3f)
-                }
-            )
+    val flowers =
+        remember {
+            List(random.nextInt(6, 11)) {
+                FlowerData(
+                    xPercent = random.nextFloat(),
+                    yPercent = random.nextFloat(),
+                    sizePercent = random.nextFloat() * 0.15f + 0.1f,
+                    rotationSpeed = (random.nextFloat() - 0.5f) * 2f,
+                    color =
+                        when (random.nextInt(3)) {
+                            0 -> PetalPink.copy(alpha = 0.3f)
+                            1 -> LilacSoft.copy(alpha = 0.3f)
+                            else -> SkyPeach.copy(alpha = 0.3f)
+                        },
+                )
+            }
         }
-    }
 
     Box(modifier = modifier.fillMaxSize()) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawRect(
-                brush = Brush.linearGradient(
-                    colors = listOf(colorStart, colorMid, colorEnd),
-                    start = Offset(0f, 0f),
-                    end = Offset(size.width, size.height)
-                )
+                brush =
+                    Brush.linearGradient(
+                        colors = listOf(colorStart, colorMid, colorEnd),
+                        start = Offset(0f, 0f),
+                        end = Offset(size.width, size.height),
+                    ),
             )
 
             flowers.forEach { flower ->
@@ -127,7 +135,10 @@ fun FloralBackground(
     }
 }
 
-private fun DrawScope.drawFlower(size: Float, color: Color) {
+private fun DrawScope.drawFlower(
+    size: Float,
+    color: Color,
+) {
     val petalCount = 5
     val radius = size / 2f
     val path = Path()
@@ -141,8 +152,8 @@ private fun DrawScope.drawFlower(size: Float, color: Color) {
         path.addOval(
             Rect(
                 center = Offset(petalX / 2f, petalY / 2f),
-                radius = radius / 2f
-            )
+                radius = radius / 2f,
+            ),
         )
     }
     drawPath(path, color)
@@ -153,5 +164,5 @@ private data class FlowerData(
     val yPercent: Float,
     val sizePercent: Float,
     val rotationSpeed: Float,
-    val color: Color
+    val color: Color,
 )

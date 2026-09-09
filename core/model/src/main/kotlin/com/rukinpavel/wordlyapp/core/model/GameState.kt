@@ -6,5 +6,5 @@ data class GameState(
     val targetWord: String = "",
     val currentAttempt: Int = 0,
     val isGameOver: Boolean = false,
-    val isGameWon: Boolean = false
+    val isGameWon: Boolean = false,
 )

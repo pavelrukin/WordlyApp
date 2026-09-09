@@ -11,16 +11,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
-
     @Binds
     @Singleton
-    abstract fun bindWordRepository(
-        wordRepositoryImpl: WordRepositoryImpl
-    ): WordRepository
+    abstract fun bindWordRepository(wordRepositoryImpl: WordRepositoryImpl): WordRepository
 
     @Binds
     @Singleton
     abstract fun bindUserPreferencesRepository(
-        dataStoreUserPreferencesRepository: DataStoreUserPreferencesRepository
+        dataStoreUserPreferencesRepository: DataStoreUserPreferencesRepository,
     ): UserPreferencesRepository
 }

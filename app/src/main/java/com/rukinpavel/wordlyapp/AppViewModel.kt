@@ -14,17 +14,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AppViewModel @Inject constructor(
+class AppViewModel
+@Inject
+constructor(
     private val isTutorialCompletedUseCase: IsTutorialCompletedUseCase,
     private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase,
-    private val getLanguageUseCase: GetLanguageUseCase
+    private val getLanguageUseCase: GetLanguageUseCase,
 ) : ViewModel() {
+    val isTutorialCompleted: StateFlow<Boolean> =
+        isTutorialCompletedUseCase()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
-    val isTutorialCompleted: StateFlow<Boolean> = isTutorialCompletedUseCase()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
-
-    val language: StateFlow<Language?> = getLanguageUseCase()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    val language: StateFlow<Language?> =
+        getLanguageUseCase()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     fun completeTutorial() {
         viewModelScope.launch {
