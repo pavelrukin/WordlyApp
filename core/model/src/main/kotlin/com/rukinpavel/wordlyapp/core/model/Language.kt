@@ -3,7 +3,7 @@ package com.rukinpavel.wordlyapp.core.model
 enum class Language(val code: String) {
     EN("en"),
     RU("ru"),
-    UK("uk")
+    UK("uk"),
     ;
 
     companion object {

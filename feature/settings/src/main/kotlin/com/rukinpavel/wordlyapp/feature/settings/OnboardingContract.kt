@@ -10,7 +10,7 @@ enum class TutorialStep {
     ExplainingWrongPosition,
     ExplainingNotInWord,
     ExplainingHint,
-    Completed
+    Completed,
 }
 
 data class OnboardingUiState(

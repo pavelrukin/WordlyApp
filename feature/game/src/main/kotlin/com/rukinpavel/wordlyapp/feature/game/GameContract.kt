@@ -8,7 +8,7 @@ data class BoardLetter(val char: Char = ' ', val state: LetterState = LetterStat
 enum class GameStatus {
     PLAYING,
     WON,
-    LOST
+    LOST,
 }
 
 data class GameUiState(
