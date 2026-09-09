@@ -7,4 +7,20 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools-proguard.html
 
-# Add any custom rules here.
+# Keep for AndroidX Startup
+-keep class androidx.startup.InitializationProvider
+-keep class * implements androidx.startup.Initializer {
+    <init>();
+}
+-keep class * implements androidx.startup.Initializer
+
+# Room / WorkManager
+-dontwarn androidx.room.**
+-dontwarn androidx.work.**
+-keep class androidx.work.impl.WorkDatabase_Impl {
+    public <init>(...);
+}
+-keep class * extends androidx.room.RoomDatabase {
+    public <init>(...);
+}
+
