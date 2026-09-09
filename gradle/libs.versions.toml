@@ -1,7 +1,7 @@
 [versions]
 # App version
-appVersionCode = "3"
-appVersionName = "1.0.3"
+appVersionCode = "4"
+appVersionName = "1.0.4"
 
 # SDK Versions
 minSdk = "24"
@@ -35,6 +35,7 @@ javaxInject = "1"
 
 # Networking & Others
 billing = "9.1.0"
+playServicesAds = "25.4.0"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.11.0"
 
@@ -83,6 +84,7 @@ javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "j
 
 # Networking & Others
 billing-ktx = { group = "com.android.billingclient", name = "billing-ktx", version.ref = "billing" }
+play-services-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "playServicesAds" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }

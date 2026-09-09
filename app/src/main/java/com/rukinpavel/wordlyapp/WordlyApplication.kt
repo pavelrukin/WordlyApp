@@ -1,7 +1,12 @@
 package com.rukinpavel.wordlyapp
 
 import android.app.Application
+import com.rukinpavel.wordlyapp.ads.ActivityProvider
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 @HiltAndroidApp
-class WordlyApplication : Application()
+class WordlyApplication : Application() {
+    @Inject
+    lateinit var activityProvider: ActivityProvider
+}

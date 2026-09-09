@@ -25,6 +25,9 @@ android {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.javaVersion.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.javaVersion.get())
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {

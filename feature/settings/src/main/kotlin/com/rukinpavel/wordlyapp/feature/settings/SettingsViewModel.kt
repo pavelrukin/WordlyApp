@@ -3,6 +3,7 @@ package com.rukinpavel.wordlyapp.feature.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rukinpavel.wordlyapp.core.model.Language
+import com.rukinpavel.wordlyapp.domain.repository.BillingRepository
 import com.rukinpavel.wordlyapp.domain.usecase.GetLanguageUseCase
 import com.rukinpavel.wordlyapp.domain.usecase.GetVibrationEnabledUseCase
 import com.rukinpavel.wordlyapp.domain.usecase.IsPremiumUseCase
@@ -34,6 +35,7 @@ constructor(
     private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase,
     private val isPremiumUseCase: IsPremiumUseCase,
     private val updatePremiumStatusUseCase: UpdatePremiumStatusUseCase,
+    private val billingRepository: BillingRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
@@ -56,6 +58,11 @@ constructor(
         isPremiumUseCase()
             .onEach { isPremium ->
                 _uiState.update { it.copy(isPremium = isPremium) }
+            }.launchIn(viewModelScope)
+
+        billingRepository.subscriptionOptions
+            .onEach { options ->
+                _uiState.update { it.copy(subscriptionOptions = options) }
             }.launchIn(viewModelScope)
     }
 
@@ -80,10 +87,9 @@ constructor(
                 }
             }
 
-            SettingsUiEvent.OnPurchasePremiumClick -> {
+            is SettingsUiEvent.OnPurchasePremiumClick -> {
                 viewModelScope.launch {
-                    // Simulate purchase flow
-                    updatePremiumStatusUseCase(true)
+                    billingRepository.purchaseSubscription(event.option)
                 }
             }
         }

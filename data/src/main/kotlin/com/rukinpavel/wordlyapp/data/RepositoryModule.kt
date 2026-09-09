@@ -1,5 +1,6 @@
 package com.rukinpavel.wordlyapp.data
 
+import com.rukinpavel.wordlyapp.domain.repository.BillingRepository
 import com.rukinpavel.wordlyapp.domain.repository.UserPreferencesRepository
 import com.rukinpavel.wordlyapp.domain.repository.WordRepository
 import dagger.Binds
@@ -20,4 +21,10 @@ abstract class RepositoryModule {
     abstract fun bindUserPreferencesRepository(
         dataStoreUserPreferencesRepository: DataStoreUserPreferencesRepository,
     ): UserPreferencesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindBillingRepository(
+        billingRepositoryImpl: BillingRepositoryImpl,
+    ): BillingRepository
 }

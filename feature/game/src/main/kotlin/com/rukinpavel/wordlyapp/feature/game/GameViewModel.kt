@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.core.model.LetterState
 import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
+import com.rukinpavel.wordlyapp.domain.repository.AdManager
 import com.rukinpavel.wordlyapp.domain.repository.WordRepository
 import com.rukinpavel.wordlyapp.domain.usecase.CheckGuessUseCase
 import com.rukinpavel.wordlyapp.domain.usecase.GetHintCountUseCase
@@ -15,7 +16,6 @@ import com.rukinpavel.wordlyapp.domain.usecase.UpdateHintCountUseCase
 import com.rukinpavel.wordlyapp.domain.usecase.ValidateWordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -39,6 +39,7 @@ constructor(
     private val getHintCountUseCase: GetHintCountUseCase,
     private val updateHintCountUseCase: UpdateHintCountUseCase,
     private val isPremiumUseCase: IsPremiumUseCase,
+    private val adManager: AdManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
@@ -168,14 +169,22 @@ constructor(
 
     private fun watchAd() {
         _uiState.update { it.copy(showAdDialog = false, isLoading = true) }
-        viewModelScope.launch {
-            // Simulate ad watching
-            delay(2000)
-            val newCount = _uiState.value.hintCount + 3
-            updateHintCountUseCase(newCount)
-            _uiState.update { it.copy(isLoading = false) }
-            _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.extra_hints_awarded))
-        }
+        adManager.showRewardedAd(
+            onRewarded = {
+                viewModelScope.launch {
+                    val newCount = _uiState.value.hintCount + 3
+                    updateHintCountUseCase(newCount)
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.extra_hints_awarded))
+                }
+            },
+            onError = {
+                _uiState.update { it.copy(isLoading = false) }
+                viewModelScope.launch {
+                    _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.ad_failed_to_load))
+                }
+            },
+        )
     }
 
     private fun resetGame() {

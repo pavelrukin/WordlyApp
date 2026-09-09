@@ -27,6 +27,10 @@
     <string name="extra_hints_awarded">You got 3 extra hints!</string>
     <string name="not_enough_letters">Not enough letters</string>
     <string name="not_in_word_list">Not in word list</string>
+    <string name="ad_failed_to_load">Failed to load advertisement</string>
+    <string name="weekly_subscription">Weekly Subscription</string>
+    <string name="monthly_subscription">Monthly Subscription</string>
+    <string name="yearly_subscription">Yearly Subscription</string>
 
     <string name="tutorial_title">How to Play</string>
     <string name="tutorial_intro_title">Welcome to Wordly!</string>
