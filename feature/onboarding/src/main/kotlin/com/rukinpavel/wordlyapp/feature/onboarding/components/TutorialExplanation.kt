@@ -1,4 +1,4 @@
-package com.rukinpavel.wordlyapp.feature.settings.components
+package com.rukinpavel.wordlyapp.feature.onboarding.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.core.ui.localizedString
-import com.rukinpavel.wordlyapp.feature.settings.TutorialStep
+import com.rukinpavel.wordlyapp.feature.onboarding.TutorialStep
 
 @Composable
 fun TutorialExplanation(
@@ -34,7 +33,6 @@ fun TutorialExplanation(
     Box(
         modifier =
         modifier
-            .fillMaxWidth()
             .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {

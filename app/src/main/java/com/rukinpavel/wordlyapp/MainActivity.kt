@@ -33,7 +33,7 @@ import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
 import com.rukinpavel.wordlyapp.core.ui.getAppLocale
 import com.rukinpavel.wordlyapp.core.ui.localizedContext
 import com.rukinpavel.wordlyapp.feature.game.GameScreen
-import com.rukinpavel.wordlyapp.feature.settings.OnboardingScreen
+import com.rukinpavel.wordlyapp.feature.onboarding.OnboardingScreen
 import com.rukinpavel.wordlyapp.feature.settings.SettingsScreen
 import dagger.hilt.android.AndroidEntryPoint
 

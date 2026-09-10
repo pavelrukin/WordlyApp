@@ -22,12 +22,11 @@ androidxAppcompat = "1.8.0"
 androidxLifecycle = "2.11.0"
 androidxActivity = "1.13.0"
 androidxNavigation3 = "1.1.7"
-androidxStartup = "1.2.0"
 androidxDataStore = "1.2.1"
 androidxHiltNavigationCompose = "1.4.0"
 
 # Compose
-composeBom = "2026.08.00"
+composeBom = "2026.09.00"
 composeAdaptive = "1.3.0"
 
 # Dependency Injection
@@ -62,7 +61,6 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "androidxNavigation3" }
 androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "androidxNavigation3" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
-androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidxStartup" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 
 # Compose

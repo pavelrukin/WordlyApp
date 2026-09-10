@@ -1,4 +1,4 @@
-package com.rukinpavel.wordlyapp.feature.settings.components
+package com.rukinpavel.wordlyapp.feature.onboarding.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
