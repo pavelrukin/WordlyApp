@@ -1,4 +1,4 @@
-package com.rukinpavel.wordlyapp.feature.settings
+package com.rukinpavel.wordlyapp.feature.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.rukinpavel.wordlyapp.feature.settings
+package com.rukinpavel.wordlyapp.feature.onboarding
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,8 +27,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.core.ui.localizedString
-import com.rukinpavel.wordlyapp.feature.settings.components.TutorialBoard
-import com.rukinpavel.wordlyapp.feature.settings.components.TutorialExplanation
+import com.rukinpavel.wordlyapp.feature.onboarding.components.TutorialBoard
+import com.rukinpavel.wordlyapp.feature.onboarding.components.TutorialExplanation
 
 @Composable
 fun OnboardingScreen(
