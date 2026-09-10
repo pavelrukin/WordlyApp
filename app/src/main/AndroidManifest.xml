@@ -18,12 +18,6 @@
         android:theme="@style/Theme.WordlyApp"
         android:localeConfig="@xml/locales_config">
 
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
