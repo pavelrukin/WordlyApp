@@ -2,7 +2,7 @@ package com.rukinpavel.wordlyapp.feature.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rukinpavel.wordlyapp.domain.usecase.UpdateTutorialStatusUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateTutorialStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds

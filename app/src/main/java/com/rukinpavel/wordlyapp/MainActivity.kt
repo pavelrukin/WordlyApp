@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.navigationevent.NavigationEvent
@@ -26,19 +27,22 @@ import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.google.android.gms.ads.MobileAds
 import com.rukinpavel.wordlyapp.core.navigation.GameRoute
 import com.rukinpavel.wordlyapp.core.navigation.OnboardingRoute
-import com.rukinpavel.wordlyapp.core.navigation.SettingsRoute
+import com.rukinpavel.wordlyapp.core.navigation.FeatureNavGraph
+import com.rukinpavel.wordlyapp.feature.settings.api.SettingsRoute
 import com.rukinpavel.wordlyapp.core.ui.LocalAppLocale
 import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
 import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
 import com.rukinpavel.wordlyapp.core.ui.getAppLocale
 import com.rukinpavel.wordlyapp.core.ui.localizedContext
-import com.rukinpavel.wordlyapp.feature.game.GameScreen
-import com.rukinpavel.wordlyapp.feature.onboarding.OnboardingScreen
-import com.rukinpavel.wordlyapp.feature.settings.SettingsScreen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var navGraph: FeatureNavGraph
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MobileAds.initialize(this)
@@ -115,28 +119,20 @@ class MainActivity : AppCompatActivity() {
                     NavDisplay(
                         backStack = backStack,
                         onBack = { backStack.removeLastOrNull() },
-                        entryProvider =
-                        entryProvider {
-                            entry<GameRoute> {
-                                GameScreen(
-                                    onSettingsClick = { backStack.add(SettingsRoute) },
-                                )
-                            }
-                            entry<SettingsRoute> {
-                                SettingsScreen(
-                                    onBackClick = { backStack.removeLastOrNull() },
-                                    onNavigateToOnboarding = { backStack.add(OnboardingRoute) },
-                                )
-                            }
-                            entry<OnboardingRoute> {
-                                OnboardingScreen(
-                                    onComplete = {
+                        entryProvider = { key ->
+                            navGraph.getEntry(
+                                key = key,
+                                onNavigate = { route -> backStack.add(route as NavKey) },
+                                onBack = {
+                                    if (key is OnboardingRoute) {
                                         viewModel.completeTutorial()
                                         backStack.remove(OnboardingRoute)
-                                    },
-                                )
-                            }
-                        },
+                                    } else {
+                                        backStack.removeLastOrNull()
+                                    }
+                                }
+                            )
+                        }
                     )
                 }
             }

@@ -1,6 +1,6 @@
 package com.rukinpavel.wordlyapp.domain.usecase
 
-import com.rukinpavel.wordlyapp.domain.repository.UserPreferencesRepository
+import com.rukinpavel.wordlyapp.core.domain.repository.UserPreferencesRepository
 import javax.inject.Inject
 
 class UpdateVibrationEnabledUseCase

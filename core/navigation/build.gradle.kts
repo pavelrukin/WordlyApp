@@ -1,28 +1,16 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinSerialization)
+    id("wordly.android.library")
+    id("wordly.android.hilt")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
     namespace = "com.rukinpavel.wordlyapp.core.navigation"
-    compileSdk =
-        libs.versions.compileSdk
-            .get()
-            .toInt()
-
-    defaultConfig {
-        minSdk =
-            libs.versions.minSdk
-                .get()
-                .toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(libs.versions.javaVersion.get())
-        targetCompatibility = JavaVersion.toVersion(libs.versions.javaVersion.get())
-    }
 }
 
 dependencies {
-    implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.kotlinx.serialization.core)
+    api(libs.androidx.navigation3.runtime)
+    api(libs.androidx.navigation3.ui)
+    api(libs.kotlinx.serialization.core)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 }

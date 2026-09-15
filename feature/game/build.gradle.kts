@@ -32,10 +32,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:settings:api"))
     implementation(project(":domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:domain"))
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)

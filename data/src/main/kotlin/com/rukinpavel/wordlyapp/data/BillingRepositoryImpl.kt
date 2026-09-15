@@ -12,7 +12,7 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.rukinpavel.wordlyapp.core.model.SubscriptionOption
 import com.rukinpavel.wordlyapp.core.model.SubscriptionType
 import com.rukinpavel.wordlyapp.domain.repository.BillingRepository
-import com.rukinpavel.wordlyapp.domain.repository.UserPreferencesRepository
+import com.rukinpavel.wordlyapp.core.domain.repository.UserPreferencesRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton

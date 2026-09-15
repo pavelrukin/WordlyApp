@@ -48,16 +48,16 @@ fun WordlyTheme(
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    // Dynamic color is disabled as per instructions, but we keep the logic structure if needed.
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            // We use a fallback color for status bar since background is transparent
-            window.statusBarColor = if (darkTheme) BgGradientStartDark.toArgb() else BgGradientStart.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            WindowCompat.getInsetsController(window, view).apply {
+                isAppearanceLightStatusBars = !darkTheme
+                isAppearanceLightNavigationBars = !darkTheme
+            }
         }
     }
 

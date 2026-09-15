@@ -1,21 +1,10 @@
 plugins {
-    alias(libs.plugins.kotlinJvm)
-}
-
-java {
-    toolchain {
-        languageVersion.set(
-            JavaLanguageVersion.of(
-                libs.versions.javaVersion
-                    .get()
-                    .toInt(),
-            ),
-        )
-    }
+    id("wordly.kotlin.library")
 }
 
 dependencies {
     implementation(project(":core:model"))
+    implementation(project(":core:domain"))
     implementation(libs.javax.inject)
     implementation(libs.kotlinx.coroutines.core)
 
