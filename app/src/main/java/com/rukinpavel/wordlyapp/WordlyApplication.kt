@@ -1,7 +1,7 @@
 package com.rukinpavel.wordlyapp
 
 import android.app.Application
-import com.rukinpavel.wordlyapp.ads.ActivityProvider
+import com.rukinpavel.wordlyapp.core.platform.android.ActivityProvider
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
