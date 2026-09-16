@@ -1,7 +1,7 @@
 [versions]
 # App version
-appVersionCode = "6"
-appVersionName = "1.0.6"
+appVersionCode = "7"
+appVersionName = "1.0.7"
 
 # SDK Versions
 minSdk = "24"
@@ -11,7 +11,7 @@ javaVersion = "11"
 
 # Build tools
 androidGradlePlugin = "9.4.0"
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 ksp = "2.3.11"
 ktlintGradle = "14.2.0"
 ktlint = "1.6.0"
@@ -47,9 +47,15 @@ androidxTestCore = "1.7.0"
 androidxTestRunner = "1.7.0"
 mockk = "1.14.11"
 turbine = "1.2.1"
-robolectric = "4.16.1"
+robolectric = "4.17"
 
 [libraries]
+# Build Logic dependencies
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+hilt-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
+
 # AndroidX
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
@@ -79,6 +85,7 @@ compose-adaptive-navigation3 = { group = "androidx.compose.material3.adaptive", 
 
 # Dependency Injection
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javaxInject" }
 

@@ -67,13 +67,15 @@ android {
 
 dependencies {
     implementation(project(":feature:game"))
-    implementation(project(":feature:settings"))
+    implementation(project(":feature:settings:impl"))
     implementation(project(":feature:onboarding"))
-    implementation(project(":data"))
-    implementation(project(":domain"))
+    implementation(project(":core:data"))
     implementation(project(":core:ui"))
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:common"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:database"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

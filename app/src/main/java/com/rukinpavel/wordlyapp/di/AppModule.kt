@@ -1,7 +1,7 @@
 package com.rukinpavel.wordlyapp.di
 
 import com.rukinpavel.wordlyapp.ads.AdManagerImpl
-import com.rukinpavel.wordlyapp.domain.repository.AdManager
+import com.rukinpavel.wordlyapp.core.domain.repository.AdManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

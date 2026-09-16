@@ -1,16 +1,16 @@
 package com.rukinpavel.wordlyapp.feature.game
 
 import app.cash.turbine.test
+import com.rukinpavel.wordlyapp.core.domain.repository.AdManager
+import com.rukinpavel.wordlyapp.core.domain.repository.WordRepository
+import com.rukinpavel.wordlyapp.core.domain.usecase.GetHintCountUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.GetLanguageUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.GetVibrationEnabledUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.IsPremiumUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateHintCountUseCase
 import com.rukinpavel.wordlyapp.core.model.Language
-import com.rukinpavel.wordlyapp.domain.repository.AdManager
-import com.rukinpavel.wordlyapp.domain.repository.WordRepository
-import com.rukinpavel.wordlyapp.domain.usecase.CheckGuessUseCase
-import com.rukinpavel.wordlyapp.domain.usecase.GetHintCountUseCase
-import com.rukinpavel.wordlyapp.domain.usecase.GetLanguageUseCase
-import com.rukinpavel.wordlyapp.domain.usecase.GetVibrationEnabledUseCase
-import com.rukinpavel.wordlyapp.domain.usecase.IsPremiumUseCase
-import com.rukinpavel.wordlyapp.domain.usecase.UpdateHintCountUseCase
-import com.rukinpavel.wordlyapp.domain.usecase.ValidateWordUseCase
+import com.rukinpavel.wordlyapp.feature.game.domain.usecase.CheckGuessUseCase
+import com.rukinpavel.wordlyapp.feature.game.domain.usecase.ValidateWordUseCase
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

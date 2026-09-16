@@ -10,7 +10,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.rukinpavel.wordlyapp.R
-import com.rukinpavel.wordlyapp.domain.repository.AdManager
+import com.rukinpavel.wordlyapp.core.domain.repository.AdManager
 import javax.inject.Inject
 import javax.inject.Singleton
 

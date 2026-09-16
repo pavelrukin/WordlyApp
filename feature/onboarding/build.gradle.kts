@@ -32,10 +32,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
