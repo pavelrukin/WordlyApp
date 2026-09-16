@@ -12,12 +12,10 @@ class OnboardingNavigation @Inject constructor() : FeatureNavigation {
     override fun createEntry(
         key: Any,
         onNavigate: (Any) -> Unit,
-        onBack: () -> Unit
-    ): NavEntry<NavKey> {
-        return NavEntry<NavKey>(key as NavKey) {
-            OnboardingScreen(
-                onComplete = onBack
-            )
-        }
+        onBack: () -> Unit,
+    ): NavEntry<NavKey> = NavEntry<NavKey>(key as NavKey) {
+        OnboardingScreen(
+            onComplete = onBack,
+        )
     }
 }

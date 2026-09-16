@@ -16,8 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.navigationevent.NavigationEvent
@@ -25,10 +25,9 @@ import androidx.navigationevent.NavigationEventInput
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.google.android.gms.ads.MobileAds
+import com.rukinpavel.wordlyapp.core.navigation.FeatureNavGraph
 import com.rukinpavel.wordlyapp.core.navigation.GameRoute
 import com.rukinpavel.wordlyapp.core.navigation.OnboardingRoute
-import com.rukinpavel.wordlyapp.core.navigation.FeatureNavGraph
-import com.rukinpavel.wordlyapp.feature.settings.api.SettingsRoute
 import com.rukinpavel.wordlyapp.core.ui.LocalAppLocale
 import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
 import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
@@ -130,9 +129,9 @@ class MainActivity : AppCompatActivity() {
                                     } else {
                                         backStack.removeLastOrNull()
                                     }
-                                }
+                                },
                             )
-                        }
+                        },
                     )
                 }
             }

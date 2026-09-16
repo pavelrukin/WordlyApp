@@ -2,20 +2,26 @@ package com.rukinpavel.wordlyapp.feature.settings.impl.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rukinpavel.wordlyapp.core.domain.repository.BillingRepository
 import com.rukinpavel.wordlyapp.core.domain.usecase.GetLanguageUseCase
 import com.rukinpavel.wordlyapp.core.domain.usecase.GetVibrationEnabledUseCase
 import com.rukinpavel.wordlyapp.core.domain.usecase.IsPremiumUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateLanguageUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.UpdatePremiumStatusUseCase
 import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateTutorialStatusUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateVibrationEnabledUseCase
 import com.rukinpavel.wordlyapp.core.model.Language
-import com.rukinpavel.wordlyapp.feature.settings.impl.domain.repository.BillingRepository
-import com.rukinpavel.wordlyapp.feature.settings.impl.domain.usecase.UpdateLanguageUseCase
-import com.rukinpavel.wordlyapp.feature.settings.impl.domain.usecase.UpdatePremiumStatusUseCase
-import com.rukinpavel.wordlyapp.feature.settings.impl.domain.usecase.UpdateVibrationEnabledUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(

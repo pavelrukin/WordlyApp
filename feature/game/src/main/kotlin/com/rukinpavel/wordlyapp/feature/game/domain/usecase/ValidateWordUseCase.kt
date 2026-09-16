@@ -1,0 +1,9 @@
+package com.rukinpavel.wordlyapp.feature.game.domain.usecase
+
+import javax.inject.Inject
+
+class ValidateWordUseCase
+@Inject
+constructor() {
+    operator fun invoke(word: String): Boolean = word.length == 5
+}

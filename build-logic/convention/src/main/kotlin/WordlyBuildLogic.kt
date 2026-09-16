@@ -11,8 +11,8 @@ internal val Project.libs: VersionCatalog
 internal fun Project.configureAndroidBaseOptions(
     commonExtension: CommonExtension,
 ) {
-    commonExtension.compileSdk = 35
-    commonExtension.defaultConfig.minSdk = 24
+    commonExtension.compileSdk = libs.findVersion("compileSdk").get().requiredVersion.toInt()
+    commonExtension.defaultConfig.minSdk = libs.findVersion("minSdk").get().requiredVersion.toInt()
 
     commonExtension.compileOptions.sourceCompatibility = JavaVersion.VERSION_17
     commonExtension.compileOptions.targetCompatibility = JavaVersion.VERSION_17

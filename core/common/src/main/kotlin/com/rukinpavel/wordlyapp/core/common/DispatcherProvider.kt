@@ -1,8 +1,8 @@
 package com.rukinpavel.wordlyapp.core.common
 
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
 
 interface DispatcherProvider {
     val main: CoroutineDispatcher

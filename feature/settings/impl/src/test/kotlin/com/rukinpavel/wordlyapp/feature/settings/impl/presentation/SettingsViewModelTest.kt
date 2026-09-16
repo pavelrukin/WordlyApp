@@ -1,16 +1,16 @@
 package com.rukinpavel.wordlyapp.feature.settings.impl.presentation
 
 import app.cash.turbine.test
+import com.rukinpavel.wordlyapp.core.domain.repository.BillingRepository
 import com.rukinpavel.wordlyapp.core.domain.usecase.GetLanguageUseCase
 import com.rukinpavel.wordlyapp.core.domain.usecase.GetVibrationEnabledUseCase
 import com.rukinpavel.wordlyapp.core.domain.usecase.IsPremiumUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateLanguageUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.UpdatePremiumStatusUseCase
 import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateTutorialStatusUseCase
+import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateVibrationEnabledUseCase
 import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.core.testing.MainDispatcherRule
-import com.rukinpavel.wordlyapp.feature.settings.impl.domain.repository.BillingRepository
-import com.rukinpavel.wordlyapp.feature.settings.impl.domain.usecase.UpdateLanguageUseCase
-import com.rukinpavel.wordlyapp.feature.settings.impl.domain.usecase.UpdatePremiumStatusUseCase
-import com.rukinpavel.wordlyapp.feature.settings.impl.domain.usecase.UpdateVibrationEnabledUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -50,7 +50,7 @@ class SettingsViewModelTest {
             updateTutorialStatusUseCase,
             isPremiumUseCase,
             updatePremiumStatusUseCase,
-            billingRepository
+            billingRepository,
         )
     }
 

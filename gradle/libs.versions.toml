@@ -1,7 +1,7 @@
 [versions]
 # App version
-appVersionCode = "6"
-appVersionName = "1.0.6"
+appVersionCode = "7"
+appVersionName = "1.0.7"
 
 # SDK Versions
 minSdk = "24"
@@ -11,7 +11,7 @@ javaVersion = "11"
 
 # Build tools
 androidGradlePlugin = "9.4.0"
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 ksp = "2.3.11"
 ktlintGradle = "14.2.0"
 ktlint = "1.6.0"
@@ -47,7 +47,7 @@ androidxTestCore = "1.7.0"
 androidxTestRunner = "1.7.0"
 mockk = "1.14.11"
 turbine = "1.2.1"
-robolectric = "4.16.1"
+robolectric = "4.17"
 
 [libraries]
 # Build Logic dependencies

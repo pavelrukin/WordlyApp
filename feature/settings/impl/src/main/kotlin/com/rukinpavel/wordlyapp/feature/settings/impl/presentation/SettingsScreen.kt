@@ -59,6 +59,7 @@ import com.rukinpavel.wordlyapp.core.model.SubscriptionOption
 import com.rukinpavel.wordlyapp.core.model.SubscriptionType
 import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 import com.rukinpavel.wordlyapp.core.ui.localizedString
+import com.rukinpavel.wordlyapp.feature.settings.impl.BuildConfig
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -102,6 +103,7 @@ fun SettingsContent(
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
         ) {
             state.language?.let { currentLang ->
                 LanguageSetting(
@@ -424,10 +426,12 @@ private fun TutorialSetting(onRepeatTutorialClick: () -> Unit) {
 @Composable
 private fun AboutSetting() {
     Text(
-        text = "Version 1.0.6",
+        text = "Version ${BuildConfig.APP_VERSION_NAME}",
         modifier =
         Modifier
+            .fillMaxWidth()
             .padding(vertical = 16.dp),
+        textAlign = TextAlign.Center,
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
     )
