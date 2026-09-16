@@ -2,15 +2,15 @@ package com.rukinpavel.wordlyapp.ads
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 import com.rukinpavel.wordlyapp.R
 import com.rukinpavel.wordlyapp.core.domain.repository.AdManager
+import com.rukinpavel.wordlyapp.core.platform.android.ActivityProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +20,7 @@ class AdManagerImpl @Inject constructor(
     private val activityProvider: ActivityProvider,
 ) : AdManager {
 
-    private var rewardedAd: RewardedAd? = null
+    private var rewardedAd: RewardedInterstitialAd? = null
     private var isLoading = false
 
     init {
@@ -34,18 +34,18 @@ class AdManagerImpl @Inject constructor(
         val adRequest = AdRequest.Builder().build()
         val unitId = application.getString(R.string.admob_rewarded_unit_id)
 
-        RewardedAd.load(
+        RewardedInterstitialAd.load(
             application,
             unitId,
             adRequest,
-            object : RewardedAdLoadCallback() {
+            object : RewardedInterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     Log.e("AdManager", "Ad failed to load: ${adError.message}, code: ${adError.code}")
                     rewardedAd = null
                     isLoading = false
                 }
 
-                override fun onAdLoaded(ad: RewardedAd) {
+                override fun onAdLoaded(ad: RewardedInterstitialAd) {
                     Log.d("AdManager", "Ad loaded successfully")
                     rewardedAd = ad
                     isLoading = false
@@ -84,9 +84,7 @@ class AdManagerImpl @Inject constructor(
             }
         } else {
             Log.w("AdManager", "Ad not ready yet, attempting to load...")
-            onError()
             loadRewardedAd(activity.application)
-            Toast.makeText(activity, "Реклама еще загружается, попробуйте через секунду", Toast.LENGTH_SHORT).show()
         }
     }
 }

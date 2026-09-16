@@ -24,3 +24,11 @@
     public <init>(...);
 }
 
+# Keep Language enum and its members for localization
+-keepclassmembers enum com.rukinpavel.wordlyapp.core.model.Language {
+    *;
+}
+-keep class com.rukinpavel.wordlyapp.core.model.Language {
+    *;
+}
+

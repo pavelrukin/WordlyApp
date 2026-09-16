@@ -1,5 +1,6 @@
 package com.rukinpavel.wordlyapp.core.ui
 
+import android.content.res.Configuration
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -21,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,13 +42,13 @@ import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
 
 @Composable
 fun Keyboard(
+    modifier: Modifier = Modifier,
     language: Language,
     letterStates: Map<Char, LetterState>,
     onKeyClick: (Char) -> Unit,
     onDeleteClick: () -> Unit,
     onEnterClick: () -> Unit,
     vibrationEnabled: Boolean = true,
-    modifier: Modifier = Modifier,
 ) {
     val haptic = LocalHapticFeedback.current
 
@@ -139,11 +142,11 @@ fun Keyboard(
 
 @Composable
 fun KeyItem(
+    modifier: Modifier = Modifier,
     text: String? = null,
     icon: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
     state: LetterState = LetterState.INITIAL,
-    modifier: Modifier = Modifier,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -198,6 +201,8 @@ fun KeyItem(
                     color = textColor,
                     fontSize = if (text.length > 1) 12.sp else 16.sp,
                     fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    softWrap = false,
                 )
             } else if (icon != null) {
                 icon()
@@ -206,22 +211,26 @@ fun KeyItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Preview(name = "Small Screen", widthDp = 320, showBackground = true)
 @Composable
 fun KeyboardPreview() {
     WordlyTheme {
-        Keyboard(
-            language = Language.EN,
-            letterStates =
-            mapOf(
-                'Q' to LetterState.CORRECT,
-                'W' to LetterState.WRONG_POSITION,
-                'E' to LetterState.NOT_IN_WORD,
-            ),
-            onKeyClick = {},
-            onDeleteClick = {},
-            onEnterClick = {},
-            vibrationEnabled = true,
-        )
+        CompositionLocalProvider(LocalLocalizedContext provides LocalContext.current) {
+            Keyboard(
+                language = Language.EN,
+                letterStates =
+                mapOf(
+                    'Q' to LetterState.CORRECT,
+                    'W' to LetterState.WRONG_POSITION,
+                    'E' to LetterState.NOT_IN_WORD,
+                ),
+                onKeyClick = {},
+                onDeleteClick = {},
+                onEnterClick = {},
+                vibrationEnabled = true,
+            )
+        }
     }
 }

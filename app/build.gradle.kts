@@ -32,6 +32,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    androidResources {
+        localeFilters += listOf("en", "ru", "uk")
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -39,7 +49,7 @@ android {
 
             // Тестовые ID для отладки
             resValue("string", "admob_app_id", "ca-app-pub-3940256099942544~3347511713")
-            resValue("string", "admob_rewarded_unit_id", "ca-app-pub-3940256099942544/5224354917")
+            resValue("string", "admob_rewarded_unit_id", "ca-app-pub-3940256099942544/5354046379")
         }
         release {
             isMinifyEnabled = true
@@ -69,6 +79,7 @@ dependencies {
     implementation(project(":feature:game"))
     implementation(project(":feature:settings:impl"))
     implementation(project(":feature:onboarding"))
+    implementation(project(":core:platform:android"))
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
     implementation(project(":core:model"))

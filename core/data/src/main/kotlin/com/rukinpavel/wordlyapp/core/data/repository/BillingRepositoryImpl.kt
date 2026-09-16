@@ -1,19 +1,23 @@
 package com.rukinpavel.wordlyapp.core.data.repository
 
 import android.content.Context
+import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryPurchasesParams
 import com.rukinpavel.wordlyapp.core.data.BuildConfig
 import com.rukinpavel.wordlyapp.core.domain.repository.BillingRepository
 import com.rukinpavel.wordlyapp.core.domain.repository.UserPreferencesRepository
 import com.rukinpavel.wordlyapp.core.model.SubscriptionOption
 import com.rukinpavel.wordlyapp.core.model.SubscriptionType
+import com.rukinpavel.wordlyapp.core.platform.android.ActivityProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -28,6 +32,7 @@ import kotlinx.coroutines.launch
 class BillingRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val userPreferencesRepository: UserPreferencesRepository,
+    private val activityProvider: ActivityProvider,
 ) : BillingRepository,
     PurchasesUpdatedListener {
 
@@ -139,15 +144,47 @@ class BillingRepositoryImpl @Inject constructor(
     }
 
     override suspend fun purchaseSubscription(option: SubscriptionOption) {
-        // Implementation
+        val activity = activityProvider.getActivity() ?: return
+        val productDetails = productDetailsMap[option.id] ?: return
+
+        val offerToken = productDetails.subscriptionOfferDetails?.firstOrNull()?.offerToken ?: ""
+
+        val productDetailsParamsList = listOf(
+            BillingFlowParams.ProductDetailsParams.newBuilder()
+                .setProductDetails(productDetails)
+                .setOfferToken(offerToken)
+                .build(),
+        )
+
+        val billingFlowParams = BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(productDetailsParamsList)
+            .build()
+
+        billingClient.launchBillingFlow(activity, billingFlowParams)
     }
 
     override suspend fun restorePurchases() {
-        // Implementation
+        checkActiveSubscriptions()
     }
 
     private fun checkActiveSubscriptions() {
-        // Implementation
+        if (!billingClient.isReady) return
+
+        val params = QueryPurchasesParams.newBuilder()
+            .setProductType(BillingClient.ProductType.SUBS)
+            .build()
+
+        billingClient.queryPurchasesAsync(params) { billingResult, purchases ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                val hasActiveSubscription = purchases.any { purchase ->
+                    purchase.purchaseState == Purchase.PurchaseState.PURCHASED
+                }
+                scope.launch {
+                    userPreferencesRepository.updatePremiumStatus(hasActiveSubscription)
+                }
+                purchases.forEach { handlePurchase(it) }
+            }
+        }
     }
 
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
@@ -160,8 +197,21 @@ class BillingRepositoryImpl @Inject constructor(
 
     private fun handlePurchase(purchase: Purchase) {
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-            scope.launch {
-                userPreferencesRepository.updatePremiumStatus(true)
+            if (!purchase.isAcknowledged) {
+                val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+                    .build()
+                billingClient.acknowledgePurchase(acknowledgePurchaseParams) { billingResult ->
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        scope.launch {
+                            userPreferencesRepository.updatePremiumStatus(true)
+                        }
+                    }
+                }
+            } else {
+                scope.launch {
+                    userPreferencesRepository.updatePremiumStatus(true)
+                }
             }
         }
     }
