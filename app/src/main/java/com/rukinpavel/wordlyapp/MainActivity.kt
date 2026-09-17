@@ -7,6 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -26,9 +27,11 @@ import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.play.core.install.model.ActivityResult
 import com.rukinpavel.wordlyapp.core.navigation.FeatureNavGraph
 import com.rukinpavel.wordlyapp.core.navigation.GameRoute
 import com.rukinpavel.wordlyapp.core.navigation.OnboardingRoute
+import com.rukinpavel.wordlyapp.core.platform.android.UpdateManager
 import com.rukinpavel.wordlyapp.core.ui.LocalAppLocale
 import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
 import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
@@ -43,8 +46,28 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var navGraph: FeatureNavGraph
 
+    @Inject
+    lateinit var updateManager: UpdateManager
+
+    private val updateResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult(),
+    ) { result ->
+        when (result.resultCode) {
+            RESULT_OK -> {
+                // Обновление принято
+            }
+            RESULT_CANCELED -> {
+                // Обновление отклонено пользователем
+            }
+            ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
+                // Ошибка обновления
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        updateManager.setupLauncher(updateResultLauncher)
 
         if (BuildConfig.DEBUG) {
             val testDeviceIds = listOf("6C495C26EF9C34868949A080DE386002")
@@ -158,6 +181,10 @@ class MainActivity : AppCompatActivity() {
         fun backCancelled() = dispatchOnBackCancelled()
 
         fun backCompleted() = dispatchOnBackCompleted()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun configureOrientation() {
