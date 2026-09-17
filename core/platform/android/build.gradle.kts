@@ -9,4 +9,8 @@ android {
 
 dependencies {
     implementation(libs.javax.inject)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.process)
+    api(libs.play.app.update)
 }
