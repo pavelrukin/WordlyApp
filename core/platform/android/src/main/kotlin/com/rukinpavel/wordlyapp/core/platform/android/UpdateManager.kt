@@ -24,7 +24,6 @@ import javax.inject.Singleton
 @Singleton
 class UpdateManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val activityProvider: ActivityProvider,
 ) : DefaultLifecycleObserver {
 
     private val appUpdateManager: AppUpdateManager = AppUpdateManagerFactory.create(context)
@@ -64,7 +63,6 @@ class UpdateManager @Inject constructor(
 
     private fun checkForUpdates() {
         val launcher = updateResultLauncher ?: return
-        if (activityProvider.getActivity() == null) return
 
         appUpdateManager.appUpdateInfo.addOnSuccessListener { updateInfo ->
             if (updateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
@@ -89,7 +87,6 @@ class UpdateManager @Inject constructor(
 
     private fun resumeUpdate() {
         val launcher = updateResultLauncher ?: return
-        if (activityProvider.getActivity() == null) return
 
         appUpdateManager.appUpdateInfo.addOnSuccessListener { updateInfo ->
             if (updateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {

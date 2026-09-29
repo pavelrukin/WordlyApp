@@ -25,6 +25,7 @@ data class GameUiState(
     val hintCount: Int = 5,
     val showAdDialog: Boolean = false,
     val isPremium: Boolean = false,
+    val wordHint: String? = null,
 )
 
 sealed interface GameUiEvent {

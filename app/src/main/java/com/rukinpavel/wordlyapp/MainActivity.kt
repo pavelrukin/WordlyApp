@@ -138,10 +138,13 @@ class MainActivity : AppCompatActivity() {
                 LocalLocalizedContext provides localizedContext,
             ) {
                 WordlyTheme {
-                    val backStack = rememberNavBackStack(GameRoute)
+                    val completed = isTutorialCompleted ?: return@WordlyTheme
+                    val startRoute: NavKey = if (completed) GameRoute else OnboardingRoute
+                    val backStack = rememberNavBackStack(startRoute)
 
                     LaunchedEffect(isTutorialCompleted) {
-                        if (!isTutorialCompleted && !backStack.contains(OnboardingRoute)) {
+                        val isCompleted = isTutorialCompleted ?: return@LaunchedEffect
+                        if (!isCompleted && !backStack.contains(OnboardingRoute)) {
                             backStack.add(OnboardingRoute)
                         }
                     }
@@ -152,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                         entryProvider = { key ->
                             navGraph.getEntry(
                                 key = key,
-                                onNavigate = { route -> backStack.add(route as NavKey) },
+                                onNavigate = { route -> backStack.add(route) },
                                 onBack = {
                                     if (key is OnboardingRoute) {
                                         viewModel.completeTutorial()

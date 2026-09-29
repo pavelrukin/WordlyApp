@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class FeatureNavGraph @Inject constructor(private val features: Set<@JvmSuppressWildcards FeatureNavigation>) {
     fun getEntry(
-        key: Any,
-        onNavigate: (Any) -> Unit,
+        key: NavKey,
+        onNavigate: (NavKey) -> Unit,
         onBack: () -> Unit,
     ): NavEntry<NavKey> = features.find { it.supports(key) }?.createEntry(key, onNavigate, onBack)
         ?: throw IllegalArgumentException("No feature found for key $key")
