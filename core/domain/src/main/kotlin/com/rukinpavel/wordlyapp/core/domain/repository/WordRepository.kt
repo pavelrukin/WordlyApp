@@ -4,4 +4,5 @@ import com.rukinpavel.wordlyapp.core.model.Language
 
 interface WordRepository {
     suspend fun getRandomWord(language: Language): String
+    suspend fun getHint(word: String, language: Language): String? = null
 }

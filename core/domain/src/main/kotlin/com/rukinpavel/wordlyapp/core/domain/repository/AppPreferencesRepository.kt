@@ -3,17 +3,11 @@ package com.rukinpavel.wordlyapp.core.domain.repository
 import com.rukinpavel.wordlyapp.core.model.Language
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Единый интерфейс для доступа к пользовательским настройкам приложения.
+ * Заменяет устаревший UserPreferencesRepository (bridge).
+ */
 interface AppPreferencesRepository {
-    val language: Flow<Language?>
-    val vibrationEnabled: Flow<Boolean>
-    val isPremium: Flow<Boolean>
-    val tutorialCompleted: Flow<Boolean>
-
-    suspend fun updateTutorialCompleted(completed: Boolean)
-}
-
-// Temporary bridge interface to avoid breaking legacy code
-interface UserPreferencesRepository {
     val language: Flow<Language?>
     val vibrationEnabled: Flow<Boolean>
     val tutorialCompleted: Flow<Boolean>

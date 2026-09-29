@@ -8,13 +8,13 @@ import com.rukinpavel.wordlyapp.feature.settings.api.SettingsRoute
 import javax.inject.Inject
 
 class GameNavigation @Inject constructor() : FeatureNavigation {
-    override fun supports(key: Any): Boolean = key is GameRoute
+    override fun supports(key: NavKey): Boolean = key is GameRoute
 
     override fun createEntry(
-        key: Any,
-        onNavigate: (Any) -> Unit,
+        key: NavKey,
+        onNavigate: (NavKey) -> Unit,
         onBack: () -> Unit,
-    ): NavEntry<NavKey> = NavEntry<NavKey>(key as NavKey) {
+    ): NavEntry<NavKey> = NavEntry(key) {
         GameScreen(
             onSettingsClick = { onNavigate(SettingsRoute) },
         )

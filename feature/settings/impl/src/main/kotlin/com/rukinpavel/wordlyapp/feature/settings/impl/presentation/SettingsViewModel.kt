@@ -2,14 +2,8 @@ package com.rukinpavel.wordlyapp.feature.settings.impl.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rukinpavel.wordlyapp.core.domain.repository.AppPreferencesRepository
 import com.rukinpavel.wordlyapp.core.domain.repository.BillingRepository
-import com.rukinpavel.wordlyapp.core.domain.usecase.GetLanguageUseCase
-import com.rukinpavel.wordlyapp.core.domain.usecase.GetVibrationEnabledUseCase
-import com.rukinpavel.wordlyapp.core.domain.usecase.IsPremiumUseCase
-import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateLanguageUseCase
-import com.rukinpavel.wordlyapp.core.domain.usecase.UpdatePremiumStatusUseCase
-import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateTutorialStatusUseCase
-import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateVibrationEnabledUseCase
 import com.rukinpavel.wordlyapp.core.model.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -25,13 +19,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val getLanguageUseCase: GetLanguageUseCase,
-    private val updateLanguageUseCase: UpdateLanguageUseCase,
-    private val getVibrationEnabledUseCase: GetVibrationEnabledUseCase,
-    private val updateVibrationEnabledUseCase: UpdateVibrationEnabledUseCase,
-    private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase,
-    private val isPremiumUseCase: IsPremiumUseCase,
-    private val updatePremiumStatusUseCase: UpdatePremiumStatusUseCase,
+    private val appPreferencesRepository: AppPreferencesRepository,
     private val billingRepository: BillingRepository,
 ) : ViewModel() {
 
@@ -42,18 +30,18 @@ class SettingsViewModel @Inject constructor(
     val effect = _effect.receiveAsFlow()
 
     init {
-        getLanguageUseCase()
+        appPreferencesRepository.language
             .onEach { language ->
                 val resolvedLanguage = language ?: Language.getSystemLanguage()
                 _state.update { it.copy(language = resolvedLanguage) }
             }.launchIn(viewModelScope)
 
-        getVibrationEnabledUseCase()
+        appPreferencesRepository.vibrationEnabled
             .onEach { enabled ->
                 _state.update { it.copy(vibrationEnabled = enabled) }
             }.launchIn(viewModelScope)
 
-        isPremiumUseCase()
+        appPreferencesRepository.isPremium
             .onEach { isPremium ->
                 _state.update { it.copy(isPremium = isPremium) }
             }.launchIn(viewModelScope)
@@ -68,17 +56,17 @@ class SettingsViewModel @Inject constructor(
         when (intent) {
             is SettingsIntent.OnLanguageChange -> {
                 viewModelScope.launch {
-                    updateLanguageUseCase(intent.language)
+                    appPreferencesRepository.updateLanguage(intent.language)
                 }
             }
             is SettingsIntent.OnVibrationChange -> {
                 viewModelScope.launch {
-                    updateVibrationEnabledUseCase(intent.enabled)
+                    appPreferencesRepository.updateVibrationEnabled(intent.enabled)
                 }
             }
             SettingsIntent.OnRepeatTutorialClick -> {
                 viewModelScope.launch {
-                    updateTutorialStatusUseCase(false)
+                    appPreferencesRepository.updateTutorialCompleted(false)
                     _effect.send(SettingsEffect.NavigateToOnboarding)
                 }
             }

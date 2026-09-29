@@ -2,7 +2,7 @@ package com.rukinpavel.wordlyapp.feature.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateTutorialStatusUseCase
+import com.rukinpavel.wordlyapp.core.domain.repository.AppPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class OnboardingViewModel
 @Inject
-constructor(private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase) :
+constructor(private val appPreferencesRepository: AppPreferencesRepository) :
     ViewModel() {
     private val _uiState = MutableStateFlow(OnboardingUiState())
     val uiState: StateFlow<OnboardingUiState> = _uiState.asStateFlow()
@@ -128,7 +128,7 @@ constructor(private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase
 
     private fun completeOnboarding() {
         viewModelScope.launch {
-            updateTutorialStatusUseCase(true)
+            appPreferencesRepository.updateTutorialCompleted(true)
         }
     }
 }

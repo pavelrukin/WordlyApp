@@ -174,7 +174,33 @@ fun GameContent(
                             .padding(horizontal = 32.dp),
                         contentAlignment = Alignment.Center,
                     ) {
-                        WordGrid(board = uiState.board)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                        ) {
+                            if (!uiState.wordHint.isNullOrBlank()) {
+                                Surface(
+                                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.75f),
+                                    shape = RoundedCornerShape(16.dp),
+                                    modifier = Modifier.widthIn(max = 350.dp),
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center,
+                                    ) {
+                                        Text(
+                                            text = uiState.wordHint,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            textAlign = TextAlign.Center,
+                                        )
+                                    }
+                                }
+                            }
+
+                            WordGrid(board = uiState.board)
+                        }
                     }
 
                     Surface(

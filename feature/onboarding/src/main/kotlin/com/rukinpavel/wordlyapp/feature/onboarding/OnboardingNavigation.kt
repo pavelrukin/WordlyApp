@@ -7,13 +7,13 @@ import com.rukinpavel.wordlyapp.core.navigation.OnboardingRoute
 import javax.inject.Inject
 
 class OnboardingNavigation @Inject constructor() : FeatureNavigation {
-    override fun supports(key: Any): Boolean = key is OnboardingRoute
+    override fun supports(key: NavKey): Boolean = key is OnboardingRoute
 
     override fun createEntry(
-        key: Any,
-        onNavigate: (Any) -> Unit,
+        key: NavKey,
+        onNavigate: (NavKey) -> Unit,
         onBack: () -> Unit,
-    ): NavEntry<NavKey> = NavEntry<NavKey>(key as NavKey) {
+    ): NavEntry<NavKey> = NavEntry(key) {
         OnboardingScreen(
             onComplete = onBack,
         )

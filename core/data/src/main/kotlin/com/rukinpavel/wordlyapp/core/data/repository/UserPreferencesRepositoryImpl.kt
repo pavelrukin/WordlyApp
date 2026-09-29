@@ -9,7 +9,6 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.rukinpavel.wordlyapp.core.domain.repository.AppPreferencesRepository
-import com.rukinpavel.wordlyapp.core.domain.repository.UserPreferencesRepository
 import com.rukinpavel.wordlyapp.core.model.Language
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -21,7 +20,6 @@ private val Context.userPreferencesDataStore: DataStore<Preferences> by preferen
 
 @Singleton
 class UserPreferencesRepositoryImpl @Inject constructor(@ApplicationContext private val context: Context) :
-    UserPreferencesRepository,
     AppPreferencesRepository {
 
     private object PreferencesKeys {

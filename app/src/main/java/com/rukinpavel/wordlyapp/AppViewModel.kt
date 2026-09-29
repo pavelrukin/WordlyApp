@@ -2,9 +2,7 @@ package com.rukinpavel.wordlyapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rukinpavel.wordlyapp.core.domain.usecase.GetLanguageUseCase
-import com.rukinpavel.wordlyapp.core.domain.usecase.IsTutorialCompletedUseCase
-import com.rukinpavel.wordlyapp.core.domain.usecase.UpdateTutorialStatusUseCase
+import com.rukinpavel.wordlyapp.core.domain.repository.AppPreferencesRepository
 import com.rukinpavel.wordlyapp.core.model.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,22 +14,18 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AppViewModel
 @Inject
-constructor(
-    private val isTutorialCompletedUseCase: IsTutorialCompletedUseCase,
-    private val updateTutorialStatusUseCase: UpdateTutorialStatusUseCase,
-    private val getLanguageUseCase: GetLanguageUseCase,
-) : ViewModel() {
-    val isTutorialCompleted: StateFlow<Boolean> =
-        isTutorialCompletedUseCase()
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+constructor(private val appPreferencesRepository: AppPreferencesRepository) : ViewModel() {
+    val isTutorialCompleted: StateFlow<Boolean?> =
+        appPreferencesRepository.tutorialCompleted
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     val language: StateFlow<Language?> =
-        getLanguageUseCase()
+        appPreferencesRepository.language
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     fun completeTutorial() {
         viewModelScope.launch {
-            updateTutorialStatusUseCase(true)
+            appPreferencesRepository.updateTutorialCompleted(true)
         }
     }
 }
