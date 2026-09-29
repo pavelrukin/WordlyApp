@@ -36,11 +36,11 @@ class GameEngineTest {
     fun `duplicate letters handled correctly`() {
         // TARGET=ABBEY, GUESS=KEEPS -> only first E is WRONG_POSITION
         val result = engine.checkGuess("KEEPS", "ABBEY")
-        assertEquals(LetterState.NOT_IN_WORD,   result[0]) // K
+        assertEquals(LetterState.NOT_IN_WORD, result[0]) // K
         assertEquals(LetterState.WRONG_POSITION, result[1]) // first E
-        assertEquals(LetterState.NOT_IN_WORD,   result[2]) // second E
-        assertEquals(LetterState.NOT_IN_WORD,   result[3]) // P
-        assertEquals(LetterState.NOT_IN_WORD,   result[4]) // S
+        assertEquals(LetterState.NOT_IN_WORD, result[2]) // second E
+        assertEquals(LetterState.NOT_IN_WORD, result[3]) // P
+        assertEquals(LetterState.NOT_IN_WORD, result[4]) // S
     }
 
     @Test

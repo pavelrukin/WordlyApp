@@ -118,7 +118,11 @@ constructor(
         val currentRow = savedStateHandle.get<Int>(KEY_CURRENT_ROW) ?: 0
         val currentGuess = savedStateHandle.get<String>(KEY_CURRENT_GUESS) ?: ""
         val statusName = savedStateHandle.get<String>(KEY_GAME_STATUS) ?: GameStatus.PLAYING.name
-        val gameStatus = try { GameStatus.valueOf(statusName) } catch (e: Exception) { GameStatus.PLAYING }
+        val gameStatus = try {
+            GameStatus.valueOf(statusName)
+        } catch (e: Exception) {
+            GameStatus.PLAYING
+        }
 
         val hintsKeys = savedStateHandle.get<IntArray>(KEY_HINTS_KEYS)
         val hintsVals = savedStateHandle.get<CharArray>(KEY_HINTS_VALS)
@@ -271,7 +275,12 @@ constructor(
                 _uiState.update { it.copy(isLoading = false) }
                 saveStateToHandle(_uiState.value, targetWord)
                 viewModelScope.launch {
-                    _sideEffect.emit(GameSideEffect.ShowError(CoreUiR.string.ad_failed_to_load))
+                    val errorRes = if (adManager.isVpnActive()) {
+                        CoreUiR.string.ad_failed_vpn_error
+                    } else {
+                        CoreUiR.string.ad_failed_to_load
+                    }
+                    _sideEffect.emit(GameSideEffect.ShowError(errorRes))
                 }
             },
         )
@@ -361,7 +370,9 @@ constructor(
         val newBoard = currentState.board.mapIndexed { rowIndex, row ->
             if (rowIndex == currentState.currentRow) {
                 List(wordLength) { colIndex -> BoardLetter(guess[colIndex], result[colIndex]) }
-            } else row
+            } else {
+                row
+            }
         }
 
         val newKeyboardStates = currentState.keyboardLetterStates.toMutableMap()

@@ -26,6 +26,7 @@
     <string name="not_enough_letters">Недостаточно букв</string>
     <string name="not_in_word_list">Нет в списке слов</string>
     <string name="ad_failed_to_load">Не удалось загрузить рекламу</string>
+    <string name="ad_failed_vpn_error">Не удалось загрузить рекламу. Попробуйте отключить VPN или проверьте соединение</string>
     <string name="weekly_subscription">Недельная подписка</string>
     <string name="monthly_subscription">Месячная подписка</string>
     <string name="yearly_subscription">Годовая подписка</string>

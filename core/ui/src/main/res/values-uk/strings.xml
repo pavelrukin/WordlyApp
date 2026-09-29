@@ -27,6 +27,7 @@
     <string name="not_enough_letters">Недостатньо літер</string>
     <string name="not_in_word_list">Немає у списку слів</string>
     <string name="ad_failed_to_load">Не вдалося завантажити рекламу</string>
+    <string name="ad_failed_vpn_error">Не вдалося завантажити рекламу. Спробуйте вимкнути VPN або перевірте з\'єднання</string>
     <string name="weekly_subscription">Тижнева підписка</string>
     <string name="monthly_subscription">Місячна підписка</string>
     <string name="yearly_subscription">Річна підписка</string>

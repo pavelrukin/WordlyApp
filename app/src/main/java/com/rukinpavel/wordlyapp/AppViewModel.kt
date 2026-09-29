@@ -14,9 +14,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AppViewModel
 @Inject
-constructor(
-    private val appPreferencesRepository: AppPreferencesRepository,
-) : ViewModel() {
+constructor(private val appPreferencesRepository: AppPreferencesRepository) : ViewModel() {
     val isTutorialCompleted: StateFlow<Boolean?> =
         appPreferencesRepository.tutorialCompleted
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)

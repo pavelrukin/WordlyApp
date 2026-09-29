@@ -22,9 +22,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UpdateManager @Inject constructor(
-    @ApplicationContext private val context: Context,
-) : DefaultLifecycleObserver {
+class UpdateManager @Inject constructor(@ApplicationContext private val context: Context) : DefaultLifecycleObserver {
 
     private val appUpdateManager: AppUpdateManager = AppUpdateManagerFactory.create(context)
     private var updateResultLauncher: ActivityResultLauncher<IntentSenderRequest>? = null

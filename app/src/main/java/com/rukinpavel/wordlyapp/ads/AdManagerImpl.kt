@@ -2,6 +2,9 @@ package com.rukinpavel.wordlyapp.ads
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.util.Log
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -206,6 +209,18 @@ class AdManagerImpl @Inject constructor(
                     onError()
                 }
             }
+        }
+    }
+
+    override fun isVpnActive(): Boolean {
+        return try {
+            val connectivityManager =
+                application.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager ?: return false
+            val activeNetwork = connectivityManager.activeNetwork ?: return false
+            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
+        } catch (_: Exception) {
+            false
         }
     }
 }

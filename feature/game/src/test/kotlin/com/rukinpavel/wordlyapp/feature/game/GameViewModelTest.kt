@@ -87,7 +87,7 @@ class GameViewModelTest {
                     "current_row" to 2,
                     "current_guess" to "AB",
                     "game_status" to "PLAYING",
-                )
+                ),
             )
 
             val viewModel = GameViewModel(

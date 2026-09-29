@@ -10,10 +10,7 @@ import kotlin.random.Random
  * The hint is shown to the player so they understand the word's meaning
  * instead of just guessing letters blindly.
  */
-data class WordEntry(
-    val word: String,
-    val hint: String
-)
+data class WordEntry(val word: String, val hint: String)
 
 class LocalWordRepository
 @Inject
@@ -121,7 +118,7 @@ constructor() : WordRepository {
             WordEntry("MONEY", "What you use to buy things"),
             WordEntry("MOUNT", "To climb onto something, or a mountain"),
             WordEntry("MOUSE", "A small rodent, or a computer pointing device"),
-            WordEntry("MOVIE", "A film you watch in a theater")
+            WordEntry("MOVIE", "A film you watch in a theater"),
         )
 
     // ---- Russian words (100 with hints; duplicates removed, 5 letters only) ----
@@ -226,7 +223,7 @@ constructor() : WordRepository {
             WordEntry("ГЛАДЬ", "Спокойная ровная поверхность воды"),
             WordEntry("ГЛИНА", "Мягкий природный материал для лепки"),
             WordEntry("ГОРЕЦ", "Житель горной местности"),
-            WordEntry("ГРАНЬ", "Плоская сторона многогранника, или предел чего-либо")
+            WordEntry("ГРАНЬ", "Плоская сторона многогранника, или предел чего-либо"),
         )
 
     // ---- Ukrainian words (100 with hints; duplicates removed, 5 letters only) ----
@@ -331,7 +328,7 @@ constructor() : WordRepository {
             WordEntry("ТОПІР", "Інструмент для рубання дерева"),
             WordEntry("ТРАКТ", "Довгий шлях або маршрут"),
             WordEntry("ТУМАН", "Густа хмара, що стелиться біля землі"),
-            WordEntry("ТЮТЮН", "Рослина, листя якої використовують для куріння")
+            WordEntry("ТЮТЮН", "Рослина, листя якої використовують для куріння"),
         )
 
     // Unchanged signature — existing callers (ViewModel, etc.) keep working exactly as before.
