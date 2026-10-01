@@ -25,6 +25,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(@ApplicationContext priv
     private object PreferencesKeys {
         val LANGUAGE = stringPreferencesKey("language")
         val VIBRATION_ENABLED = booleanPreferencesKey("vibration_enabled")
+        val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
         val TUTORIAL_COMPLETED = booleanPreferencesKey("tutorial_completed")
         val IS_PREMIUM = booleanPreferencesKey("is_premium")
         val HINT_COUNT = intPreferencesKey("hint_count")
@@ -36,6 +37,10 @@ class UserPreferencesRepositoryImpl @Inject constructor(@ApplicationContext priv
 
     override val vibrationEnabled: Flow<Boolean> = context.userPreferencesDataStore.data.map { preferences ->
         preferences[PreferencesKeys.VIBRATION_ENABLED] ?: true
+    }
+
+    override val notificationsEnabled: Flow<Boolean> = context.userPreferencesDataStore.data.map { preferences ->
+        preferences[PreferencesKeys.NOTIFICATIONS_ENABLED] ?: true
     }
 
     override val tutorialCompleted: Flow<Boolean> = context.userPreferencesDataStore.data.map { preferences ->
@@ -59,6 +64,12 @@ class UserPreferencesRepositoryImpl @Inject constructor(@ApplicationContext priv
     override suspend fun updateVibrationEnabled(enabled: Boolean) {
         context.userPreferencesDataStore.edit { preferences ->
             preferences[PreferencesKeys.VIBRATION_ENABLED] = enabled
+        }
+    }
+
+    override suspend fun updateNotificationsEnabled(enabled: Boolean) {
+        context.userPreferencesDataStore.edit { preferences ->
+            preferences[PreferencesKeys.NOTIFICATIONS_ENABLED] = enabled
         }
     }
 

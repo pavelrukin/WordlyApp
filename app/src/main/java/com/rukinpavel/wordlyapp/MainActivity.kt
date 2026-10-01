@@ -1,6 +1,9 @@
 package com.rukinpavel.wordlyapp
 
+import android.Manifest
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.BackEventCompat
 import androidx.activity.OnBackPressedCallback
@@ -31,6 +34,7 @@ import com.google.android.play.core.install.model.ActivityResult
 import com.rukinpavel.wordlyapp.core.navigation.FeatureNavGraph
 import com.rukinpavel.wordlyapp.core.navigation.GameRoute
 import com.rukinpavel.wordlyapp.core.navigation.OnboardingRoute
+import com.rukinpavel.wordlyapp.core.platform.android.NotificationHelper
 import com.rukinpavel.wordlyapp.core.platform.android.UpdateManager
 import com.rukinpavel.wordlyapp.core.ui.LocalAppLocale
 import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
@@ -65,9 +69,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted ->
+        if (isGranted) {
+            NotificationHelper.scheduleDailyReminder(this)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         updateManager.setupLauncher(updateResultLauncher)
+
+        NotificationHelper.createNotificationChannel(this)
+        NotificationHelper.scheduleDailyReminder(this)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
 
         if (BuildConfig.DEBUG) {
             val testDeviceIds = listOf("6C495C26EF9C34868949A080DE386002")

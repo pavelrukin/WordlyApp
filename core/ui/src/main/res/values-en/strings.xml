@@ -66,4 +66,11 @@
     <string name="premium_description">Monthly subscription: no ads and infinite hints</string>
     <string name="subscribe">Subscribe</string>
     <string name="active">Active</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="notifications_description">Daily reminder to play a new game</string>
+    <string name="notification_channel_name">Game Reminders</string>
+    <string name="notification_channel_desc">Daily reminders to play Wordly</string>
+    <string name="notification_title">🌸 Time for your daily word!</string>
+    <string name="notification_message">Can you guess today\'s word in 6 attempts? Unwind and play a quick game!</string>
 </resources>
