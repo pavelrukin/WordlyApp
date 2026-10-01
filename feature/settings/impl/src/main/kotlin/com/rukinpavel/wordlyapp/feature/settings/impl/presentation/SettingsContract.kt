@@ -1,11 +1,13 @@
 package com.rukinpavel.wordlyapp.feature.settings.impl.presentation
 
+import android.content.Context
 import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.core.model.SubscriptionOption
 
 data class SettingsState(
     val language: Language? = null,
     val vibrationEnabled: Boolean = true,
+    val notificationsEnabled: Boolean = true,
     val isPremium: Boolean = false,
     val subscriptionOptions: List<SubscriptionOption> = emptyList(),
 )
@@ -13,6 +15,7 @@ data class SettingsState(
 sealed interface SettingsIntent {
     data class OnLanguageChange(val language: Language) : SettingsIntent
     data class OnVibrationChange(val enabled: Boolean) : SettingsIntent
+    data class OnNotificationsChange(val enabled: Boolean, val context: Context) : SettingsIntent
     data object OnRepeatTutorialClick : SettingsIntent
     data class OnPurchasePremiumClick(val option: SubscriptionOption) : SettingsIntent
 }

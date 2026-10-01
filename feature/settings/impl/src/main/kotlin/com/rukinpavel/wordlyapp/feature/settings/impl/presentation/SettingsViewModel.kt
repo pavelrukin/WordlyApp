@@ -41,6 +41,11 @@ class SettingsViewModel @Inject constructor(
                 _state.update { it.copy(vibrationEnabled = enabled) }
             }.launchIn(viewModelScope)
 
+        appPreferencesRepository.notificationsEnabled
+            .onEach { enabled ->
+                _state.update { it.copy(notificationsEnabled = enabled) }
+            }.launchIn(viewModelScope)
+
         appPreferencesRepository.isPremium
             .onEach { isPremium ->
                 _state.update { it.copy(isPremium = isPremium) }
@@ -62,6 +67,20 @@ class SettingsViewModel @Inject constructor(
             is SettingsIntent.OnVibrationChange -> {
                 viewModelScope.launch {
                     appPreferencesRepository.updateVibrationEnabled(intent.enabled)
+                }
+            }
+            is SettingsIntent.OnNotificationsChange -> {
+                viewModelScope.launch {
+                    appPreferencesRepository.updateNotificationsEnabled(intent.enabled)
+                    if (intent.enabled) {
+                        com.rukinpavel.wordlyapp.core.platform.android.NotificationHelper.scheduleDailyReminder(
+                            intent.context,
+                        )
+                    } else {
+                        com.rukinpavel.wordlyapp.core.platform.android.NotificationHelper.cancelDailyReminder(
+                            intent.context,
+                        )
+                    }
                 }
             }
             SettingsIntent.OnRepeatTutorialClick -> {

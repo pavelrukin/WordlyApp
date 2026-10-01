@@ -65,4 +65,11 @@
     <string name="premium_description">Місячна передплата: відключення реклами та нескінченні підказки</string>
     <string name="subscribe">Підписатися</string>
     <string name="active">Активна</string>
+
+    <string name="notifications">Сповіщення</string>
+    <string name="notifications_description">Щоденне нагадування про нову гру</string>
+    <string name="notification_channel_name">Нагадування про гру</string>
+    <string name="notification_channel_desc">Щоденні нагадування зіграти у Wordly</string>
+    <string name="notification_title">🌸 Час розім\'яти мозок!</string>
+    <string name="notification_message">Вгадаєте сьогоденне слово за 6 спроб? Зіграйте швидку партію перед сном!</string>
 </resources>

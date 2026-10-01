@@ -48,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -117,6 +118,14 @@ fun SettingsContent(
             VibrationSetting(
                 vibrationEnabled = state.vibrationEnabled,
                 onVibrationChange = { onIntent(SettingsIntent.OnVibrationChange(it)) },
+            )
+
+            HorizontalDivider()
+
+            val context = LocalContext.current
+            NotificationSetting(
+                notificationsEnabled = state.notificationsEnabled,
+                onNotificationsChange = { onIntent(SettingsIntent.OnNotificationsChange(it, context)) },
             )
 
             HorizontalDivider()
@@ -243,6 +252,38 @@ private fun VibrationSetting(
         Switch(
             checked = vibrationEnabled,
             onCheckedChange = onVibrationChange,
+        )
+    }
+}
+
+@Composable
+private fun NotificationSetting(
+    notificationsEnabled: Boolean,
+    onNotificationsChange: (Boolean) -> Unit,
+) {
+    Row(
+        modifier =
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = localizedString(CoreUiR.string.notifications),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text(
+                text = localizedString(CoreUiR.string.notifications_description),
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        Switch(
+            checked = notificationsEnabled,
+            onCheckedChange = onNotificationsChange,
         )
     }
 }

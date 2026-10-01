@@ -28,6 +28,7 @@ class SettingsViewModelTest {
     private fun createViewModel(): SettingsViewModel {
         every { appPreferencesRepository.language } returns flowOf(Language.EN)
         every { appPreferencesRepository.vibrationEnabled } returns flowOf(true)
+        every { appPreferencesRepository.notificationsEnabled } returns flowOf(true)
         every { appPreferencesRepository.isPremium } returns flowOf(false)
 
         return SettingsViewModel(
@@ -44,6 +45,7 @@ class SettingsViewModelTest {
             val state = awaitItem()
             assertEquals(Language.EN, state.language)
             assertEquals(true, state.vibrationEnabled)
+            assertEquals(true, state.notificationsEnabled)
             assertEquals(false, state.isPremium)
         }
     }
