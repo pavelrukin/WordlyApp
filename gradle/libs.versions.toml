@@ -1,7 +1,7 @@
 [versions]
 # App version
-appVersionCode = "12"
-appVersionName = "2.0.2"
+appVersionCode = "13"
+appVersionName = "2.0.3"
 
 # SDK Versions
 minSdk = "24"
