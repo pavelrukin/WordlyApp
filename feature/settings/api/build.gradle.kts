@@ -1,5 +1,6 @@
 plugins {
     id("wordly.android.library")
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -7,5 +8,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:navigation"))
+    api(project(":core:navigation"))
+    api(libs.kotlinx.serialization.core)
 }

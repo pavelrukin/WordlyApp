@@ -53,12 +53,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rukinpavel.wordlyapp.core.model.Language
 import com.rukinpavel.wordlyapp.core.model.SubscriptionOption
 import com.rukinpavel.wordlyapp.core.model.SubscriptionType
 import com.rukinpavel.wordlyapp.core.ui.R as CoreUiR
+import com.rukinpavel.wordlyapp.core.ui.WordlyDialog
+import com.rukinpavel.wordlyapp.core.ui.WordlyDialogButton
 import com.rukinpavel.wordlyapp.core.ui.localizedString
 import com.rukinpavel.wordlyapp.feature.settings.impl.BuildConfig
 import kotlinx.coroutines.flow.collectLatest
@@ -93,6 +96,47 @@ fun SettingsContent(
     onIntent: (SettingsIntent) -> Unit,
     onBackClick: () -> Unit,
 ) {
+    val context = LocalContext.current
+    var showNotificationDialog by remember { mutableStateOf(false) }
+    val permissionLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.RequestPermission(),
+    ) { isGranted ->
+        onIntent(SettingsIntent.OnNotificationsChange(isGranted, context))
+    }
+
+    if (showNotificationDialog) {
+        WordlyDialog(
+            onDismissRequest = { showNotificationDialog = false },
+            title = localizedString(CoreUiR.string.notification_dialog_title),
+            text = {
+                Text(
+                    text = localizedString(CoreUiR.string.notification_dialog_message),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            confirmButton = {
+                WordlyDialogButton(
+                    onClick = {
+                        showNotificationDialog = false
+                        permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                    },
+                    text = localizedString(CoreUiR.string.notification_dialog_allow),
+                )
+            },
+            dismissButton = {
+                WordlyDialogButton(
+                    onClick = {
+                        showNotificationDialog = false
+                        onIntent(SettingsIntent.OnNotificationsChange(false, context))
+                    },
+                    text = localizedString(CoreUiR.string.notification_dialog_later),
+                    isPrimary = false,
+                )
+            },
+        )
+    }
+
     Scaffold(
         topBar = {
             SettingsHeader(onBackClick = onBackClick)
@@ -122,10 +166,22 @@ fun SettingsContent(
 
             HorizontalDivider()
 
-            val context = LocalContext.current
             NotificationSetting(
                 notificationsEnabled = state.notificationsEnabled,
-                onNotificationsChange = { onIntent(SettingsIntent.OnNotificationsChange(it, context)) },
+                onNotificationsChange = { enabled ->
+                    if (enabled && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(
+                                context,
+                                android.Manifest.permission.POST_NOTIFICATIONS,
+                            ) !=
+                            android.content.pm.PackageManager.PERMISSION_GRANTED
+                        ) {
+                            showNotificationDialog = true
+                            return@NotificationSetting
+                        }
+                    }
+                    onIntent(SettingsIntent.OnNotificationsChange(enabled, context))
+                },
             )
 
             HorizontalDivider()

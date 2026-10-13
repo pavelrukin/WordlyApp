@@ -72,4 +72,8 @@
     <string name="notification_channel_desc">Ежедневные напоминания сыграть в Wordly</string>
     <string name="notification_title">🌸 Пора размять мозг!</string>
     <string name="notification_message">Разгадаете сегодняшнее слово за 6 попыток? Сыграйте быструю партию перед сном!</string>
+    <string name="notification_dialog_title">Включайте уведомления!</string>
+    <string name="notification_dialog_message">Получайте ежедневные напоминания о новых словах и не пропускайте свою серию побед!</string>
+    <string name="notification_dialog_allow">Включить</string>
+    <string name="notification_dialog_later">Не сейчас</string>
 </resources>

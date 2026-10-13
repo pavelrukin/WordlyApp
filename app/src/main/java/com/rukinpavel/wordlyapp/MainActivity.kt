@@ -12,14 +12,20 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -31,6 +37,7 @@ import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.play.core.install.model.ActivityResult
+import com.rukinpavel.wordlyapp.core.domain.repository.AppPreferencesRepository
 import com.rukinpavel.wordlyapp.core.navigation.FeatureNavGraph
 import com.rukinpavel.wordlyapp.core.navigation.GameRoute
 import com.rukinpavel.wordlyapp.core.navigation.OnboardingRoute
@@ -38,11 +45,15 @@ import com.rukinpavel.wordlyapp.core.platform.android.NotificationHelper
 import com.rukinpavel.wordlyapp.core.platform.android.UpdateManager
 import com.rukinpavel.wordlyapp.core.ui.LocalAppLocale
 import com.rukinpavel.wordlyapp.core.ui.LocalLocalizedContext
+import com.rukinpavel.wordlyapp.core.ui.WordlyDialog
+import com.rukinpavel.wordlyapp.core.ui.WordlyDialogButton
 import com.rukinpavel.wordlyapp.core.ui.WordlyTheme
 import com.rukinpavel.wordlyapp.core.ui.getAppLocale
 import com.rukinpavel.wordlyapp.core.ui.localizedContext
+import com.rukinpavel.wordlyapp.core.ui.localizedString
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -52,6 +63,12 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var updateManager: UpdateManager
+
+    @Inject
+    lateinit var appPreferencesRepository: AppPreferencesRepository
+
+    private val showNotificationDialogState = mutableStateOf(false)
+    private var notificationDialogShown = false
 
     private val updateResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult(),
@@ -72,22 +89,36 @@ class MainActivity : AppCompatActivity() {
     private val requestNotificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
-        if (isGranted) {
-            NotificationHelper.scheduleDailyReminder(this)
+        lifecycleScope.launch {
+            appPreferencesRepository.updateNotificationsEnabled(isGranted)
+            if (isGranted) {
+                NotificationHelper.scheduleDailyReminder(this@MainActivity)
+            } else {
+                NotificationHelper.cancelDailyReminder(this@MainActivity)
+            }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        notificationDialogShown = savedInstanceState?.getBoolean("notification_dialog_shown", false) ?: false
         updateManager.setupLauncher(updateResultLauncher)
 
         NotificationHelper.createNotificationChannel(this)
-        NotificationHelper.scheduleDailyReminder(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            if (!notificationDialogShown &&
+                checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+            ) {
+                showNotificationDialogState.value = true
+                notificationDialogShown = true
+            } else if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                NotificationHelper.scheduleDailyReminder(this)
             }
+        } else {
+            NotificationHelper.scheduleDailyReminder(this)
         }
 
         if (BuildConfig.DEBUG) {
@@ -159,6 +190,53 @@ class MainActivity : AppCompatActivity() {
                 LocalLocalizedContext provides localizedContext,
             ) {
                 WordlyTheme {
+                    val showDialog by showNotificationDialogState
+                    if (showDialog) {
+                        WordlyDialog(
+                            onDismissRequest = { showNotificationDialogState.value = false },
+                            title = localizedString(
+                                com.rukinpavel.wordlyapp.core.ui.R.string.notification_dialog_title,
+                            ),
+                            text = {
+                                Text(
+                                    text = localizedString(
+                                        com.rukinpavel.wordlyapp.core.ui.R.string.notification_dialog_message,
+                                    ),
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.fillMaxWidth(),
+                                )
+                            },
+                            confirmButton = {
+                                WordlyDialogButton(
+                                    onClick = {
+                                        showNotificationDialogState.value = false
+                                        requestNotificationPermissionLauncher.launch(
+                                            Manifest.permission.POST_NOTIFICATIONS,
+                                        )
+                                    },
+                                    text = localizedString(
+                                        com.rukinpavel.wordlyapp.core.ui.R.string.notification_dialog_allow,
+                                    ),
+                                )
+                            },
+                            dismissButton = {
+                                WordlyDialogButton(
+                                    onClick = {
+                                        showNotificationDialogState.value = false
+                                        lifecycleScope.launch {
+                                            appPreferencesRepository.updateNotificationsEnabled(false)
+                                            NotificationHelper.cancelDailyReminder(this@MainActivity)
+                                        }
+                                    },
+                                    text = localizedString(
+                                        com.rukinpavel.wordlyapp.core.ui.R.string.notification_dialog_later,
+                                    ),
+                                    isPrimary = false,
+                                )
+                            },
+                        )
+                    }
+
                     val completed = isTutorialCompleted ?: return@WordlyTheme
                     val startRoute: NavKey = if (completed) GameRoute else OnboardingRoute
                     val backStack = rememberNavBackStack(startRoute)
@@ -172,7 +250,13 @@ class MainActivity : AppCompatActivity() {
 
                     NavDisplay(
                         backStack = backStack,
-                        onBack = { backStack.removeLastOrNull() },
+                        onBack = {
+                            if (backStack.size > 1) {
+                                backStack.removeLastOrNull()
+                            } else {
+                                finish()
+                            }
+                        },
                         entryProvider = { key ->
                             navGraph.getEntry(
                                 key = key,
@@ -180,9 +264,14 @@ class MainActivity : AppCompatActivity() {
                                 onBack = {
                                     if (key is OnboardingRoute) {
                                         viewModel.completeTutorial()
+                                        backStack.add(GameRoute)
                                         backStack.remove(OnboardingRoute)
                                     } else {
-                                        backStack.removeLastOrNull()
+                                        if (backStack.size > 1) {
+                                            backStack.removeLastOrNull()
+                                        } else {
+                                            finish()
+                                        }
                                     }
                                 },
                             )
@@ -209,6 +298,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("notification_dialog_shown", notificationDialogShown || showNotificationDialogState.value)
     }
 
     private fun configureOrientation() {

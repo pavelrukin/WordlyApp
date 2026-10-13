@@ -157,6 +157,7 @@ fun WordlyDialogButton(
             ),
         ) {
             Text(
+                textAlign = TextAlign.Center,
                 text = text,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
@@ -169,6 +170,7 @@ fun WordlyDialogButton(
             shape = RoundedCornerShape(20.dp),
         ) {
             Text(
+                textAlign = TextAlign.Center,
                 text = text,
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,

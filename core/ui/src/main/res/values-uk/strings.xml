@@ -72,4 +72,8 @@
     <string name="notification_channel_desc">Щоденні нагадування зіграти у Wordly</string>
     <string name="notification_title">🌸 Час розім\'яти мозок!</string>
     <string name="notification_message">Вгадаєте сьогоденне слово за 6 спроб? Зіграйте швидку партію перед сном!</string>
+    <string name="notification_dialog_title">Увімкнути сповіщення!</string>
+    <string name="notification_dialog_message">Отримуйте щоденні нагадування про нові слова та не пропускайте свою серію перемог!</string>
+    <string name="notification_dialog_allow">Увімкнути</string>
+    <string name="notification_dialog_later">Не зараз</string>
 </resources>
