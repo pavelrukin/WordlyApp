@@ -8,25 +8,13 @@ plugins {
 
 android {
     namespace = "com.rukinpavel.wordlyapp"
-    compileSdk =
-        libs.versions.compileSdk
-            .get()
-            .toInt()
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.rukinpavel.wordlyapp"
-        minSdk =
-            libs.versions.minSdk
-                .get()
-                .toInt()
-        targetSdk =
-            libs.versions.targetSdk
-                .get()
-                .toInt()
-        versionCode =
-            libs.versions.appVersionCode
-                .get()
-                .toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.appVersionCode.get().toInt()
         versionName = libs.versions.appVersionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -62,13 +50,17 @@ android {
             // Реальные ID для релиза
             resValue("string", "admob_app_id", "ca-app-pub-4006326941931456~5802616238")
             resValue("string", "admob_rewarded_unit_id", "ca-app-pub-4006326941931456/1622225898")
-            signingConfig = signingConfigs.getByName("debug")
+
+            // signingConfig не задаём: AAB собирается неподписанным,
+            // единственную подпись ставит GitHub Action (sign-android-release)
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.javaVersion.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.javaVersion.get())
     }
+
     buildFeatures {
         compose = true
         buildConfig = true

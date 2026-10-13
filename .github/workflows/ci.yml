@@ -6,31 +6,46 @@ on:
   push:
     branches: [ "main" ]
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: set up JDK 17
+      - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          # кэш записывается только с main, PR его читают
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run Lint
-        run: ./gradlew lint
+      - name: Lint, Ktlint, Tests & Build Debug
+        run: ./gradlew lint ktlintCheck test assembleDebug --continue
 
-      - name: Run Ktlint
-        run: ./gradlew ktlintCheck
-
-      - name: Run Unit Tests
-        run: ./gradlew test
-
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            **/build/reports/
+            **/build/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

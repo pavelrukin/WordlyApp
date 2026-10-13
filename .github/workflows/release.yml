@@ -3,11 +3,17 @@ name: Android Release & Deploy
 on:
   push:
     tags:
-      - 'v*' # Запускается при создании тега, например v1.0.0
+      - 'v*' # например, v2.0.2
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -23,16 +29,14 @@ jobs:
         run: chmod +x gradlew
 
       # 1. Проверки
-      - name: Run Lint & Tests
-        run: ./gradlew lint test
+      - name: Run Lint, Tests & Ktlint
+        run: ./gradlew lint test ktlintCheck
 
-      - name: Run Ktlint
-        run: ./gradlew ktlintCheck
-      # 2. Сборка Release Bundle (AAB)
+      # 2. Сборка неподписанного Release Bundle (AAB)
       - name: Build Release Bundle
         run: ./gradlew bundleRelease
 
-      # 3. Подпись AAB (используем секреты GitHub)
+      # 3. Единственная подпись, секреты из GitHub Secrets
       - name: Sign AAB
         uses: r0adkll/sign-android-release@v1
         id: sign_app
@@ -43,19 +47,27 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      # 4. Сохранение подписанного файла в артефакты GitHub (на всякий случай)
+      # 4. Подписанный AAB и mapping в артефакты GitHub
       - name: Upload Signed AAB to Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: signed-release-aab
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
-      # 5. Публикация в Google Play (Internal track)
+      - name: Upload R8 mapping to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: r8-mapping
+          path: app/build/outputs/mapping/release/mapping.txt
+          if-no-files-found: warn
+
+      # 5. Публикация в Google Play (закрытое тестирование)
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.rukinpavel.wordlyapp
           releaseFiles: ${{ steps.sign_app.outputs.signedReleaseFile }}
-          tracks: alpha # Можно изменить на 'alpha', 'beta' или 'production internal'
+          mappingFile: app/build/outputs/mapping/release/mapping.txt
+          track: alpha # закрытое тестирование
           status: completed
