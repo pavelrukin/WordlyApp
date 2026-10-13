@@ -10,19 +10,19 @@ compileSdk = "37"
 javaVersion = "11"
 
 # Build tools
-androidGradlePlugin = "9.4.0"
-kotlin = "2.4.20"
-ksp = "2.3.11"
+androidGradlePlugin = "9.4.1"
+kotlin = "2.4.21"
+ksp = "2.3.12"
 ktlintGradle = "14.2.0"
 ktlint = "1.6.0"
 
 
 # AndroidX
-androidxCore = "1.19.0"
+androidxCore = "1.19.1"
 androidxAppcompat = "1.8.0"
 androidxLifecycle = "2.11.0"
 androidxActivity = "1.13.0"
-androidxNavigation3 = "1.1.7"
+androidxNavigation3 = "1.2.0"
 androidxDataStore = "1.2.1"
 androidxHiltNavigationCompose = "1.4.0"
 androidxWork = "2.10.0"
@@ -37,7 +37,7 @@ javaxInject = "1"
 
 # Networking & Others
 billing = "9.1.0"
-playServicesAds = "25.4.0"
+playServicesAds = "25.5.0"
 playAppUpdate = "2.1.0"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.11.0"

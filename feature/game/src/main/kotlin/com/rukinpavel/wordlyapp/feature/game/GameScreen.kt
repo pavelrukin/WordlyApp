@@ -3,6 +3,7 @@ package com.rukinpavel.wordlyapp.feature.game
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -171,7 +172,7 @@ fun GameContent(
                         Modifier
                             .weight(1f)
                             .fillMaxWidth()
-                            .padding(horizontal = 32.dp),
+                            .padding(horizontal = 8.dp, vertical = 8.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Column(
@@ -323,21 +324,30 @@ fun WordGrid(
     board: List<List<BoardLetter>>,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.widthIn(max = 350.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
-        board.forEach { row ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                row.forEach { letter ->
-                    LetterTile(
-                        char = letter.char,
-                        state = letter.state,
-                        modifier = Modifier.weight(1f),
-                    )
+    val wordLength = board.firstOrNull()?.size ?: 5
+    val maxAttempts = board.size
+    BoxWithConstraints(modifier = modifier) {
+        val spacing = if (maxWidth < 360.dp) 3.dp else 4.dp
+
+        val sizeByWidth = (maxWidth - spacing * (wordLength - 1)) / wordLength
+        val sizeByHeight = (maxHeight - spacing * (maxAttempts - 1)) / maxAttempts
+
+        val tileSize = minOf(sizeByWidth, sizeByHeight)
+            .coerceIn(minimumValue = 24.dp, maximumValue = 64.dp)
+
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            verticalArrangement = Arrangement.spacedBy(spacing),
+        ) {
+            board.forEach { row ->
+                Row(horizontalArrangement = Arrangement.spacedBy(spacing)) {
+                    row.forEach { letter ->
+                        LetterTile(
+                            char = letter.char,
+                            state = letter.state,
+                            size = tileSize,
+                        )
+                    }
                 }
             }
         }

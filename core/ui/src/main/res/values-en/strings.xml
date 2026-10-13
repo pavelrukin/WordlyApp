@@ -73,4 +73,8 @@
     <string name="notification_channel_desc">Daily reminders to play Wordly</string>
     <string name="notification_title">🌸 Time for your daily word!</string>
     <string name="notification_message">Can you guess today\'s word in 6 attempts? Unwind and play a quick game!</string>
+    <string name="notification_dialog_title">Enable Notifications!</string>
+    <string name="notification_dialog_message">Get daily reminders for new words and never break your winning streak!</string>
+    <string name="notification_dialog_allow">Enable</string>
+    <string name="notification_dialog_later">Not now</string>
 </resources>

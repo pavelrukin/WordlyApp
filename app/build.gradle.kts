@@ -62,6 +62,7 @@ android {
             // Реальные ID для релиза
             resValue("string", "admob_app_id", "ca-app-pub-4006326941931456~5802616238")
             resValue("string", "admob_rewarded_unit_id", "ca-app-pub-4006326941931456/1622225898")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
